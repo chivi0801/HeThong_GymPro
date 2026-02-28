@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Biểu đồ doanh thu</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body style="background:#1e1e2f; color:white; padding:40px;">
+
+    <h2>Doanh thu 7 tháng gần nhất</h2>
+
+    <canvas id="revenueChart" width="600" height="300"></canvas>
+
+    <script>
+        const ctx = document.getElementById('revenueChart');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
+                datasets: [{
+                    label: 'Doanh thu (triệu)',
+                    data: [120, 150, 180, 140, 220, 260, 300],
+                    borderColor: '#6C5CE7',
+                    backgroundColor: 'rgba(108,92,231,0.2)',
+                    tension: 0.4,   // làm cong đường
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: 'white' }
+                    },
+                    y: {
+                        ticks: { color: 'white' }
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
