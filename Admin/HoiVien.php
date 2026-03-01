@@ -202,30 +202,7 @@
 </head>
 <body>
 
-    <aside class="sidebar">
-        <div class="logo">
-            <div class="icon"><i class="fa-solid fa-dumbbell"></i></div>
-            <div>GymPro<br><span>Hệ thống quản lý</span></div>
-        </div>
-
-        <ul class="nav-menu">
-            <li><a href="#"><i class="fa-solid fa-border-all"></i> Tổng quan</a></li>
-            <li class="active"><a href="#"><i class="fa-solid fa-users"></i> Quản lý hội viên</a></li>
-            <li><a href="#"><i class="fa-solid fa-box"></i> Quản lý gói dịch vụ</a></li>
-            <li><a href="#"><i class="fa-solid fa-user-tie"></i> Quản lý nhân viên</a></li>
-            <li><a href="#"><i class="fa-solid fa-cart-shopping"></i> Bán hàng</a></li>
-            <li><a href="#"><i class="fa-solid fa-money-bill-trend-up"></i> Doanh thu</a></li>
-            <li><a href="#"><i class="fa-solid fa-chart-column"></i> Báo cáo</a></li>
-        </ul>
-
-        <div class="user-profile">
-            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100&auto=format&fit=crop" alt="Admin">
-            <div class="user-info">
-                <h4>ADMIN</h4>
-                <p>Quản trị viên</p>
-            </div>
-        </div>
-    </aside>
+    <div id="sidebar-placeholder"></div>
 
     <main class="main-content">
         

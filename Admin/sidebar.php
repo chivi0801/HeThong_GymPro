@@ -2,12 +2,14 @@
     /* ================= SIDEBAR STYLE ================= */
     .sidebar {
         width: 260px;
+        height: 100vh; /* Thêm dòng này để sidebar cao full màn hình */
         background-color: var(--bg-sidebar);
         border-right: 1px solid var(--border-color);
         display: flex;
         flex-direction: column;
         padding: 24px 16px;
         flex-shrink: 0;
+        box-sizing: border-box; /* Đảm bảo padding không làm thanh sidebar bị tràn */
     }
 
     .sidebar .logo {
@@ -20,12 +22,18 @@
     }
     .sidebar .logo span { display: block; font-size: 11px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; margin-top: 2px;}
 
-.sidebar .nav-menu { 
+    .sidebar .nav-menu { 
         flex: 1; 
         list-style: none; 
         overflow-y: auto; /* Thêm dòng này để cuộn menu nếu menu quá dài */
         margin-bottom: 20px; /* Thêm khoảng cách với phần admin ở dưới */
-    }    .sidebar .nav-menu li { margin-bottom: 8px; }
+    }
+    
+    /* Làm đẹp thanh cuộn cho menu (tùy chọn) */
+    .sidebar .nav-menu::-webkit-scrollbar { width: 4px; }
+    .sidebar .nav-menu::-webkit-scrollbar-track { background: transparent; }
+    .sidebar .nav-menu::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+    .sidebar .nav-menu li { margin-bottom: 8px; }
     .sidebar .nav-menu a {
         display: flex; align-items: center; gap: 12px;
         padding: 12px 16px; border-radius: 12px;
