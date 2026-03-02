@@ -14,7 +14,7 @@ skinparam class {
 }
 
 skinparam titleFontSize 24
-title Module 1: USERS & SALE MANAGEMENT
+title Hệ Thống Quản Lý Phòng Gym - Phiên Bản Rút Gọn (Chỉ Chủ Phòng Gym)
 
 scale 2
 
@@ -23,184 +23,120 @@ scale 2
 entity "users" as users {
     *id : BIGINT UNSIGNED <<PK>>
     --
-    name : VARCHAR(255)
-    phoneNumber : VARCHAR(15)
-    gender : VARCHAR(255)
-    dateOfBirth : DATE
-    email : VARCHAR(255)
-    status : ENUM('active','inactive')
-    ekyc_status : VARCHAR(255)
-    cccd_front_image_path : VARCHAR(255)
-    cccd_back_image_path : VARCHAR(255)
-    cccd_selfie_image_path : VARCHAR(255)
-    address : VARCHAR(255)
-    email_verified_at : TIMESTAMP
+    username : VARCHAR(255)
     password : VARCHAR(255)
-    google_id : VARCHAR(255)
-    remember_token : VARCHAR(100)
-    role : VARCHAR(255)
-    shop_name : VARCHAR(255)
-    shop_info : TEXT
-    img : VARCHAR(255)
-    active_status : TINYINT(1)
-    avatar : VARCHAR(255)
-    dark_mode : TINYINT(1)
-    messenger_color : VARCHAR(255)
-    created_at : TIMESTAMP
-    updated_at : TIMESTAMP
-}
-
-
-
-entity "carts" as carts {
-    *id : BIGINT UNSIGNED <<PK>>
-    --
-    *user_id : BIGINT UNSIGNED <<FK>>
-    created_at : TIMESTAMP
-    updated_at : TIMESTAMP
-}
-
-entity "cart_items" as cart_items {
-    *id : BIGINT UNSIGNED <<PK>>
-    --
-    *cart_id : BIGINT UNSIGNED <<FK>>
-    *product_id : BIGINT UNSIGNED <<FK>>
-    quantity : INT
-    price : DOUBLE
-    created_at : TIMESTAMP
-    updated_at : TIMESTAMP
-}
-
-entity "orders" as orders {
-    *id : BIGINT UNSIGNED <<PK>>
-    --
-    *user_id : BIGINT UNSIGNED <<FK>>
-    seller_id : BIGINT UNSIGNED <<FK>>
-    status : VARCHAR(255)
-    payment_status : ENUM('paid','unpaid')
-    subtotal : DECIMAL(15,2)
-    total_price : DOUBLE
-    voucher_id : BIGINT UNSIGNED <<FK>>
-    discount_amount : DECIMAL(15,2)
-    tracking_code : VARCHAR(255)
-    cancellation_reason : TEXT
-    buyer_name : VARCHAR(255)
-    buyer_email : VARCHAR(255)
-    buyer_phone : VARCHAR(255)
-    session_id : VARCHAR(255)
-    transaction_id : VARCHAR(255)
-    transaction_fee : DOUBLE
-    shipping_address : VARCHAR(255)
-    created_at : TIMESTAMP
-    updated_at : TIMESTAMP
-}
-
-entity "order_items" as order_items {
-    *id : BIGINT UNSIGNED <<PK>>
-    --
-    *order_id : BIGINT UNSIGNED <<FK>>
-    *product_id : BIGINT UNSIGNED <<FK>>
-    quantity : INT
-    price : DOUBLE
-    created_at : TIMESTAMP
-    updated_at : TIMESTAMP
-}
-
-entity "vouchers" as vouchers {
-    *id : BIGINT UNSIGNED <<PK>>
-    --
-    *seller_id : BIGINT UNSIGNED <<FK>>
-    code : VARCHAR(255)
+    email : VARCHAR(255)
+    role : ENUM('owner')
     name : VARCHAR(255)
-    type : ENUM('fixed','percent')
-    value : DECIMAL(15,2)
-    max_discount_amount : DECIMAL(15,2)
-    min_order_value : DECIMAL(15,2)
-    quantity : INT
-    used_count : INT
-    expiry_date : DATETIME
-    start_date : TIMESTAMP
+    phone : VARCHAR(15)
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity "members" as members {
+    *id : BIGINT UNSIGNED <<PK>>
+    --
+    name : VARCHAR(255)
+    phone : VARCHAR(15)
+    email : VARCHAR(255)
+    gender : ENUM('male', 'female', 'other')
+    date_of_birth : DATE
+    address : VARCHAR(255)
+    status : ENUM('active', 'inactive')
+    registration_date : DATE
+    notes : TEXT
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity "packages" as packages {
+    *id : BIGINT UNSIGNED <<PK>>
+    --
+    name : VARCHAR(255)
+    description : TEXT
+    duration_months : INT
+    price : DECIMAL(15,2)
+    max_sessions : INT
     is_active : TINYINT(1)
     created_at : TIMESTAMP
     updated_at : TIMESTAMP
 }
 
-entity "reviews" as reviews {
+entity "subscriptions" as subscriptions {
     *id : BIGINT UNSIGNED <<PK>>
     --
-    *buyer_id : BIGINT UNSIGNED <<FK>>
-    *product_id : BIGINT UNSIGNED <<FK>>
-    order_id : BIGINT UNSIGNED <<FK>>
-    rating : TINYINT
-    comment : TEXT
-    is_hidden : TINYINT(1)
-    reply : TEXT
-    buyer_additional_feedback : TEXT
+    *member_id : BIGINT UNSIGNED <<FK>>
+    *package_id : BIGINT UNSIGNED <<FK>>
+    start_date : DATE
+    end_date : DATE
+    payment_status : ENUM('paid', 'unpaid', 'partial')
+    total_amount : DECIMAL(15,2)
+    paid_amount : DECIMAL(15,2)
+    notes : TEXT
     created_at : TIMESTAMP
     updated_at : TIMESTAMP
 }
 
-entity "notifications" as notifications {
+entity "inventories" as inventories {
     *id : BIGINT UNSIGNED <<PK>>
     --
-    *user_id : BIGINT UNSIGNED <<FK>>
-    type : VARCHAR(255)
-    message : TEXT
-    data : JSON
-    is_read : TINYINT(1)
-    created_at : TIMESTAMP
-    updated_at : TIMESTAMP
-}
-
-entity "followers" as followers {
-    *user_id : BIGINT UNSIGNED <<PK, FK>>
-    *seller_id : BIGINT UNSIGNED <<PK, FK>>
-}
-
-' === STUB ENTITY (Tham chiếu Module khác) ===
-entity "products (Ref)" as products_ref #F0F0F0 {
-    *id : BIGINT UNSIGNED <<PK>>
     name : VARCHAR(255)
-    (Thuộc Module Catalog)
+    description : TEXT
+    quantity : INT
+    price : DECIMAL(15,2)
+    supplier : VARCHAR(255)
+    stock_in_date : DATE
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity "sales" as sales {
+    *id : BIGINT UNSIGNED <<PK>>
+    --
+    *member_id : BIGINT UNSIGNED <<FK>>
+    *inventory_id : BIGINT UNSIGNED <<FK>>
+    quantity : INT
+    total_price : DECIMAL(15,2)
+    sale_date : DATE
+    payment_status : ENUM('paid', 'unpaid')
+    notes : TEXT
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity "payments" as payments {
+    *id : BIGINT UNSIGNED <<PK>>
+    --
+    *related_id : BIGINT UNSIGNED <<FK>> (subscription or sale)
+    related_type : ENUM('subscription', 'sale')
+    amount : DECIMAL(15,2)
+    payment_method : ENUM('cash', 'card', 'transfer')
+    payment_date : DATE
+    transaction_id : VARCHAR(255)
+    status : ENUM('completed', 'pending', 'failed')
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
 }
 
 ' === QUAN HỆ (RELATIONSHIPS) ===
 
-' Users - Wallets (1 - 1)
-' Dùng ||..|| nếu User bắt buộc phải có ví ngay khi tạo.
+' Users (Owner) - Members (1 - N): Owner manages members
+users ||..o{ members : "manages"
 
-' Users - Carts (1 - 0..1)
-' User luôn là chủ sở hữu (|| bên trái), Cart có thể chưa có (o| bên phải)
-users ||..|| carts : "has active cart"
+' Members - Subscriptions (1 - N)
+members ||..o{ subscriptions : "has"
 
-' Carts - CartItems (1 - N)
-carts ||..|{ cart_items : "contains"
+' Packages - Subscriptions (1 - N)
+packages ||..o{ subscriptions : "applied to"
 
-' Users - Orders (1 - N)
-users ||..|{ orders : "places"
+' Members - Sales (1 - N)
+members ||..o{ sales : "makes"
 
-' Orders - OrderItems (1 - N)
-orders ||..|{ order_items : "includes"
+' Inventories - Sales (1 - N)
+inventories ||..o{ sales : "sold in"
 
-' Users (Seller) - Vouchers (1 - N)
-users ||..o{ vouchers : "creates"
-
-' Vouchers - Orders (1 - 0..N) (Voucher có thể được dùng trong nhiều đơn)
-vouchers |o..o{ orders : "applied to"
-
-' Users - Reviews (1 - N)
-users ||..o{ reviews : "writes"
-
-' Users - Notifications (1 - N)
-users ||..o{ notifications : "receives"
-
-' Users - Followers (N - N qua bảng trung gian)
-users ||--o{ followers : "follower"
-users ||--o{ followers : "seller"
-
-' Quan hệ với Module Products bên ngoài
-order_items }|..|| products_ref : "refers to"
-cart_items }|..|| products_ref : "refers to"
-reviews }|..|| products_ref : "targets"
+' Subscriptions/Sales - Payments (1 - N): Polymorphic relationship for revenues
+subscriptions ||..o{ payments : "has"
+sales ||..o{ payments : "has"
 
 @enduml
