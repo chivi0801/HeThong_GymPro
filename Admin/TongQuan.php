@@ -8,16 +8,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root {
+         :root {
             --bg-dark: #121521;
             --bg-panel: #1a1e2d;
+            --bg-sidebar: #151825;
             --bg-input: #23283c;
             --text-main: #ffffff;
             --text-muted: #94a3b8;
             --border-color: rgba(255, 255, 255, 0.08);
             --primary: #3b82f6;
-            --primary-glow: rgba(59, 130, 246, 0.4);
             --purple: #8b5cf6;
+            --danger: #ef4444;
+            --success: #10b981;
             --gradient-btn: linear-gradient(90deg, #3b82f6, #8b5cf6);
         }
 

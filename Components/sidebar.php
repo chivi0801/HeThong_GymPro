@@ -273,7 +273,7 @@ if ($avatarLabel === '') {
            <img src="../image/logo.png"  style="width: 100px; height: 50px;">
              <span>Hệ thống quản lý</span>
         </div>     
-
+ 
     </div>
 
     <ul class="nav-menu">
