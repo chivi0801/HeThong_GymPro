@@ -160,12 +160,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            /* Nền mờ */
+            background: rgba(0, 0, 0, 0.65);
             backdrop-filter: blur(8px);
-            /* Làm mờ hậu cảnh */
             display: none;
-            /* Ẩn mặc định */
             justify-content: center;
             align-items: center;
             z-index: 9999;
@@ -173,89 +170,86 @@
         }
 
         .modal-content {
-            background: var(--bg-panel);
+            background: #1e2235;
             width: 100%;
-            max-width: 550px;
-            border-radius: 24px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            max-width: 480px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.07);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.5);
             animation: modalFadeUp 0.3s ease-out;
             overflow: hidden;
         }
 
         @keyframes modalFadeUp {
-            from {
-                transform: translateY(30px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            from { transform: translateY(24px); opacity: 0; }
+            to   { transform: translateY(0);   opacity: 1; }
         }
 
-        /* Header Popup */
+        /* Header */
         .modal-header {
-            padding: 32px 32px 20px;
+            padding: 24px 24px 0;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
         }
 
-        .header-title {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-        }
-
-        .icon-box {
-            width: 48px;
-            height: 48px;
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--primary);
-            border-radius: 12px;
+        .modal-header-left {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 20px;
+            gap: 12px;
         }
 
-        .header-title h3 {
-            font-size: 20px;
+        .modal-icon {
+            font-size: 22px;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
             font-weight: 700;
             color: #fff;
-            margin-bottom: 4px;
-        }
-
-        .header-title p {
-            font-size: 14px;
-            color: var(--text-muted);
             margin: 0;
         }
 
-        .close-btn {
-            background: none;
-            border: none;
+        .modal-header p {
+            font-size: 13px;
             color: var(--text-muted);
-            font-size: 30px;
-            cursor: pointer;
-            line-height: 1;
+            margin: 2px 0 0;
         }
 
-        /* Form Styling */
+        .close-btn {
+            background: rgba(255,255,255,0.06);
+            border: none;
+            color: var(--text-muted);
+            font-size: 18px;
+            cursor: pointer;
+            line-height: 1;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .close-btn:hover {
+            background: rgba(255,255,255,0.12);
+            color: #fff;
+        }
+
+        /* Form */
         .modal-form {
-            padding: 0 32px 32px;
+            padding: 20px 24px 24px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .form-row {
             display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 14px;
+            margin-bottom: 16px;
         }
 
         .form-row .form-group {
@@ -265,68 +259,156 @@
 
         .modal-form label {
             display: block;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 500;
             color: var(--text-muted);
-            text-transform: uppercase;
             margin-bottom: 8px;
-            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            color: var(--text-muted);
+            font-size: 14px;
+            pointer-events: none;
+        }
+
+        .input-suffix {
+            position: absolute;
+            right: 14px;
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 500;
+            pointer-events: none;
         }
 
         .input-control {
             width: 100%;
-            background: var(--bg-input);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 14px 16px;
+            background: #272c3f;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 12px 16px;
             color: #fff;
-            font-size: 15px;
+            font-size: 14px;
             transition: all 0.2s;
             outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .input-control.has-icon {
+            padding-left: 38px;
+        }
+
+        .input-control.has-suffix {
+            padding-right: 52px;
         }
 
         .input-control:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+            border-color: rgba(99, 102, 241, 0.6);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
         }
 
-        /* Nút bấm */
-        .form-actions {
+        .input-control::placeholder {
+            color: rgba(148,163,184,0.45);
+        }
+
+        /* Select with caret */
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper .input-control {
+            cursor: pointer;
+        }
+
+        .select-caret {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 13px;
+            pointer-events: none;
+        }
+
+        /* Status toggle */
+        .status-toggle {
             display: flex;
-            gap: 12px;
-            margin-top: 32px;
+            gap: 10px;
         }
 
+        .status-btn {
+            padding: 9px 20px;
+            border-radius: 20px;
+            border: 1.5px solid transparent;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .status-btn.active-status {
+            background: rgba(99, 102, 241, 0.18);
+            border-color: #6366f1;
+            color: #a5b4fc;
+        }
+
+        .status-btn.inactive-status {
+            background: transparent;
+            border-color: rgba(255,255,255,0.12);
+            color: var(--text-muted);
+        }
+
+        .status-btn.inactive-status:hover {
+            border-color: rgba(255,255,255,0.25);
+            color: #fff;
+        }
+
+        /* Submit */
         .btn-submit {
-            flex: 2;
-            background: var(--gradient-btn);
+            width: 100%;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
             color: white;
             border: none;
             padding: 14px;
             border-radius: 12px;
             font-weight: 700;
+            font-size: 15px;
             cursor: pointer;
             transition: 0.3s;
-        }
-
-        .btn-cancel {
-            flex: 1;
-            background: transparent;
-            color: var(--text-muted);
-            border: 1px solid var(--border-color);
-            padding: 14px;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 24px;
         }
 
         .btn-submit:hover {
             opacity: 0.9;
             transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(99,102,241,0.35);
         }
 
-        .btn-cancel:hover {
-            background: rgba(255, 255, 255, 0.05);
+        .btn-cancel-text {
+            width: 100%;
+            text-align: center;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 12px;
+            padding: 4px;
+        }
+
+        .btn-cancel-text:hover {
             color: #fff;
         }
     </style>
@@ -381,45 +463,97 @@
     <div class="modal-overlay" id="packageModal">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="header-title">
-                    <div class="icon-box">
-                        <i class="fa-solid fa-gem"></i>
-                    </div>
+                <div class="modal-header-left">
+                    <span class="modal-icon">✦</span>
                     <div>
                         <h3>Thêm gói dịch vụ mới</h3>
-                        <p>Thiết lập thông tin và quyền lợi cho gói tập</p>
+                        <p>Thiết lập thông tin gói tập</p>
                     </div>
                 </div>
-                <button class="close-btn" onclick="closeModal()">&times;</button>
+                <button class="close-btn" onclick="closeModal()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
 
-            <form class="modal-form">
+            <form class="modal-form" onsubmit="return false;">
+
+                <!-- Tên gói tập -->
                 <div class="form-group">
-                    <label>Tên gói dịch vụ</label>
-                    <input type="text" placeholder="VD: Gói Hội Viên Diamond" class="input-control">
+                    <label>Tên gói tập</label>
+                    <div class="input-wrapper">
+                        <i class="input-icon fa-regular fa-gem"></i>
+                        <input type="text" placeholder="VD: Gói Platinum 3 Tháng" class="input-control has-icon">
+                    </div>
                 </div>
 
+                <!-- Giá + Thời hạn -->
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Thời hạn (Tháng)</label>
-                        <input type="number" value="1" class="input-control">
+                        <label>Giá niêm yết</label>
+                        <div class="input-wrapper">
+                            <i class="input-icon fa-regular fa-credit-card"></i>
+                            <input type="text" placeholder="0" class="input-control has-icon has-suffix">
+                            <span class="input-suffix">VNĐ</span>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label>Giá tiền (VNĐ)</label>
-                        <input type="text" placeholder="0" class="input-control">
+                        <label>Thời hạn gói</label>
+                        <div class="input-wrapper select-wrapper">
+                            <i class="input-icon fa-regular fa-calendar"></i>
+                            <select class="input-control has-icon">
+                                <option>30 ngày</option>
+                                <option>60 ngày</option>
+                                <option>90 ngày</option>
+                                <option>180 ngày</option>
+                                <option>365 ngày</option>
+                            </select>
+                            <i class="select-caret fa-solid fa-chevron-down"></i>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Số lượng hội viên -->
                 <div class="form-group">
-                    <label>Quyền lợi & Mô tả</label>
-                    <textarea rows="4" placeholder="- Tập luyện không giới hạn&#10;- Miễn phí khăn tập..."
-                        class="input-control"></textarea>
+                    <label>Số lượng hội viên</label>
+                    <div class="input-wrapper select-wrapper">
+                        <i class="input-icon fa-regular fa-user"></i>
+                        <select class="input-control has-icon">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>5</option>
+                            <option>10</option>
+                            <option>Không giới hạn</option>
+                        </select>
+                        <i class="select-caret fa-solid fa-chevron-down"></i>
+                    </div>
                 </div>
 
-                <div class="form-actions">
-                    <button type="button" class="btn-cancel" onclick="closeModal()">Hủy bỏ</button>
-                    <button type="submit" class="btn-submit">Xác nhận tạo gói</button>
+                <!-- Mô tả ngắn -->
+                <div class="form-group">
+                    <label>Mô tả ngắn</label>
+                    <div class="input-wrapper">
+                        <i class="input-icon fa-regular fa-align-left" style="top: 14px; transform: none; position: absolute;"></i>
+                        <textarea rows="3" placeholder="Nhập mô tả về đặc quyền của gói..."
+                            class="input-control has-icon" style="resize: none; padding-top: 12px;"></textarea>
+                    </div>
                 </div>
+
+                <!-- Trạng thái -->
+                <div class="form-group">
+                    <label>Trạng thái</label>
+                    <div class="status-toggle">
+                        <button type="button" class="status-btn active-status" id="btn-active"
+                            onclick="setStatus('active')">Đang bán</button>
+                        <button type="button" class="status-btn inactive-status" id="btn-paused"
+                            onclick="setStatus('paused')">Tạm dừng</button>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="btn-submit">
+                    <i class="fa-solid fa-circle-check"></i> Xác nhận tạo gói
+                </button>
+                <button type="button" class="btn-cancel-text" onclick="closeModal()">Hủy bỏ</button>
             </form>
         </div>
     </div>
@@ -450,6 +584,17 @@
         }
         function closeModal() {
             document.getElementById('packageModal').style.display = 'none';
+        }
+        function setStatus(status) {
+            const btnActive = document.getElementById('btn-active');
+            const btnPaused = document.getElementById('btn-paused');
+            if (status === 'active') {
+                btnActive.className = 'status-btn active-status';
+                btnPaused.className = 'status-btn inactive-status';
+            } else {
+                btnActive.className = 'status-btn inactive-status';
+                btnPaused.className = 'status-btn active-status';
+            }
         }
         // Đóng modal khi bấm ra ngoài
         window.onclick = function (event) {

@@ -316,18 +316,9 @@
     <section class="pricing-section">
         <h2 style="font-size: 32px; margin-bottom: 50px;">Chọn gói phù hợp với phòng gym của bạn</h2>
         <div class="pricing-container">
-            <div class="pricing-card" data-plan="Trải nghiệm">
-                <h3>Gói trải nghiệm</h3>
-                <div class="price">Miễn phí <span>7 ngày</span></div>
-                <ul>
-                    <li><i class="fa-solid fa-check"></i> Dùng thử toàn bộ chức năng</li>
-                    <li><i class="fa-solid fa-check"></i> Import dữ liệu test</li>
-                    <li><i class="fa-solid fa-check"></i> Dashboard mẫu</li>
-                </ul>
-                <button class="btn-select btn-default">Dùng thử ngay</button>
-            </div>
 
-            <div class="pricing-card" data-plan="Cơ Bản">
+            <!-- GÓI CƠ BẢN -->
+            <div class="pricing-card" data-plan="basic">
                 <h3>Gói Cơ Bản</h3>
                 <div class="price">300K <span>/tháng</span></div>
                 <ul>
@@ -335,13 +326,12 @@
                     <li><i class="fa-solid fa-check"></i> Quét mã QR</li>
                     <li><i class="fa-solid fa-check"></i> Tài chính cơ bản</li>
                 </ul>
-                <button class="btn-select btn-default">Mua ngay</button>
+                <button class="btn-select btn-default">Đăng ký ngay</button>
             </div>
 
-            <div class="pricing-card" data-plan="Nâng Cao">
-                <div
-                    style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #7c3aed; padding: 4px 15px; border-radius: 20px; font-size: 11px; font-weight: 700;">
-                    NÊN MUA</div>
+            <!-- GÓI NÂNG CAO -->
+            <div class="pricing-card" data-plan="advanced">
+                <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #7c3aed; padding: 4px 15px; border-radius: 20px; font-size: 11px; font-weight: 700;">NÊN MUA</div>
                 <h3>Gói Nâng Cao</h3>
                 <div class="price">500K <span>/tháng</span></div>
                 <ul>
@@ -349,10 +339,11 @@
                     <li><i class="fa-solid fa-check"></i> Quản lý nhân viên</li>
                     <li><i class="fa-solid fa-check"></i> Báo cáo chuyên sâu</li>
                 </ul>
-                <button class="btn-select btn-default">Mua ngay</button>
+                <button class="btn-select btn-pro">Đăng ký ngay</button>
             </div>
 
-            <div class="pricing-card" data-plan="Chuyên Nghiệp">
+            <!-- GÓI CHUYÊN NGHIỆP -->
+            <div class="pricing-card" data-plan="pro">
                 <h3>Gói Chuyên Nghiệp</h3>
                 <div class="price">1.000K <span>/tháng</span></div>
                 <ul>
@@ -360,8 +351,9 @@
                     <li><i class="fa-solid fa-check"></i> Hỗ trợ ưu tiên 24/7</li>
                     <li><i class="fa-solid fa-check"></i> Tùy chỉnh thương hiệu</li>
                 </ul>
-                <button class="btn-select btn-default">Mua ngay</button>
+                <button class="btn-select btn-default">Đăng ký ngay</button>
             </div>
+
         </div>
     </section>
 
@@ -406,32 +398,45 @@
         const planAlert = document.getElementById('planAlert');
         const selectedName = document.getElementById('selectedName');
 
-        cards.forEach(card => {
-            const btn = card.querySelector('.btn-select');
-            btn.addEventListener('click', () => {
-                // Reset trạng thái tất cả card và nút
-                cards.forEach(c => {
-                    c.classList.remove('active');
-                    const cBtn = c.querySelector('.btn-select');
-                    // Khôi phục text ban đầu dựa trên loại gói
-                    if (c.getAttribute('data-plan') === "Trải nghiệm") cBtn.innerText = "Dùng thử ngay";
-                    else if (c.getAttribute('data-plan') === "Nâng Cao") cBtn.innerText = "Chọn gói này";
-                    else cBtn.innerText = "Mua ngay";
-                });
+        const planNames = {
+            'basic':    'Cơ Bản (300K/tháng)',
+            'advanced': 'Nâng Cao (500K/tháng)',
+            'pro':      'Chuyên Nghiệp (1.000K/tháng)'
+        };
 
-                // Kích hoạt card hiện tại
-                card.classList.add('active');
-                btn.innerText = "Đã chọn gói này";
+        function selectCard(planKey) {
+            cards.forEach(c => {
+                c.classList.remove('active');
+                c.querySelector('.btn-select').innerText = 'Đăng ký ngay';
+            });
 
-                // Hiển thị alert
-                const planName = card.getAttribute('data-plan');
-                selectedName.innerText = planName;
+            const target = document.querySelector(`.pricing-card[data-plan="${planKey}"]`);
+            if (target) {
+                target.classList.add('active');
+                target.querySelector('.btn-select').innerText = 'Đã chọn gói này';
+                selectedName.innerText = planNames[planKey] || planKey;
                 planAlert.style.display = 'block';
+            }
+        }
 
-                // Cuộn xuống form
+        // Click thủ công
+        cards.forEach(card => {
+            card.querySelector('.btn-select').addEventListener('click', () => {
+                selectCard(card.getAttribute('data-plan'));
                 document.getElementById('register-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
             });
         });
+
+        // Auto-select từ URL: DangKy.php?goi=standard
+        const params = new URLSearchParams(window.location.search);
+        const goiParam = params.get('goi');
+        if (goiParam && planNames[goiParam]) {
+            selectCard(goiParam);
+            // Scroll nhẹ xuống form sau 300ms để UX mượt
+            setTimeout(() => {
+                document.getElementById('register-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        }
     </script>
 </body>
 
