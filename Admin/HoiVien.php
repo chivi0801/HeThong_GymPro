@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GymPro - Quản lý hội viên</title>
+    <title>GymPro - Quáº£n lÃ½ há»™i viÃªn</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -63,7 +63,7 @@
         .nav-menu a:hover { color: var(--text-main); background: rgba(255,255,255,0.05); }
         .nav-menu a i { font-size: 16px; width: 20px; text-align: center; }
 
-        /* Active Nav Item - Quản lý hội viên */
+        /* Active Nav Item - Quáº£n lÃ½ há»™i viÃªn */
         .nav-menu li.active a {
             background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3);
             color: var(--text-main); box-shadow: inset 0 0 20px rgba(139, 92, 246, 0.05);
@@ -78,23 +78,23 @@
         .user-info p { font-size: 12px; color: var(--text-muted); }
 
         /* ================= MAIN CONTENT WRAPPER ================= */
-        /* Đã được sửa lại giống hệt file DoanhThu.php */
+        /* ÄÃ£ Ä‘Æ°á»£c sá»­a láº¡i giá»‘ng há»‡t file DoanhThu.php */
         .main-content { 
             flex: 1; 
             display: flex; 
             flex-direction: column; 
-            overflow: hidden; /* Khóa cuộn ở đây để Header đứng im */
+            overflow: hidden; /* KhÃ³a cuá»™n á»Ÿ Ä‘Ã¢y Ä‘á»ƒ Header Ä‘á»©ng im */
         }
 
         .page-content {
             flex: 1; 
             display: flex; 
             flex-direction: column; 
-            overflow-y: auto; /* Chỉ phần này được phép cuộn */
+            overflow-y: auto; /* Chá»‰ pháº§n nÃ y Ä‘Æ°á»£c phÃ©p cuá»™n */
             padding: 24px 40px;
         }
 
-        /* ================= PAGE TITLE & EXPORT (Kiểu giống Doanh Thu) ================= */
+        /* ================= PAGE TITLE & EXPORT (Kiá»ƒu giá»‘ng Doanh Thu) ================= */
         .page-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; }
         .page-title h1 { font-size: 28px; font-weight: 700; margin-bottom: 5px; }
         .page-title p { color: var(--text-muted); font-size: 14px; }
@@ -212,16 +212,16 @@
             
             <div class="page-header">
                 <div class="page-title">
-                    <h1>Quản lý hội viên</h1>
-                    <p>Quản lý thông tin chi tiết và trạng thái đăng ký của hội viên.</p>
+                    <h1>Quáº£n lÃ½ há»™i viÃªn</h1>
+                    <p>Quáº£n lÃ½ thÃ´ng tin chi tiáº¿t vÃ  tráº¡ng thÃ¡i Ä‘Äƒng kÃ½ cá»§a há»™i viÃªn.</p>
                 </div>
                 <div class="page-actions">
                     <button class="btn-date-filter">
-                        <i class="fa-regular fa-calendar"></i> Tháng này 
+                        <i class="fa-regular fa-calendar"></i> ThÃ¡ng nÃ y 
                         <i class="fa-solid fa-chevron-down" style="font-size: 10px; margin-left: 4px;"></i>
                     </button>
                     <button class="btn-primary">
-                        <i class="fa-solid fa-download"></i> Tải Báo Cáo
+                        <i class="fa-solid fa-download"></i> Táº£i BÃ¡o CÃ¡o
                     </button>
                 </div>
             </div>
@@ -229,29 +229,29 @@
             <div class="member-stats">
                 <div class="stat-card-m blue">
                     <div class="top">
-                        <span class="title">Tổng Hội Viên</span>
+                        <span class="title">Tá»•ng Há»™i ViÃªn</span>
                         <div class="icon-s"><i class="fa-solid fa-users"></i></div>
                     </div>
                     <div class="value">1,284</div>
-                    <div class="desc blue-text"><i class="fa-solid fa-arrow-trend-up"></i> +12% tháng này</div>
+                    <div class="desc blue-text"><i class="fa-solid fa-arrow-trend-up"></i> +12% thÃ¡ng nÃ y</div>
                 </div>
                 
                 <div class="stat-card-m purple">
                     <div class="top">
-                        <span class="title">Gói Tập Hoạt Động</span>
+                        <span class="title">GÃ³i Táº­p Hoáº¡t Äá»™ng</span>
                         <div class="icon-s"><i class="fa-solid fa-shield-halved"></i></div>
                     </div>
                     <div class="value">1,102</div>
-                    <div class="desc blue-text"><i class="fa-solid fa-arrow-trend-up"></i> +5% so với tuần trước</div>
+                    <div class="desc blue-text"><i class="fa-solid fa-arrow-trend-up"></i> +5% so vá»›i tuáº§n trÆ°á»›c</div>
                 </div>
 
                 <div class="stat-card-m warning">
                     <div class="top">
-                        <span class="title">Sắp Hết Hạn</span>
+                        <span class="title">Sáº¯p Háº¿t Háº¡n</span>
                         <div class="icon-s"><i class="fa-solid fa-triangle-exclamation"></i></div>
                     </div>
                     <div class="value">45</div>
-                    <div class="desc warning-text">Cần gia hạn ngay</div>
+                    <div class="desc warning-text">Cáº§n gia háº¡n ngay</div>
                 </div>
             </div>
 
@@ -259,16 +259,16 @@
                 
                 <div class="table-header-controls">
                     <div class="tabs">
-                        <div class="tab active">Tất cả</div>
-                        <div class="tab">Đang hoạt động</div>
-                        <div class="tab">Sắp hết hạn</div>
-                        <div class="tab">Đã hết hạn</div>
-                        <div class="tab">Bảo lưu</div>
-                        <div class="tab">Tạm dừng</div>
+                        <div class="tab active">Táº¥t cáº£</div>
+                        <div class="tab">Äang hoáº¡t Ä‘á»™ng</div>
+                        <div class="tab">Sáº¯p háº¿t háº¡n</div>
+                        <div class="tab">ÄÃ£ háº¿t háº¡n</div>
+                        <div class="tab">Báº£o lÆ°u</div>
+                        <div class="tab">Táº¡m dá»«ng</div>
                     </div>
                     <div class="filters">
-                        <button class="btn-filter"><i class="fa-solid fa-filter"></i> Lọc</button>
-                        <button class="btn-filter"><i class="fa-solid fa-sort"></i> Sắp xếp</button>
+                        <button class="btn-filter"><i class="fa-solid fa-filter"></i> Lá»c</button>
+                        <button class="btn-filter"><i class="fa-solid fa-sort"></i> Sáº¯p xáº¿p</button>
                     </div>
                 </div>
 
@@ -276,12 +276,12 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Tên hội viên</th>
-                                <th>Mã ID</th>
-                                <th>Gói tập</th>
-                                <th>Ngày hết hạn</th>
-                                <th>Trạng thái</th>
-                                <th>Thao tác</th>
+                                <th>TÃªn há»™i viÃªn</th>
+                                <th>MÃ£ ID</th>
+                                <th>GÃ³i táº­p</th>
+                                <th>NgÃ y háº¿t háº¡n</th>
+                                <th>Tráº¡ng thÃ¡i</th>
+                                <th>Thao tÃ¡c</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -295,7 +295,7 @@
                                 <td class="code-col">#FF-2023-001</td>
                                 <td>Premium Annual</td>
                                 <td>12/12/2024</td>
-                                <td><span class="badge active">Hoạt động</span></td>
+                                <td><span class="badge active">Hoáº¡t Ä‘á»™ng</span></td>
                                 <td>
                                     <div class="action-btns"><i class="fa-regular fa-eye"></i> <i class="fa-solid fa-pen"></i></div>
                                 </td>
@@ -310,7 +310,7 @@
                                 <td class="code-col">#FF-2023-001</td>
                                 <td>Premium Annual</td>
                                 <td>12/12/2024</td>
-                                <td><span class="badge active">Hoạt động</span></td>
+                                <td><span class="badge active">Hoáº¡t Ä‘á»™ng</span></td>
                                 <td>
                                     <div class="action-btns"><i class="fa-regular fa-eye"></i> <i class="fa-solid fa-pen"></i></div>
                                 </td>
@@ -326,7 +326,7 @@
                                 <td class="code-col">#FF-2023-142</td>
                                 <td>Monthly Standard</td>
                                 <td class="date-col">28/10/2023</td>
-                                <td><span class="badge warning">Sắp hết hạn</span></td>
+                                <td><span class="badge warning">Sáº¯p háº¿t háº¡n</span></td>
                                 <td>
                                     <div class="action-btns"><i class="fa-regular fa-eye"></i> <i class="fa-solid fa-pen"></i></div>
                                 </td>
@@ -342,7 +342,7 @@
                                 <td class="code-col">#FF-2023-001</td>
                                 <td>Premium Annual</td>
                                 <td>12/12/2024</td>
-                                <td><span class="badge active">Hoạt động</span></td>
+                                <td><span class="badge active">Hoáº¡t Ä‘á»™ng</span></td>
                                 <td>
                                     <div class="action-btns"><i class="fa-regular fa-eye"></i> <i class="fa-solid fa-pen"></i></div>
                                 </td>
@@ -358,7 +358,7 @@
                                 <td class="code-col">#FF-2023-142</td>
                                 <td>Monthly Standard</td>
                                 <td class="date-col">28/10/2023</td>
-                                <td><span class="badge warning">Sắp hết hạn</span></td>
+                                <td><span class="badge warning">Sáº¯p háº¿t háº¡n</span></td>
                                 <td>
                                     <div class="action-btns"><i class="fa-regular fa-eye"></i> <i class="fa-solid fa-pen"></i></div>
                                 </td>
@@ -369,11 +369,11 @@
 
                 <div class="pagination-area">
                     <div class="page-info">
-                        Hiển thị 
+                        Hiá»ƒn thá»‹ 
                         <select><option>5</option><option>10</option><option>20</option></select>
                     </div>
                     <div class="pagination">
-                        <span class="page-text">Trước</span>
+                        <span class="page-text">TrÆ°á»›c</span>
                         <div class="page-btn active">1</div>
                         <div class="page-btn">2</div>
                         <div class="page-btn">3</div>
@@ -386,33 +386,57 @@
 
     </main>
     <script>
-        // 1. Gọi Header
+        function initSidebarProfilePopup() {
+            const trigger = document.getElementById('gymProfileTrigger');
+            const overlay = document.getElementById('gymProfileOverlay');
+            const popup = document.getElementById('gymProfilePopup');
+            const closeBtn = document.getElementById('gymProfileClose');
+
+            if (!trigger || !overlay || !popup || !closeBtn) {
+                return;
+            }
+
+            const openPopup = () => {
+                overlay.classList.add('show');
+                popup.classList.add('show');
+            };
+
+            const closePopup = () => {
+                overlay.classList.remove('show');
+                popup.classList.remove('show');
+            };
+
+            trigger.addEventListener('click', openPopup);
+            closeBtn.addEventListener('click', closePopup);
+            overlay.addEventListener('click', closePopup);
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                    closePopup();
+                }
+            });
+        }
+
         fetch('header.php')
             .then(response => response.text())
             .then(data => document.getElementById('header-placeholder').innerHTML = data);
 
-        // 2. Gọi Sidebar và thiết lập Active Menu
         fetch('sidebar.php')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('sidebar-placeholder').innerHTML = data;
-                
-                // --- Logic tự động sáng menu (Active) ---
-                // Lấy tên file hiện tại trên thanh URL (VD: TongQuan.html)
-                let currentPage = window.location.pathname.split('/').pop(); 
-                if (currentPage === '') currentPage = 'TongQuan.html'; // Mặc định nếu là trang chủ
-                
-                // Quét tất cả thẻ <a> trong menu
+
+                let currentPage = window.location.pathname.split('/').pop();
+                if (currentPage === '') currentPage = 'TongQuan.php';
+
                 const navLinks = document.querySelectorAll('.nav-menu a');
                 navLinks.forEach(link => {
-                    // Lấy href của thẻ a
                     const linkHref = link.getAttribute('href');
-                    
-                    // Nếu href trùng với tên file hiện tại thì add class 'active'
                     if (linkHref === currentPage) {
                         link.parentElement.classList.add('active');
                     }
                 });
+
+                initSidebarProfilePopup();
             });
     </script>
 </body>

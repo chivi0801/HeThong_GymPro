@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GymPro - Tổng quan hệ thống</title>
+    <title>GymPro - Tổng quan</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -90,14 +90,14 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* Khóa cuộn ở khung ngoài để Header đứng im */
+            overflow: hidden; /* KhÃ³a cuá»™n á»Ÿ khung ngoÃ i Ä‘á»ƒ Header Ä‘á»©ng im */
         }
 
         .page-content {
             flex: 1;
             display: flex;
             flex-direction: column;
-            overflow-y: auto; /* Chỉ cho phép cuộn nội dung trang */
+            overflow-y: auto; /* Chá»‰ cho phÃ©p cuá»™n ná»™i dung trang */
             padding: 24px 40px;
         }
 
@@ -148,11 +148,11 @@
             color: var(--text-muted); padding: 6px 12px; border-radius: 8px; font-size: 12px; outline: none;
         }
 
-        /* Biểu đồ đường (Line Chart) mô phỏng bằng SVG */
+        /* Biá»ƒu Ä‘á»“ Ä‘Æ°á»ng (Line Chart) mÃ´ phá»ng báº±ng SVG */
         .line-chart-area { width: 100%; height: 200px; position: relative; }
         .chart-labels { display: flex; justify-content: space-between; margin-top: 10px; color: var(--text-muted); font-size: 11px; }
 
-        /* Biểu đồ cột (Bar Chart) mô phỏng bằng CSS */
+        /* Biá»ƒu Ä‘á»“ cá»™t (Bar Chart) mÃ´ phá»ng báº±ng CSS */
         .bar-chart-area {
             display: flex; align-items: flex-end; justify-content: space-between;
             height: 140px; gap: 8px; margin-bottom: 10px;
@@ -166,7 +166,7 @@
         .bar-info span { color: var(--text-muted); font-size: 12px; }
         .bar-info strong { color: var(--primary); font-size: 14px; margin-left: 10px; }
 
-        /* Danh sách hoạt động */
+        /* Danh sÃ¡ch hoáº¡t Ä‘á»™ng */
         .activity-list { display: flex; flex-direction: column; gap: 16px; }
         .activity-item {
             display: flex; justify-content: space-between; align-items: center;
@@ -187,7 +187,7 @@
             padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 600;
         }
 
-        /* Danh sách gia hạn */
+        /* Danh sÃ¡ch gia háº¡n */
         .renewal-list { margin-top: 15px; display: flex; flex-direction: column; gap: 15px; }
         .renewal-item { display: flex; align-items: center; gap: 12px; }
         .renewal-item img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
@@ -226,24 +226,24 @@
                 <div class="stat-card">
                     <div class="stat-icon"><i class="fa-solid fa-user-group"></i></div>
                     <div class="badge-percent">+12.5%</div>
-                    <div class="stat-title">TỔNG SỐ HỘI VIÊN</div>
+                    <div class="stat-title">Tổng số hội viên</div>
                     <div class="stat-value">1,284</div>
                 </div>
                 <div class="stat-card purple">
                     <div class="stat-icon"><i class="fa-solid fa-money-bill"></i></div>
                     <div class="badge-percent">+8.2%</div>
-                    <div class="stat-title">DOANH THU THÁNG NÀY</div>
+                    <div class="stat-title">DOANH THU THÁNG NAY</div>
                     <div class="stat-value">312.450.000đ</div>
                 </div>
                 <div class="stat-card orange">
                     <div class="stat-icon"><i class="fa-solid fa-box-open"></i></div>
-                    <div class="stat-title">TỔNG SỐ GÓI DỊCH VỤ</div>
+                    <div class="stat-title">Tổng số gói dịch vụ</div>
                     <div class="stat-value">86</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon"><i class="fa-solid fa-check-double"></i></div>
                     <div class="badge-percent">+5.1%</div>
-                    <div class="stat-title">LƯỢT CHECK-IN HÔM NAY</div>
+                    <div class="stat-title">LƯU CHECK-IN HÔM NAY</div>
                     <div class="stat-value">142</div>
                 </div>
             </div>
@@ -385,33 +385,57 @@
     </main>
 
     <script>
-        // 1. Gọi Header
+        function initSidebarProfilePopup() {
+            const trigger = document.getElementById('gymProfileTrigger');
+            const overlay = document.getElementById('gymProfileOverlay');
+            const popup = document.getElementById('gymProfilePopup');
+            const closeBtn = document.getElementById('gymProfileClose');
+
+            if (!trigger || !overlay || !popup || !closeBtn) {
+                return;
+            }
+
+            const openPopup = () => {
+                overlay.classList.add('show');
+                popup.classList.add('show');
+            };
+
+            const closePopup = () => {
+                overlay.classList.remove('show');
+                popup.classList.remove('show');
+            };
+
+            trigger.addEventListener('click', openPopup);
+            closeBtn.addEventListener('click', closePopup);
+            overlay.addEventListener('click', closePopup);
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                    closePopup();
+                }
+            });
+        }
+
         fetch('header.php')
             .then(response => response.text())
             .then(data => document.getElementById('header-placeholder').innerHTML = data);
 
-        // 2. Gọi Sidebar và thiết lập Active Menu
         fetch('sidebar.php')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('sidebar-placeholder').innerHTML = data;
-                
-                // --- Logic tự động sáng menu (Active) ---
-                // Lấy tên file hiện tại trên thanh URL (VD: TongQuan.html)
-                let currentPage = window.location.pathname.split('/').pop(); 
-                if (currentPage === '') currentPage = 'TongQuan.html'; // Mặc định nếu là trang chủ
-                
-                // Quét tất cả thẻ <a> trong menu
+
+                let currentPage = window.location.pathname.split('/').pop();
+                if (currentPage === '') currentPage = 'TongQuan.php';
+
                 const navLinks = document.querySelectorAll('.nav-menu a');
                 navLinks.forEach(link => {
-                    // Lấy href của thẻ a
                     const linkHref = link.getAttribute('href');
-                    
-                    // Nếu href trùng với tên file hiện tại thì add class 'active'
                     if (linkHref === currentPage) {
                         link.parentElement.classList.add('active');
                     }
                 });
+
+                initSidebarProfilePopup();
             });
     </script>
 </body>

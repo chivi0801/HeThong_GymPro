@@ -1,18 +1,102 @@
+﻿<?php
+session_start();
+
+if (isset($_SESSION['chu_gym_id'])) {
+    header('Location: ../Admin/TongQuan.php');
+    exit;
+}
+
+$error = '';
+$emailValue = $_COOKIE['remember_email'] ?? '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = trim($_POST['email'] ?? '');
+    $matKhau = (string)($_POST['mat_khau'] ?? '');
+    $remember = isset($_POST['remember']);
+    $emailValue = $email;
+
+    if ($email === '' || $matKhau === '') {
+        $error = 'Vui long nhap day du email va mat khau.';
+    } else {
+        $conn = @new mysqli('localhost', 'root', '', 'gym_pro');
+
+        if ($conn->connect_error) {
+            $error = 'Khong the ket noi CSDL. Vui long kiem tra MySQL va cau hinh.';
+        } else {
+            $conn->set_charset('utf8mb4');
+
+            $sql = "SELECT id, ten_phong, ho_ten_chu, email, mat_khau, trang_thai FROM chu_gym WHERE email = ? LIMIT 1";
+            $stmt = $conn->prepare($sql);
+
+            if (!$stmt) {
+                $error = 'Loi he thong khi xu ly dang nhap.';
+            } else {
+                $stmt->bind_param('s', $email);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $user = $result ? $result->fetch_assoc() : null;
+                $stmt->close();
+
+                if (!$user) {
+                    $error = 'Email hoac mat khau khong dung.';
+                } else {
+                    if ($user['trang_thai'] !== 'active') {
+                        if ($user['trang_thai'] === 'pending') {
+                            $error = 'Tai khoan dang cho kich hoat. Vui long lien he ho tro.';
+                        } elseif ($user['trang_thai'] === 'expired') {
+                            $error = 'Tai khoan da het han. Vui long gia han de tiep tuc su dung.';
+                        } else {
+                            $error = 'Tai khoan khong hop le de dang nhap.';
+                        }
+                    } else {
+                        $stored = (string)$user['mat_khau'];
+                        $isValidPassword = password_verify($matKhau, $stored) || ($matKhau === $stored);
+
+                        if (!$isValidPassword) {
+                            $error = 'Email hoac mat khau khong dung.';
+                        } else {
+                            session_regenerate_id(true);
+                            $_SESSION['chu_gym_id'] = (int)$user['id'];
+                            $_SESSION['chu_gym_email'] = $user['email'];
+                            $_SESSION['chu_gym_ten_phong'] = $user['ten_phong'];
+                            $_SESSION['chu_gym_ho_ten'] = $user['ho_ten_chu'];
+
+                            if ($remember) {
+                                setcookie('remember_email', $email, time() + (30 * 24 * 60 * 60), '/');
+                            } else {
+                                setcookie('remember_email', '', time() - 3600, '/');
+                            }
+
+                            $conn->close();
+                            header('Location: ../Admin/TongQuan.php');
+                            exit;
+                        }
+                    }
+                }
+            }
+
+            $conn->close();
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="vi">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GymPro - Đăng nhập quản trị</title>
+    <title>GymPro - Dang nhap quan tri</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
     <style>
         :root {
             --primary-gradient: linear-gradient(90deg, #2563eb, #7c3aed);
             --glass-bg: rgba(15, 23, 42, 0.8);
             --glass-border: rgba(255, 255, 255, 0.1);
+            --error-bg: rgba(239, 68, 68, 0.15);
+            --error-border: rgba(239, 68, 68, 0.4);
+            --error-text: #fecaca;
         }
 
         * {
@@ -39,7 +123,6 @@
             z-index: 0;
         }
 
-        /* Header & Footer */
         header {
             position: fixed;
             top: 0;
@@ -70,29 +153,6 @@
             transform: rotate(45deg);
         }
 
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-
-        nav a {
-            color: #cbd5e1;
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        .btn-signup-nav {
-            background: var(--primary-gradient);
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            color: white;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        /* Main Login Card */
         .auth-container {
             flex: 1;
             display: flex;
@@ -141,10 +201,20 @@
         .subtitle {
             color: #94a3b8;
             font-size: 14px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
-        /* Form Elements */
+        .error-box {
+            margin-bottom: 18px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: var(--error-bg);
+            border: 1px solid var(--error-border);
+            color: var(--error-text);
+            font-size: 13px;
+            text-align: left;
+        }
+
         .input-group {
             text-align: left;
             margin-bottom: 20px;
@@ -258,16 +328,8 @@
 
     <header>
         <div class="logo"><i class="fa-solid fa-dumbbell"></i> GymPro</div>
-        <nav>
-            <ul>
-                <li><a href="#">Giới thiệu</a></li>
-                <li><a href="#">Liên hệ hỗ trợ</a></li>
-            </ul>
-        </nav>
-        <div class="auth-buttons">
-            <a href="DangNhap.php"
-                style="color: white; text-decoration: none; font-size: 14px; margin-right: 20px;">Đăng nhập</a>
-            <a href="DangKy.php" class="btn-signup-nav">Đăng ký ngay</a>
+        <div>
+            <a href="DangKy.php" style="color: white; text-decoration: none; font-size: 14px;">Dang ky ngay</a>
         </div>
     </header>
 
@@ -276,51 +338,72 @@
             <div class="icon-header">
                 <i class="fa-solid fa-dumbbell"></i>
             </div>
-            <h2>CHÀO MỪNG BẠN TRỞ LẠI</h2>
-            <p class="subtitle">Đăng Nhập Quản Trị</p>
+            <h2>CHAO MUNG BAN TRO LAI</h2>
+            <p class="subtitle">Dang nhap quan tri phong gym</p>
 
-            <form id="loginForm">
+            <?php if ($error !== ''): ?>
+                <div class="error-box"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></div>
+            <?php endif; ?>
+
+            <form id="loginForm" method="post" action="">
                 <div class="input-group">
                     <label>Email</label>
                     <div class="input-wrapper">
                         <i class="fa-regular fa-envelope"></i>
-                        <input type="email" placeholder="Nhập email của bạn" required>
+                        <input
+                            type="email"
+                            name="email"
+                            value="<?php echo htmlspecialchars($emailValue, ENT_QUOTES, 'UTF-8'); ?>"
+                            placeholder="Nhap email cua ban"
+                            required>
                     </div>
                 </div>
 
                 <div class="input-group">
                     <div class="label-row">
-                        <label>Mật khẩu</label>
-                        <a href="#" class="forgot-link">Quên mật khẩu?</a>
+                        <label>Mat khau</label>
+                        <a href="QuenMatKhau.php" class="forgot-link">Quen mat khau?</a>
                     </div>
                     <div class="input-wrapper">
                         <i class="fa-solid fa-lock"></i>
-                        <input type="password" id="password" placeholder="Nhập mật khẩu" required>
+                        <input type="password" id="password" name="mat_khau" placeholder="Nhap mat khau" required>
                         <i class="fa-regular fa-eye toggle-password" id="togglePassword"></i>
                     </div>
                 </div>
 
                 <div class="remember-me">
-                    <input type="checkbox" id="remember">
-                    <label for="remember">Ghi nhớ đăng nhập</label>
+                    <input type="checkbox" id="remember" name="remember" <?php echo isset($_POST['remember']) || isset($_COOKIE['remember_email']) ? 'checked' : ''; ?>>
+                    <label for="remember">Ghi nho email dang nhap</label>
                 </div>
 
                 <button type="submit" class="btn-submit">
-                    Đăng nhập <i class="fa-solid fa-right-to-bracket"></i>
+                    Dang nhap <i class="fa-solid fa-right-to-bracket"></i>
                 </button>
             </form>
 
             <div class="login-footer">
-                Bạn chưa có hệ thống? <a href="DangKy.php">Đăng ký phòng tập mới</a>
+                Ban chua co he thong? <a href="DangKy.php">Dang ky phong tap moi</a>
             </div>
         </div>
     </main>
 
     <footer class="bottom-footer">
-        © 2026 GYMPRO MANAGEMENT SYSTEM • PREMIUM EDITION
+        © 2026 GYMPRO MANAGEMENT SYSTEM
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+
+        if (togglePassword && passwordInput) {
+            togglePassword.addEventListener('click', function () {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+        }
+    </script>
 </body>
 
 </html>

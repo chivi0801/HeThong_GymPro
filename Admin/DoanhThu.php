@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -81,10 +81,10 @@
             flex: 1; 
             display: flex; 
             flex-direction: column; 
-            overflow: hidden; /* Giữ layout cứng, không cuộn ở đây */
+            overflow: hidden; /* Giá»¯ layout cá»©ng, khÃ´ng cuá»™n á»Ÿ Ä‘Ã¢y */
         }
 
-        /* HEADER TOP (CỐ ĐỊNH, CÓ MÀU NỀN & VIỀN) */
+        /* HEADER TOP (Cá» Äá»ŠNH, CÃ“ MÃ€U Ná»€N & VIá»€N) */
         .top-header { 
             display: flex; 
             justify-content: space-between; 
@@ -92,8 +92,8 @@
             padding: 0 40px;
             height: 80px; 
             flex-shrink: 0;
-            background-color: var(--bg-panel); /* Màu nền riêng biệt */
-            border-bottom: 1px solid var(--border-color); /* Đường viền tách biệt */
+            background-color: var(--bg-panel); /* MÃ u ná»n riÃªng biá»‡t */
+            border-bottom: 1px solid var(--border-color); /* ÄÆ°á»ng viá»n tÃ¡ch biá»‡t */
         }
         .search-box { position: relative; width: 350px; }
         .search-box i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
@@ -116,7 +116,7 @@
             color: white; padding: 10px 20px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer;
         }
 
-        /* VÙNG CHỨA NỘI DUNG CUỘN */
+        /* VÃ™NG CHá»¨A Ná»˜I DUNG CUá»˜N */
         .page-content {
             flex: 1; 
             display: flex; 
@@ -236,13 +236,13 @@
         <!-- <header class="top-header">
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="Tìm kiếm hội viên hoặc bản ghi...">
+                <input type="text" placeholder="TÃ¬m kiáº¿m há»™i viÃªn hoáº·c báº£n ghi...">
             </div>
             <div class="header-actions">
                 <button class="icon-btn"><i class="fa-regular fa-bell"></i></button>
                 <button class="icon-btn"><i class="fa-solid fa-gear"></i></button>
-                <button class="btn-scan"><i class="fa-solid fa-expand"></i> Quét khuôn mặt</button>
-                <button class="btn-add-primary"><i class="fa-solid fa-user-plus"></i> Đăng ký mới</button>
+                <button class="btn-scan"><i class="fa-solid fa-expand"></i> QuÃ©t khuÃ´n máº·t</button>
+                <button class="btn-add-primary"><i class="fa-solid fa-user-plus"></i> ÄÄƒng kÃ½ má»›i</button>
             </div>
         </header> -->
         <div id="header-placeholder"></div>
@@ -251,22 +251,22 @@
             <div class="revenue-top">
                 <div class="finance-stats">
                     <div class="f-card thu">
-                        <div class="f-title"><i class="fa-solid fa-wallet"></i> Tổng thu</div>
-                        <div class="f-value">312.450.000đ</div>
+                        <div class="f-title"><i class="fa-solid fa-wallet"></i> Tá»•ng thu</div>
+                        <div class="f-value">312.450.000Ä‘</div>
                     </div>
                     <div class="f-card chi">
-                        <div class="f-title"><i class="fa-solid fa-money-bill-transfer"></i> Tổng chi</div>
-                        <div class="f-value">400.000đ</div>
+                        <div class="f-title"><i class="fa-solid fa-money-bill-transfer"></i> Tá»•ng chi</div>
+                        <div class="f-value">400.000Ä‘</div>
                     </div>
                     <div class="f-card phatsinh">
-                        <div class="f-title"><i class="fa-solid fa-arrow-trend-up"></i> Phát sinh</div>
-                        <div class="f-value">295.000đ</div>
+                        <div class="f-title"><i class="fa-solid fa-arrow-trend-up"></i> PhÃ¡t sinh</div>
+                        <div class="f-value">295.000Ä‘</div>
                     </div>
                 </div>
                 
                 <div class="finance-actions">
-                    <button class="btn-action-purple"><i class="fa-solid fa-plus"></i> Thêm phiếu thu</button>
-                    <button class="btn-action-purple"><i class="fa-solid fa-plus"></i> Thêm phiếu chi</button>
+                    <button class="btn-action-purple"><i class="fa-solid fa-plus"></i> ThÃªm phiáº¿u thu</button>
+                    <button class="btn-action-purple"><i class="fa-solid fa-plus"></i> ThÃªm phiáº¿u chi</button>
                 </div>
             </div>
 
@@ -276,7 +276,7 @@
                     <div class="table-toolbar">
                         <div class="search-box">
                             <i class="fa-solid fa-magnifying-glass"></i>
-                            <input type="text" placeholder="Tìm kiếm mã phiếu, người nộp...">
+                            <input type="text" placeholder="TÃ¬m kiáº¿m mÃ£ phiáº¿u, ngÆ°á»i ná»™p...">
                         </div>
                         <div class="view-toggles">
                             <button class="icon-btn"><i class="fa-solid fa-grip"></i></button>
@@ -288,69 +288,69 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Mã phiếu</th>
-                                    <th>Thời gian</th>
-                                    <th>Loại thu chi</th>
-                                    <th>Người nộp/Nhận</th>
-                                    <th>Giá trị</th>
-                                    <th>Trạng thái</th>
+                                    <th>MÃ£ phiáº¿u</th>
+                                    <th>Thá»i gian</th>
+                                    <th>Loáº¡i thu chi</th>
+                                    <th>NgÆ°á»i ná»™p/Nháº­n</th>
+                                    <th>GiÃ¡ trá»‹</th>
+                                    <th>Tráº¡ng thÃ¡i</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td class="col-id">XXXXXXX</td>
                                     <td>25/02/2026</td>
-                                    <td>Chi đối tác</td>
-                                    <td>Công ty ABC</td>
+                                    <td>Chi Ä‘á»‘i tÃ¡c</td>
+                                    <td>CÃ´ng ty ABC</td>
                                     <td class="col-val-red">400,000</td>
-                                    <td><span class="status-badge">Đã thanh toán</span></td>
+                                    <td><span class="status-badge">ÄÃ£ thanh toÃ¡n</span></td>
                                 </tr>
                                 <tr>
                                     <td class="col-id">XXXXXXX</td>
                                     <td>25/02/2026</td>
-                                    <td>Chi đối tác</td>
-                                    <td>Công ty ABC</td>
+                                    <td>Chi Ä‘á»‘i tÃ¡c</td>
+                                    <td>CÃ´ng ty ABC</td>
                                     <td class="col-val-red">400,000</td>
-                                    <td><span class="status-badge">Đã thanh toán</span></td>
+                                    <td><span class="status-badge">ÄÃ£ thanh toÃ¡n</span></td>
                                 </tr>
                                 <tr>
                                     <td class="col-id">XXXXXXX</td>
                                     <td>25/02/2026</td>
-                                    <td>Chi đối tác</td>
-                                    <td>Công ty ABC</td>
+                                    <td>Chi Ä‘á»‘i tÃ¡c</td>
+                                    <td>CÃ´ng ty ABC</td>
                                     <td class="col-val-red">400,000</td>
-                                    <td><span class="status-badge">Đã thanh toán</span></td>
+                                    <td><span class="status-badge">ÄÃ£ thanh toÃ¡n</span></td>
                                 </tr>
                                 <tr>
                                     <td class="col-id">XXXXXXX</td>
                                     <td>25/02/2026</td>
-                                    <td>Chi đối tác</td>
-                                    <td>Công ty ABC</td>
+                                    <td>Chi Ä‘á»‘i tÃ¡c</td>
+                                    <td>CÃ´ng ty ABC</td>
                                     <td class="col-val-red">400,000</td>
-                                    <td><span class="status-badge">Đã thanh toán</span></td>
+                                    <td><span class="status-badge">ÄÃ£ thanh toÃ¡n</span></td>
                                 </tr>
                                 <tr>
                                     <td class="col-id">XXXXXXX</td>
                                     <td>25/02/2026</td>
-                                    <td>Chi đối tác</td>
-                                    <td>Công ty ABC</td>
+                                    <td>Chi Ä‘á»‘i tÃ¡c</td>
+                                    <td>CÃ´ng ty ABC</td>
                                     <td class="col-val-red">400,000</td>
-                                    <td><span class="status-badge">Đã thanh toán</span></td>
+                                    <td><span class="status-badge">ÄÃ£ thanh toÃ¡n</span></td>
                                 </tr>
                                 <tr>
                                     <td class="col-id">XXXXXXX</td>
                                     <td>25/02/2026</td>
-                                    <td>Chi đối tác</td>
-                                    <td>Công ty ABC</td>
+                                    <td>Chi Ä‘á»‘i tÃ¡c</td>
+                                    <td>CÃ´ng ty ABC</td>
                                     <td class="col-val-red">400,000</td>
-                                    <td><span class="status-badge">Đã thanh toán</span></td>
+                                    <td><span class="status-badge">ÄÃ£ thanh toÃ¡n</span></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
 
                     <div class="pagination-footer">
-                        <div class="total-records">Tổng số bản ghi <span>5</span></div>
+                        <div class="total-records">Tá»•ng sá»‘ báº£n ghi <span>5</span></div>
                         <div class="page-controls">
                             <button class="p-btn"><i class="fa-solid fa-angle-left"></i></button>
                             <button class="p-btn active">1</button>
@@ -362,7 +362,7 @@
                 <div class="filter-panel">
                     
                     <div class="filter-group">
-                        <div class="filter-label">Thời gian</div>
+                        <div class="filter-label">Thá»i gian</div>
                         <div class="date-picker">
                             <i class="fa-regular fa-calendar"></i>
                             <span>01/02/2026 - 26/02/2026</span>
@@ -370,31 +370,31 @@
                     </div>
 
                     <div class="filter-group">
-                        <div class="filter-label">Nhân viên</div>
+                        <div class="filter-label">NhÃ¢n viÃªn</div>
                         <div class="radio-list">
                             <label class="radio-item">
-                                <input type="radio" name="employee" checked> Của tôi
+                                <input type="radio" name="employee" checked> Cá»§a tÃ´i
                             </label>
                             <label class="radio-item">
-                                <input type="radio" name="employee"> Tất cả
+                                <input type="radio" name="employee"> Táº¥t cáº£
                             </label>
                         </div>
                     </div>
 
                     <div class="filter-group">
-                        <div class="filter-label">Loại chứng từ</div>
+                        <div class="filter-label">Loáº¡i chá»©ng tá»«</div>
                         <div class="filter-btns-column">
-                            <button class="filter-btn active">Tất cả</button>
-                            <button class="filter-btn">Phiếu thu</button>
-                            <button class="filter-btn">Phiếu chi</button>
+                            <button class="filter-btn active">Táº¥t cáº£</button>
+                            <button class="filter-btn">Phiáº¿u thu</button>
+                            <button class="filter-btn">Phiáº¿u chi</button>
                         </div>
                     </div>
 
                     <div class="filter-group">
-                        <div class="filter-label">Trạng thái</div>
+                        <div class="filter-label">Tráº¡ng thÃ¡i</div>
                         <div class="filter-btns-row">
-                            <button class="filter-badge active">Đã thanh toán</button>
-                            <button class="filter-badge">Chưa thanh toán</button>
+                            <button class="filter-badge active">ÄÃ£ thanh toÃ¡n</button>
+                            <button class="filter-badge">ChÆ°a thanh toÃ¡n</button>
                         </div>
                     </div>
 
@@ -404,33 +404,57 @@
         </div>
     </main>
     <script>
-        // 1. Gọi Header
+        function initSidebarProfilePopup() {
+            const trigger = document.getElementById('gymProfileTrigger');
+            const overlay = document.getElementById('gymProfileOverlay');
+            const popup = document.getElementById('gymProfilePopup');
+            const closeBtn = document.getElementById('gymProfileClose');
+
+            if (!trigger || !overlay || !popup || !closeBtn) {
+                return;
+            }
+
+            const openPopup = () => {
+                overlay.classList.add('show');
+                popup.classList.add('show');
+            };
+
+            const closePopup = () => {
+                overlay.classList.remove('show');
+                popup.classList.remove('show');
+            };
+
+            trigger.addEventListener('click', openPopup);
+            closeBtn.addEventListener('click', closePopup);
+            overlay.addEventListener('click', closePopup);
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                    closePopup();
+                }
+            });
+        }
+
         fetch('header.php')
             .then(response => response.text())
             .then(data => document.getElementById('header-placeholder').innerHTML = data);
 
-        // 2. Gọi Sidebar và thiết lập Active Menu
         fetch('sidebar.php')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('sidebar-placeholder').innerHTML = data;
-                
-                // --- Logic tự động sáng menu (Active) ---
-                // Lấy tên file hiện tại trên thanh URL (VD: TongQuan.html)
-                let currentPage = window.location.pathname.split('/').pop(); 
-                if (currentPage === '') currentPage = 'TongQuan.html'; // Mặc định nếu là trang chủ
-                
-                // Quét tất cả thẻ <a> trong menu
+
+                let currentPage = window.location.pathname.split('/').pop();
+                if (currentPage === '') currentPage = 'TongQuan.php';
+
                 const navLinks = document.querySelectorAll('.nav-menu a');
                 navLinks.forEach(link => {
-                    // Lấy href của thẻ a
                     const linkHref = link.getAttribute('href');
-                    
-                    // Nếu href trùng với tên file hiện tại thì add class 'active'
                     if (linkHref === currentPage) {
                         link.parentElement.classList.add('active');
                     }
                 });
+
+                initSidebarProfilePopup();
             });
     </script>
 </body>
