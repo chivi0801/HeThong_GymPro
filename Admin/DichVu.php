@@ -39,6 +39,7 @@
             height: 100vh;
             overflow: hidden;
         }
+        
 
         .main-content {
             flex: 1;
