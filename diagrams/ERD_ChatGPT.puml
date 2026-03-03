@@ -1,0 +1,123 @@
+@startuml
+' ==========================================
+' ERD - Hệ thống Gym SaaS (Multi-tenant)
+' ==========================================
+
+' ======================
+' TẦNG 1 - HỆ THỐNG SAAS
+' ======================
+
+entity chu_gym {
+  +id : INT <<PK>>
+  --
+  ten_phong : VARCHAR
+  ho_ten_chu : VARCHAR
+  email : VARCHAR
+  sdt : VARCHAR
+  mat_khau : VARCHAR
+  ngay_tao : DATE
+  trang_thai : ENUM('active','expired','pending')
+}
+
+entity goi_he_thong {
+  +id : INT <<PK>>
+  --
+  ten_goi : VARCHAR
+  gia : DECIMAL
+  thoi_han_thang : INT
+  mo_ta : TEXT
+}
+
+entity dang_ky_he_thong {
+  +id : INT <<PK>>
+  --
+  chu_gym_id : INT <<FK>>
+  goi_he_thong_id : INT <<FK>>
+  so_thang: INT NOT NULL
+  ngay_bat_dau : DATE
+  ngay_ket_thuc : DATE
+  trang_thai : ENUM('active','expired','pending')
+}
+
+entity thanh_toan_he_thong {
+  +id : INT <<PK>>
+  --
+  dang_ky_he_thong_id : INT <<FK>>
+  so_tien : DECIMAL
+  ngay_thanh_toan : DATE
+  phuong_thuc : VARCHAR
+}
+
+' =========================
+' TẦNG 2 - QUẢN LÝ PHÒNG GYM
+' =========================
+
+entity hoi_vien {
+  +id : INT <<PK>>
+  --
+  ho_ten : VARCHAR
+  sdt : VARCHAR
+  email : VARCHAR
+  ngay_sinh : DATE
+  gioi_tinh : VARCHAR
+  ngay_dang_ky : DATE
+  trang_thai : ENUM('active','expired','pending')
+  chu_gym_id : INT <<FK>>
+}
+
+entity goi_tap {
+  +id : INT <<PK>>
+  --
+  ten_goi : VARCHAR
+  thoi_han_thang : INT
+  gia : DECIMAL
+  mo_ta : TEXT
+  chu_gym_id : INT <<FK>>
+}
+
+entity dang_ky_goi {
+  +id : INT <<PK>>
+  --
+  hoi_vien_id : INT <<FK>>
+  goi_tap_id : INT <<FK>>
+  ngay_bat_dau : DATE
+  ngay_ket_thuc : DATE
+  trang_thai : ENUM('active','expired','pending')
+}
+
+entity thanh_toan {
+  +id : INT <<PK>>
+  --
+  dang_ky_id : INT <<FK>>
+  so_tien : DECIMAL
+  ngay_thanh_toan : DATE
+  phuong_thuc : VARCHAR
+}
+
+entity diem_danh {
+  +id : INT <<PK>>
+  --
+  hoi_vien_id : INT <<FK>>
+  thoi_gian : DATETIME
+  hinh_anh : VARCHAR
+}
+
+' ======================
+' RELATIONSHIPS
+' ======================
+
+chu_gym ||--o{ dang_ky_he_thong
+goi_he_thong ||--o{ dang_ky_he_thong
+dang_ky_he_thong ||--o{ thanh_toan_he_thong
+
+chu_gym ||--o{ hoi_vien
+chu_gym ||--o{ goi_tap
+
+hoi_vien ||--o{ dang_ky_goi
+goi_tap  ||--o{ dang_ky_goi
+
+dang_ky_goi ||--o{ thanh_toan
+
+hoi_vien ||--o{ diem_danh
+
+@enduml
