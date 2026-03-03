@@ -39,7 +39,7 @@
     <div class="header-actions">
         <button class="icon-btn"><i class="fa-regular fa-bell"></i></button>
         <button class="icon-btn"><i class="fa-solid fa-gear"></i></button>
-        <button class="btn-scan"><i class="fa-solid fa-expand"></i> Quét khuôn mặt</button>
+        <button  class="btn-scan"><i class="fa-solid fa-expand"></i> Quét khuôn mặt</button>
         <button class="btn-add-primary"><i class="fa-solid fa-user-plus"></i> Đăng ký mới</button>
     </div>
 </header>
