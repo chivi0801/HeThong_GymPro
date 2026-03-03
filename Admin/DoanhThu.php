@@ -435,11 +435,11 @@
             });
         }
 
-        fetch('header.php')
+        fetch('../Components/header.php')
             .then(response => response.text())
             .then(data => document.getElementById('header-placeholder').innerHTML = data);
 
-        fetch('sidebar.php')
+        fetch('../Components/sidebar.php')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('sidebar-placeholder').innerHTML = data;

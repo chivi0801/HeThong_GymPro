@@ -58,7 +58,7 @@ if ($avatarLabel === '') {
         flex: 1;
         list-style: none;
         overflow-y: auto;
-        margin-bottom: 20px;
+        /* margin-bottom: 20px; */
     }
 
     .sidebar .nav-menu::-webkit-scrollbar {
