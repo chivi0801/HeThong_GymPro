@@ -1,4 +1,18 @@
-﻿<!DOCTYPE html>
+﻿<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$chuGymId = isset($_SESSION['chu_gym_id']) ? (int) $_SESSION['chu_gym_id'] : 0;
+$tenPhong = isset($_SESSION['chu_gym_ten_phong']) ? (string) $_SESSION['chu_gym_ten_phong'] : 'GymPro';
+$hoTenChu = isset($_SESSION['chu_gym_ho_ten']) ? (string) $_SESSION['chu_gym_ho_ten'] : 'Alex Johnson';
+$emailChuGym = isset($_SESSION['chu_gym_email']) ? (string) $_SESSION['chu_gym_email'] : 'admin@gympro.local';
+$avatarLabel = strtoupper(substr(trim($hoTenChu), 0, 1));
+if ($avatarLabel === '') {
+    $avatarLabel = 'A';
+}
+?>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -247,6 +261,116 @@ background-color: var(--bg-main);
             background-color: rgba(241, 65, 108, 0.15); 
             transform: scale(1.1); 
             box-shadow: 0 4px 10px rgba(241, 65, 108, 0.2); 
+        }
+
+        .gym-popup-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(6, 8, 15, 0.7);
+            backdrop-filter: blur(2px);
+            z-index: 2500;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.2s ease;
+        }
+
+        .gym-popup-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .gym-profile-popup {
+            position: fixed;
+            left: 24px;
+            bottom: 24px;
+            width: 360px;
+            max-width: calc(100vw - 32px);
+            background: #171b2a;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            z-index: 2600;
+            color: #fff;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+            transition: 0.2s ease;
+            overflow: hidden;
+        }
+
+        .gym-profile-popup.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .gym-profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.14), rgba(139, 92, 246, 0.14));
+        }
+
+        .gym-profile-header h3 {
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .gym-profile-close {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: transparent;
+            color: #cbd5e1;
+            cursor: pointer;
+        }
+
+        .gym-profile-content {
+            padding: 16px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .gym-profile-item {
+            display: grid;
+            gap: 4px;
+        }
+
+        .gym-profile-item span {
+            font-size: 11px;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            color: #94a3b8;
+        }
+
+        .gym-profile-item strong {
+            font-size: 14px;
+            color: #fff;
+            word-break: break-word;
+        }
+
+        .gym-profile-footer {
+            padding: 14px 16px 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .btn-logout {
+            width: 100%;
+            height: 42px;
+            border-radius: 10px;
+            border: 1px solid rgba(239, 68, 68, 0.45);
+            background: rgba(239, 68, 68, 0.14);
+            color: #fecaca;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
         }
     </style>
 </head>

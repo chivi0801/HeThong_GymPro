@@ -309,11 +309,11 @@ if ($avatarLabel === '') {
 
     <div class="gym-profile-content">
         <div class="gym-profile-item">
-            <span>Ten phong</span>
+            <span>Tên phòng</span>
             <strong><?php echo htmlspecialchars($tenPhong, ENT_QUOTES, 'UTF-8'); ?></strong>
         </div>
         <div class="gym-profile-item">
-            <span>Chu phong</span>
+            <span>Chủ phòng</span>
             <strong><?php echo htmlspecialchars($hoTenChu, ENT_QUOTES, 'UTF-8'); ?></strong>
         </div>
         <div class="gym-profile-item">
@@ -321,7 +321,7 @@ if ($avatarLabel === '') {
             <strong><?php echo htmlspecialchars($emailChuGym, ENT_QUOTES, 'UTF-8'); ?></strong>
         </div>
         <div class="gym-profile-item">
-            <span>Ma tai khoan</span>
+            <span>Mã tài khoản</span>
             <strong>#GYM-<?php echo $chuGymId > 0 ? str_pad((string) $chuGymId, 4, '0', STR_PAD_LEFT) : '----'; ?></strong>
         </div>
     </div>
@@ -329,7 +329,7 @@ if ($avatarLabel === '') {
     <div class="gym-profile-footer">
         <a class="btn-logout" href="../Auth/DangXuat.php">
             <i class="fa-solid fa-right-from-bracket"></i>
-            Dang xuat
+            Đăng xuất
         </a>
     </div>
 </div>

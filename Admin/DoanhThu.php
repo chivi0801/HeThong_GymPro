@@ -403,6 +403,7 @@
             </div>
         </div>
     </main>
+    
     <script>
         function initSidebarProfilePopup() {
             const trigger = document.getElementById('gymProfileTrigger');
