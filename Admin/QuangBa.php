@@ -280,49 +280,53 @@
             <p class="text-secondary mb-5">Phù hợp cho mọi quy mô phòng tập từ nhỏ đến hệ thống chuỗi</p>
 
             <div class="row g-4 align-items-center justify-content-center">
+
+                <!-- GÓI CƠ BẢN -->
                 <div class="col-lg-4 col-md-6">
                     <div class="card custom-card p-5 border-0 text-start">
-                        <p class="text-uppercase text-secondary fw-bold small mb-2">Dùng thử</p>
-                        <h3 class="display-5 fw-bold mb-0">Miễn phí</h3>
-                        <p class="text-secondary mb-4">/ 14 ngày</p>
+                        <p class="text-uppercase text-secondary fw-bold small mb-2">Cơ Bản</p>
+                        <h3 class="display-5 fw-bold mb-0">300K</h3>
+                        <p class="text-secondary mb-4">/ tháng</p>
                         <ul class="list-unstyled mb-5 text-secondary">
-                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Đầy đủ tính năng cơ bản</li>
-                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Quản lý 50 hội viên</li>
-                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Hỗ trợ giờ hành chính</li>
+                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Quản lý hội viên</li>
+                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Quét mã QR</li>
+                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Tài chính cơ bản</li>
                         </ul>
-                        <button class="btn btn-outline-light w-100 py-2 fw-semibold">Bắt đầu ngay</button>
+                        <a href="../Auth/DangKy.php?goi=basic" class="btn btn-outline-light w-100 py-2 fw-semibold">Đăng ký ngay</a>
                     </div>
                 </div>
 
+                <!-- GÓI NÂNG CAO (nổi bật) -->
                 <div class="col-lg-4 col-md-6">
                     <div class="card custom-card card-pricing-featured p-5 text-start z-1">
-                        <span class="badge-popular">PHỔ BIẾN NHẤT</span>
-                        <p class="text-uppercase fw-bold small mb-2 text-primary">Tiêu chuẩn</p>
-                        <h3 class="display-5 fw-bold mb-0">499k</h3>
+                        <span class="badge-popular">NÊN MUA</span>
+                        <p class="text-uppercase fw-bold small mb-2 text-primary">Nâng Cao</p>
+                        <h3 class="display-5 fw-bold mb-0">500K</h3>
                         <p class="text-secondary mb-4">/ tháng</p>
                         <ul class="list-unstyled mb-5">
-                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Tất cả tính năng cơ bản</li>
-                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Không giới hạn hội viên</li>
-                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Kiểm soát check-in cửa</li>
-                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Hỗ trợ kỹ thuật 24/7</li>
+                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Điểm danh khuôn mặt</li>
+                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Quản lý nhân viên</li>
+                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Báo cáo chuyên sâu</li>
                         </ul>
-                        <button class="btn btn-gradient w-100 py-3 fw-bold fs-6">Đăng ký ngay</button>
+                        <a href="../Auth/DangKy.php?goi=advanced" class="btn btn-gradient w-100 py-3 fw-bold fs-6">Đăng ký ngay</a>
                     </div>
                 </div>
 
+                <!-- GÓI CHUYÊN NGHIỆP -->
                 <div class="col-lg-4 col-md-6">
                     <div class="card custom-card p-5 border-0 text-start">
-                        <p class="text-uppercase text-secondary fw-bold small mb-2">Chuyên nghiệp</p>
-                        <h3 class="display-5 fw-bold mb-0">999k</h3>
+                        <p class="text-uppercase text-secondary fw-bold small mb-2">Chuyên Nghiệp</p>
+                        <h3 class="display-5 fw-bold mb-0">1.000K</h3>
                         <p class="text-secondary mb-4">/ tháng</p>
                         <ul class="list-unstyled mb-5 text-secondary">
-                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Không giới hạn quy mô</li>
-                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> App riêng cho hội viên</li>
-                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Quản lý kho, hàng hóa</li>
+                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Tích điểm hội viên</li>
+                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Hỗ trợ ưu tiên 24/7</li>
+                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Tùy chỉnh thương hiệu</li>
                         </ul>
-                        <button class="btn btn-outline-light w-100 py-2 fw-semibold">Liên hệ</button>
+                        <a href="../Auth/DangKy.php?goi=pro" class="btn btn-outline-light w-100 py-2 fw-semibold">Đăng ký ngay</a>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -404,7 +408,7 @@
                     <h6 class="fw-bold mb-3 text-white">Liên hệ</h6>
                     <ul class="list-unstyled text-secondary small">
                         <li class="mb-2"><i class="bi bi-telephone me-2"></i> 1900 68xx</li>
-                        <li class="mb-2"><i class="bi bi-envelope me-2"></i> contact@gympro.vn</li>
+                        <li class="mb-2"><i class="bi bi-envelope me-2"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a1c2cecfd5c0c2d5e1c6d8ccd1d3ce8fd7cf">[email&#160;protected]</a></li>
                         <li class="mb-2"><i class="bi bi-geo-alt me-2"></i> Tòa nhà ABC, Hà Nội</li>
                     </ul>
                 </div>
