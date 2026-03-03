@@ -116,7 +116,7 @@
             color: white; padding: 10px 20px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer;
         }
 
-        /* VÃ™NG CHá»¨A Ná»˜I DUNG CUá»˜N */
+        
         .page-content {
             flex: 1; 
             display: flex; 
@@ -251,22 +251,22 @@
             <div class="revenue-top">
                 <div class="finance-stats">
                     <div class="f-card thu">
-                        <div class="f-title"><i class="fa-solid fa-wallet"></i> Tá»•ng thu</div>
+                        <div class="f-title"><i class="fa-solid fa-wallet"></i> Tổng thu</div>
                         <div class="f-value">312.450.000Ä‘</div>
                     </div>
                     <div class="f-card chi">
-                        <div class="f-title"><i class="fa-solid fa-money-bill-transfer"></i> Tá»•ng chi</div>
+                        <div class="f-title"><i class="fa-solid fa-money-bill-transfer"></i> Tổng chi</div>
                         <div class="f-value">400.000Ä‘</div>
                     </div>
                     <div class="f-card phatsinh">
-                        <div class="f-title"><i class="fa-solid fa-arrow-trend-up"></i> PhÃ¡t sinh</div>
+                        <div class="f-title"><i class="fa-solid fa-arrow-trend-up"></i> Phát sinh</div>
                         <div class="f-value">295.000Ä‘</div>
                     </div>
                 </div>
                 
                 <div class="finance-actions">
-                    <button class="btn-action-purple"><i class="fa-solid fa-plus"></i> ThÃªm phiáº¿u thu</button>
-                    <button class="btn-action-purple"><i class="fa-solid fa-plus"></i> ThÃªm phiáº¿u chi</button>
+                    <button class="btn-action-purple"><i class="fa-solid fa-plus"></i> Thêm phiếu thu</button>
+                    <button class="btn-action-purple"><i class="fa-solid fa-plus"></i> Thêm phiếu chi</button>
                 </div>
             </div>
 
@@ -276,7 +276,7 @@
                     <div class="table-toolbar">
                         <div class="search-box">
                             <i class="fa-solid fa-magnifying-glass"></i>
-                            <input type="text" placeholder="TÃ¬m kiáº¿m mÃ£ phiáº¿u, ngÆ°á»i ná»™p...">
+                            <input type="text" placeholder="Tìm kiếm mã phiếu, người nộp...">
                         </div>
                         <div class="view-toggles">
                             <button class="icon-btn"><i class="fa-solid fa-grip"></i></button>
@@ -288,69 +288,69 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>MÃ£ phiáº¿u</th>
-                                    <th>Thá»i gian</th>
-                                    <th>Loáº¡i thu chi</th>
-                                    <th>NgÆ°á»i ná»™p/Nháº­n</th>
-                                    <th>GiÃ¡ trá»‹</th>
-                                    <th>Tráº¡ng thÃ¡i</th>
+                                    <th>Mã phiếu</th>
+                                    <th>Thời gian</th>
+                                    <th>Loại thu chi</th>
+                                    <th>Người nộp/Nhận</th>
+                                    <th>Giá trị</th>
+                                    <th>Trạng thái</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td class="col-id">XXXXXXX</td>
                                     <td>25/02/2026</td>
-                                    <td>Chi Ä‘á»‘i tÃ¡c</td>
-                                    <td>CÃ´ng ty ABC</td>
+                                    <td>Chi đối tác</td>
+                                    <td>Công ty ABC</td>
                                     <td class="col-val-red">400,000</td>
-                                    <td><span class="status-badge">ÄÃ£ thanh toÃ¡n</span></td>
+                                    <td><span class="status-badge">Đã thanh toán</span></td>
                                 </tr>
                                 <tr>
                                     <td class="col-id">XXXXXXX</td>
                                     <td>25/02/2026</td>
-                                    <td>Chi Ä‘á»‘i tÃ¡c</td>
-                                    <td>CÃ´ng ty ABC</td>
+                                    <td>Chi đối tác</td>
+                                    <td>Công ty ABC</td>
                                     <td class="col-val-red">400,000</td>
-                                    <td><span class="status-badge">ÄÃ£ thanh toÃ¡n</span></td>
+                                    <td><span class="status-badge">Đã thanh toán</span></td>
                                 </tr>
                                 <tr>
                                     <td class="col-id">XXXXXXX</td>
                                     <td>25/02/2026</td>
-                                    <td>Chi Ä‘á»‘i tÃ¡c</td>
-                                    <td>CÃ´ng ty ABC</td>
+                                    <td>Chi đối tác</td>
+                                    <td>Công ty ABC</td>
                                     <td class="col-val-red">400,000</td>
-                                    <td><span class="status-badge">ÄÃ£ thanh toÃ¡n</span></td>
+                                    <td><span class="status-badge">Đã thanh toán</span></td>
                                 </tr>
                                 <tr>
                                     <td class="col-id">XXXXXXX</td>
                                     <td>25/02/2026</td>
-                                    <td>Chi Ä‘á»‘i tÃ¡c</td>
-                                    <td>CÃ´ng ty ABC</td>
+                                    <td>Chi đối tác</td>
+                                    <td>Công ty ABC</td>
                                     <td class="col-val-red">400,000</td>
-                                    <td><span class="status-badge">ÄÃ£ thanh toÃ¡n</span></td>
+                                    <td><span class="status-badge">Đã thanh toán</span></td>
                                 </tr>
                                 <tr>
                                     <td class="col-id">XXXXXXX</td>
                                     <td>25/02/2026</td>
-                                    <td>Chi Ä‘á»‘i tÃ¡c</td>
-                                    <td>CÃ´ng ty ABC</td>
+                                    <td>Chi đối tác</td>
+                                    <td>Công ty ABC</td>
                                     <td class="col-val-red">400,000</td>
-                                    <td><span class="status-badge">ÄÃ£ thanh toÃ¡n</span></td>
+                                    <td><span class="status-badge">Đã thanh toán</span></td>
                                 </tr>
                                 <tr>
                                     <td class="col-id">XXXXXXX</td>
                                     <td>25/02/2026</td>
-                                    <td>Chi Ä‘á»‘i tÃ¡c</td>
-                                    <td>CÃ´ng ty ABC</td>
+                                    <td>Chi đối tác</td>
+                                    <td>Công ty ABC</td>
                                     <td class="col-val-red">400,000</td>
-                                    <td><span class="status-badge">ÄÃ£ thanh toÃ¡n</span></td>
+                                    <td><span class="status-badge">Đã thanh toán</span></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
 
                     <div class="pagination-footer">
-                        <div class="total-records">Tá»•ng sá»‘ báº£n ghi <span>5</span></div>
+                        <div class="total-records">Tổng số bản ghi <span>5</span></div>
                         <div class="page-controls">
                             <button class="p-btn"><i class="fa-solid fa-angle-left"></i></button>
                             <button class="p-btn active">1</button>
@@ -362,7 +362,7 @@
                 <div class="filter-panel">
                     
                     <div class="filter-group">
-                        <div class="filter-label">Thá»i gian</div>
+                        <div class="filter-label">Thời gian</div>
                         <div class="date-picker">
                             <i class="fa-regular fa-calendar"></i>
                             <span>01/02/2026 - 26/02/2026</span>
@@ -370,31 +370,31 @@
                     </div>
 
                     <div class="filter-group">
-                        <div class="filter-label">NhÃ¢n viÃªn</div>
+                        <div class="filter-label">Nhân viên</div>
                         <div class="radio-list">
                             <label class="radio-item">
-                                <input type="radio" name="employee" checked> Cá»§a tÃ´i
+                                <input type="radio" name="employee" checked> Của tôi
                             </label>
                             <label class="radio-item">
-                                <input type="radio" name="employee"> Táº¥t cáº£
+                                <input type="radio" name="employee"> Tất cả
                             </label>
                         </div>
                     </div>
 
                     <div class="filter-group">
-                        <div class="filter-label">Loáº¡i chá»©ng tá»«</div>
+                        <div class="filter-label">Loại</div>
                         <div class="filter-btns-column">
-                            <button class="filter-btn active">Táº¥t cáº£</button>
-                            <button class="filter-btn">Phiáº¿u thu</button>
-                            <button class="filter-btn">Phiáº¿u chi</button>
+                            <button class="filter-btn active">Tất cả</button>
+                            <button class="filter-btn">Phiếu thu</button>
+                            <button class="filter-btn">Phiếu chi</button>
                         </div>
                     </div>
 
                     <div class="filter-group">
-                        <div class="filter-label">Tráº¡ng thÃ¡i</div>
+                        <div class="filter-label">Trạng thái</div>
                         <div class="filter-btns-row">
-                            <button class="filter-badge active">ÄÃ£ thanh toÃ¡n</button>
-                            <button class="filter-badge">ChÆ°a thanh toÃ¡n</button>
+                            <button class="filter-badge active">Đã thanh toán</button>
+                            <button class="filter-badge">Chưa thanh toán</button>
                         </div>
                     </div>
 
