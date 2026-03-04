@@ -29,11 +29,9 @@ if ($avatarLabel === '') {
         display: flex;
         flex-direction: column; /* xếp dọc */
         align-items: center;    /* căn giữa ngang */
-        
-
         font-size: 20px;
         font-weight: 700;
-       
+        margin-bottom: 40px;
         padding-left: 10px;
     }
 

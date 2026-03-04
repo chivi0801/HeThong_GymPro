@@ -380,7 +380,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <li class="nav-item"><a class="nav-link" href="../index.php#features">Liên hệ hổ trợ</a></li>
                 </ul>
                 <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
-                    <a href="DangNhap2.php" class="text-decoration-none text-secondary hover-white fw-medium">Đăng nhập</a>
+                    <a href="DangNhap.php" class="text-decoration-none text-secondary hover-white fw-medium">Đăng nhập</a>
                     <a href="DangKy.php" class="btn btn-gradient px-4 py-2 rounded-3 fw-semibold">Đăng ký ngay</a>
                 </div>
             </div>

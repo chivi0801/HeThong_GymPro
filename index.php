@@ -15,7 +15,7 @@
         /* Tùy chỉnh CSS để giữ "hồn" của Figma trên nền Bootstrap */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0f172a; /* Nền xanh đen sâu */
+            background-color: #131e38; /* Nền xanh đen sâu */
             color: #f8fafc;
         }
 
@@ -97,6 +97,14 @@
             color: #a855f7;
             font-size: 1.5rem;
             margin-bottom: 1.5rem;
+        }
+
+        /* Pricing Section */
+        .pricing-section {
+            position: relative;
+            z-index: 1;
+            padding: 60px 20px;
+            text-align: center;
         }
 
         /* Tùy chỉnh Bootstrap Carousel để ảnh đẹp hơn */
@@ -181,7 +189,7 @@
                 </ul>
                 <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
                     <a href="../Auth/DangNhap.php" class="text-decoration-none text-secondary hover-white">Đăng nhập</a>
-                    <a href="#register" class="btn btn-gradient px-4 py-2 rounded-3 fw-semibold">Đăng ký ngay</a>
+                    <a href="../Auth/DangKy.php" class="btn btn-gradient px-4 py-2 rounded-3 fw-semibold">Đăng ký ngay</a>
                 </div>
             </div>
         </div>
@@ -274,118 +282,7 @@
         </div>
     </section>
 
-    <section id="pricing" class="py-5">
-        <div class="container py-5 text-center">
-            <h2 class="fw-bold fs-1 mb-3">Gói dịch vụ linh hoạt</h2>
-            <p class="text-secondary mb-5">Phù hợp cho mọi quy mô phòng tập từ nhỏ đến hệ thống chuỗi</p>
-
-            <div class="row g-4 align-items-center justify-content-center">
-
-                <!-- GÓI CƠ BẢN -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="card custom-card p-5 border-0 text-start">
-                        <p class="text-uppercase text-secondary fw-bold small mb-2">Cơ Bản</p>
-                        <h3 class="display-5 fw-bold mb-0">300K</h3>
-                        <p class="text-secondary mb-4">/ tháng</p>
-                        <ul class="list-unstyled mb-5 text-secondary">
-                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Quản lý hội viên</li>
-                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Quét mã QR</li>
-                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Tài chính cơ bản</li>
-                        </ul>
-                        <a href="../Auth/DangKy.php?goi=basic" class="btn btn-outline-light w-100 py-2 fw-semibold">Đăng ký ngay</a>
-                    </div>
-                </div>
-
-                <!-- GÓI NÂNG CAO (nổi bật) -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="card custom-card card-pricing-featured p-5 text-start z-1">
-                        <span class="badge-popular">NÊN MUA</span>
-                        <p class="text-uppercase fw-bold small mb-2 text-primary">Nâng Cao</p>
-                        <h3 class="display-5 fw-bold mb-0">500K</h3>
-                        <p class="text-secondary mb-4">/ tháng</p>
-                        <ul class="list-unstyled mb-5">
-                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Điểm danh khuôn mặt</li>
-                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Quản lý nhân viên</li>
-                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Báo cáo chuyên sâu</li>
-                        </ul>
-                        <a href="../Auth/DangKy.php?goi=advanced" class="btn btn-gradient w-100 py-3 fw-bold fs-6">Đăng ký ngay</a>
-                    </div>
-                </div>
-
-                <!-- GÓI CHUYÊN NGHIỆP -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="card custom-card p-5 border-0 text-start">
-                        <p class="text-uppercase text-secondary fw-bold small mb-2">Chuyên Nghiệp</p>
-                        <h3 class="display-5 fw-bold mb-0">1.000K</h3>
-                        <p class="text-secondary mb-4">/ tháng</p>
-                        <ul class="list-unstyled mb-5 text-secondary">
-                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Tích điểm hội viên</li>
-                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Hỗ trợ ưu tiên 24/7</li>
-                            <li class="mb-3"><i class="bi bi-check-circle-fill text-primary me-2"></i> Tùy chỉnh thương hiệu</li>
-                        </ul>
-                        <a href="../Auth/DangKy.php?goi=pro" class="btn btn-outline-light w-100 py-2 fw-semibold">Đăng ký ngay</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section id="register" class="py-5 mb-5">
-        <div class="container py-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-10"> 
-                    <div class="register-card-custom p-4 p-md-5 border-0">
-                        
-                        <div class="text-center mb-5">
-                            <h2 class="fw-bold fs-2 text-white">ĐĂNG KÝ NGAY</h2>
-                            <p class="text-secondary mt-2 small">Bắt đầu quản lý phòng tập chuyên nghiệp ngay hôm nay</p>
-                        </div>
-                        
-                        <form>
-                            <div class="row g-4">
-                                <div class="col-md-6">
-                                    <label class="form-label text-white small mb-2">Họ và tên</label>
-                                    <input type="text" class="form-control register-input-custom" placeholder="Nguyễn Văn A" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label text-white small mb-2">Số điện thoại</label>
-                                    <input type="tel" class="form-control register-input-custom" placeholder="0123 456 789" required>
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    <label class="form-label text-white small mb-2">Tên phòng tập</label>
-                                    <input type="text" class="form-control register-input-custom" placeholder="GymPro Center" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label text-white small mb-2">Mật khẩu</label>
-                                    <input type="password" class="form-control register-input-custom" placeholder="********" required>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label class="form-label text-white small mb-2">Email</label>
-                                    <input type="email" class="form-control register-input-custom" placeholder="admin@vidu.com" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label text-white small mb-2">Xác nhận mật khẩu</label>
-                                    <input type="password" class="form-control register-input-custom" placeholder="********" required>
-                                </div>
-                                
-                                <div class="col-12 mt-4 pt-2 text-center">
-                                    <button type="submit" class="btn btn-register-custom py-3 fw-bold fs-6 w-100">Đăng ký ngay</button>
-                                </div>
-
-                                <div class="col-12 mt-4 text-center">
-                                    <p class="small text-secondary mb-0">Đã có tài khoản? <a href="#" class="text-decoration-none login-link-custom">Đăng nhập tại đây</a></p>
-                                </div>
-                            </div>
-                        </form>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    
 
     <footer class="bg-dark pt-5 pb-4 mt-5 border-top border-secondary border-opacity-25">
         <div class="container">

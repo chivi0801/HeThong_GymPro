@@ -1,17 +1,21 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-bs-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GymPro - Đăng ký hệ thống</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
             --primary-gradient: linear-gradient(90deg, #2563eb, #7c3aed);
-            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-bg: rgba(15, 23, 42, 0.8);
             --glass-border: rgba(255, 255, 255, 0.1);
         }
 
@@ -28,7 +32,6 @@
             color: white;
             min-height: 100vh;
             padding-top: 80px;
-            /* Bù khoảng trống cho fixed header */
         }
 
         body::before {
@@ -39,64 +42,42 @@
             z-index: 0;
         }
 
-        /* ===== HEADER FIXED ===== */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 80px;
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--glass-border);
+        /* Navbar mờ (Glassmorphism) */
+        .navbar-glass {
+            background: rgba(15, 23, 42, 0.8) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(168, 85, 247, 0.1);
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 700;
-            font-size: 22px;
+        .nav-link {
+            color: #f8fafc !important;
+            transition: color 0.3s ease;
         }
 
-        /* Icon nghiêng 45 độ */
-        .logo i,
-        .icon-header i {
-            background: var(--primary-gradient);
-            padding: 8px;
-            border-radius: 8px;
-            transform: rotate(45deg);
-            display: inline-block;
+        .nav-link:hover {
+            color: #a855f7 !important;
         }
 
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 30px;
+        .nav-link.active {
+            color: #a855f7 !important;
         }
 
-        nav a {
-            color: #cbd5e1;
-            text-decoration: none;
-            font-size: 14px;
-            transition: 0.3s;
+        .text-secondary.hover-white:hover {
+            color: white !important;
         }
 
-        nav a:hover {
+        .btn-gradient {
+            background: linear-gradient(to right, #4f46e5, #9333ea);
             color: white;
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
         }
 
-        .btn-signup-nav {
-            background: var(--primary-gradient);
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
+        .btn-gradient:hover {
             color: white;
-            font-weight: 600;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5);
         }
 
         /* ===== PRICING SECTION ===== */
@@ -298,20 +279,28 @@
 
 <body>
 
-    <header>
-        <div class="logo"><i class="fa-solid fa-dumbbell"></i> GymPro</div>
-        <nav>
-            <ul>
-                <li><a href="#">Giới thiệu</a></li>
-                <li><a href="#">Liên hệ hỗ trợ</a></li>
-            </ul>
-        </nav>
-        <div class="auth-buttons">
-            <a href="DangNhap.php"
-                style="color: white; text-decoration: none; font-size: 14px; margin-right: 20px;">Đăng nhập</a>
-            <a href="DangKy.php" class="btn-signup-nav">Đăng ký ngay</a>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-glass fixed-top py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center fw-bold fs-4" href="../index.php">
+                <img src="../image/logo.png" alt="Logo GymPro" class="img-fluid" style="width: 100px; height: 50px;">
+            </a>
+
+            <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto fw-medium">
+                    <li class="nav-item"><a class="nav-link" href="../index.php#hero">Giới thiệu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../index.php#features">Liên hệ hổ trợ</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+                    <a href="DangNhap.php" class="text-decoration-none text-secondary hover-white fw-medium">Đăng nhập</a>
+                    <a href="DangKy.php" class="btn btn-gradient px-4 py-2 rounded-3 fw-semibold">Đăng ký ngay</a>
+                </div>
+            </div>
         </div>
-    </header>
+    </nav>
 
     <section class="pricing-section">
         <h2 style="font-size: 32px; margin-bottom: 50px;">Chọn gói phù hợp với phòng gym của bạn</h2>
@@ -319,7 +308,7 @@
 
             <!-- GÓI CƠ BẢN -->
             <div class="pricing-card" data-plan="basic">
-                <h3>Gói Cơ Bản</h3>
+                <h4>Gói Cơ Bản</h4>
                 <div class="price">300K <span>/tháng</span></div>
                 <ul>
                     <li><i class="fa-solid fa-check"></i> Quản lý hội viên</li>
@@ -332,7 +321,7 @@
             <!-- GÓI NÂNG CAO -->
             <div class="pricing-card" data-plan="advanced">
                 <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #7c3aed; padding: 4px 15px; border-radius: 20px; font-size: 11px; font-weight: 700;">NÊN MUA</div>
-                <h3>Gói Nâng Cao</h3>
+                <h4>Gói Nâng Cao</h4>
                 <div class="price">500K <span>/tháng</span></div>
                 <ul>
                     <li><i class="fa-solid fa-check"></i> Điểm danh khuôn mặt</li>
@@ -344,13 +333,15 @@
 
             <!-- GÓI CHUYÊN NGHIỆP -->
             <div class="pricing-card" data-plan="pro">
-                <h3>Gói Chuyên Nghiệp</h3>
+                <h4>Gói Chuyên Nghiệp</h4>
                 <div class="price">1.000K <span>/tháng</span></div>
+                
                 <ul>
                     <li><i class="fa-solid fa-check"></i> Tích điểm hội viên</li>
                     <li><i class="fa-solid fa-check"></i> Hỗ trợ ưu tiên 24/7</li>
                     <li><i class="fa-solid fa-check"></i> Tùy chỉnh thương hiệu</li>
                 </ul>
+
                 <button class="btn-select btn-default">Đăng ký ngay</button>
             </div>
 
@@ -359,9 +350,11 @@
 
     <section class="form-section" id="register-form">
         <div class="register-card">
+
             <div class="icon-header" style="text-align: center; margin-bottom: 20px;">
                 <i class="fa-solid fa-dumbbell" style="font-size: 24px; color: white;"></i>
             </div>
+
             <h2 style="text-align: center; margin-bottom: 10px;">ĐĂNG KÝ HỆ THỐNG</h2>
             <p style="text-align: center; color: #94a3b8; margin-bottom: 30px;">Bắt đầu quản lý chuyên nghiệp ngay hôm
                 nay</p>
@@ -371,19 +364,26 @@
             </div>
 
             <form class="grid-form">
-                <div class="input-group"><i class="fa-regular fa-user"></i><input type="text" placeholder="Họ và tên">
+                <div class="input-group"><i class="fa-regular fa-user"></i><input id="ho_ten" type="text" placeholder="Họ và tên">
                 </div>
-                <div class="input-group"><i class="fa-solid fa-phone"></i><input type="text"
+
+                <div class="input-group"><i class="fa-solid fa-phone"></i><input id="so_dien_thoai" type="text"
                         placeholder="Số điện thoại"></div>
-                <div class="input-group"><i class="fa-solid fa-building"></i><input type="text"
+
+                <div class="input-group"><i class="fa-solid fa-building"></i><input id="ten_phong_tap" type="text"
                         placeholder="Tên phòng tập"></div>
-                <div class="input-group"><i class="fa-solid fa-lock"></i><input type="password" placeholder="Mật khẩu">
+
+                <div class="input-group"><i class="fa-solid fa-lock"></i><input id="mat_khau" type="password" placeholder="Mật khẩu">
                 </div>
-                <div class="input-group"><i class="fa-regular fa-envelope"></i><input type="email" placeholder="Email">
+
+                <div class="input-group"><i class="fa-regular fa-envelope"></i><input id="email" type="email" placeholder="Email">
                 </div>
-                <div class="input-group"><i class="fa-solid fa-key"></i><input type="password"
+
+                <div class="input-group"><i class="fa-solid fa-key"></i><input id="xac_nhan_mat_khau" type="password"
                         placeholder="Xác nhận mật khẩu"></div>
-                <button type="submit" class="btn-submit">Đăng ký ngay <i class="fa-solid fa-user-plus"
+
+
+                <button id = "dang_ky" type="submit" class="btn-submit"> Đăng ký ngay <i class="fa-solid fa-user-plus"
                         style="margin-left: 10px;"></i></button>
 
             </form>
@@ -438,6 +438,8 @@
             }, 300);
         }
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
