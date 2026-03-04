@@ -303,7 +303,7 @@
     </nav>
 
     <section class="pricing-section">
-        <h2 style="font-size: 32px; margin-bottom: 50px;">Chọn gói phù hợp với phòng gym của bạn</h2>
+        <h2 style="font-size: 32px; margin-bottom: 50px;">Giải pháp quản lý toàn diện cho phòng Gym của bạn</h2>
         <div class="pricing-container">
 
             <!-- GÓI mien phi -->
@@ -369,7 +369,12 @@
         <div class="register-card">
 
             <div class="icon-header" style="text-align: center; margin-bottom: 20px;">
-                <i class="fa-solid fa-dumbbell" style="font-size: 24px; color: white;"></i>
+
+                 <a class="navbar-brand d-flex align-items-center fw-bold fs-4">
+    
+                <img src="../image/logo.png" alt="Logo GymPro" class="img-fluid" style="width: 200px; height: 100px; align-items: center; justify-content: center; display: flex; margin: 0 auto;">
+                
+                 </a>
             </div>
 
             <h2 style="text-align: center; margin-bottom: 10px;">ĐĂNG KÝ HỆ THỐNG</h2>
