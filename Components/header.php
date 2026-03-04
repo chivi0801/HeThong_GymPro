@@ -23,6 +23,7 @@
     .btn-scan {
         display: flex; align-items: center; gap: 8px; background: var(--bg-dark); border: 1px solid var(--border-color);
         color: var(--text-muted); padding: 10px 16px; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer;
+        text-decoration: none;
     }
 
     .btn-add-primary {
@@ -40,7 +41,7 @@
         <button class="icon-btn"><i class="fa-regular fa-bell"></i></button>
         <button class="icon-btn"><i class="fa-solid fa-gear"></i></button>
         
-        <a href="../Admin/DiemDanh.php" class="btn-scan"><i class="fa-solid fa-expand"></i> Quét khuôn mặt</a>
+        <a href="../Admin/DiemDanh.php" class="btn-scan"><i class="fa-solid fa-expand"></i> Check-in khuôn mặt</a>
 
         <button class="btn-add-primary"><i class="fa-solid fa-user-plus"></i> Đăng ký mới</button>
     </div>

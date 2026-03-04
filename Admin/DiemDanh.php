@@ -57,7 +57,7 @@
                 linear-gradient(#fff, #fff) top right / 25% 25% no-repeat,
                 linear-gradient(#fff, #fff) bottom left / 25% 25% no-repeat,
                 linear-gradient(#fff, #fff) bottom right / 25% 25% no-repeat;
-            mask: 
+            mask:
                 linear-gradient(#fff, #fff) top left / 25% 25% no-repeat,
                 linear-gradient(#fff, #fff) top right / 25% 25% no-repeat,
                 linear-gradient(#fff, #fff) bottom left / 25% 25% no-repeat,
