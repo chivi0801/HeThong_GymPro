@@ -335,7 +335,7 @@
 
             <!-- GÓI NÂNG CAO -->
             <div class="pricing-card" data-plan="advanced">
-                <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #7c3aed; padding: 4px 15px; border-radius: 20px; font-size: 11px; font-weight: 700;">NÊN MUA</div>
+                <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #7c3aed; padding: 4px 15px; border-radius: 20px; font-size: 11px; font-weight: 700;">Khuyên Dùng</div>
                 <h4>Gói Nâng Cao</h4>
                 <div class="price">500K <span>/tháng</span></div>
                 <ul>
