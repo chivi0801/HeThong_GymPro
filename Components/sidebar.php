@@ -27,23 +27,16 @@ if ($avatarLabel === '') {
 
     .sidebar .logo {
         display: flex;
-        align-items: center;
-        gap: 12px;
+        flex-direction: column; /* xếp dọc */
+        align-items: center;    /* căn giữa ngang */
+        
+
         font-size: 20px;
         font-weight: 700;
-        margin-bottom: 40px;
+       
         padding-left: 10px;
     }
 
-    .sidebar .logo .icon {
-        background: var(--gradient-btn);
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
 
     .sidebar .logo span {
         display: block;
@@ -273,9 +266,14 @@ if ($avatarLabel === '') {
 </style>
 
 <aside class="sidebar">
+
     <div class="logo">
-        <div class="icon"><i class="fa-solid fa-dumbbell" style="color: white; font-size: 14px; transform: rotate(-45deg);"></i></div>
-        <div>GymPro<br><span>Hệ thống quản lý</span></div>
+
+        <div>
+           <img src="../image/logo.png"  style="width: 100px; height: 50px;">
+             <span>Hệ thống quản lý</span>
+        </div>     
+ 
     </div>
 
     <ul class="nav-menu">

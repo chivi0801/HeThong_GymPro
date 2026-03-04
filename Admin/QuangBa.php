@@ -166,11 +166,11 @@
     <nav class="navbar navbar-expand-lg navbar-dark navbar-glass fixed-top py-3">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center fw-bold fs-4" href="#">
-                <span class="bg-gradient-custom rounded p-2 me-2 d-inline-flex">
-                    <i class="bi bi-activity text-white fs-5"></i>
-                </span>
-                GymPro
+    
+             <img src="../image/logo.png" alt="Logo GymPro" class="img-fluid" style="width: 100px; height: 50px;">
+                
             </a>
+            
             <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -180,7 +180,7 @@
                     <li class="nav-item"><a class="nav-link" href="#features">Liên hệ hổ trợ</a></li>
                 </ul>
                 <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
-                    <a href="#" class="text-decoration-none text-secondary hover-white">Đăng nhập</a>
+                    <a href="../Auth/DangNhap.php" class="text-decoration-none text-secondary hover-white">Đăng nhập</a>
                     <a href="#register" class="btn btn-gradient px-4 py-2 rounded-3 fw-semibold">Đăng ký ngay</a>
                 </div>
             </div>
