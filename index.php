@@ -209,7 +209,7 @@
                     <p class="lead text-secondary mb-5 fs-6">
                         Giải pháp phần mềm quản lý phòng tập chuyên nghiệp nhất hiện nay. Tự động hóa quy trình, tối ưu chi phí và gia tăng trải nghiệm hội viên trên một nền tảng duy nhất.
                     </p>
-                    <a href="#register" class="btn btn-gradient px-5 py-3 rounded-3 fw-bold fs-5">Dùng thử miễn phí ngay</a>
+                    <a href="../Auth/DangKy.php" class="btn btn-gradient px-5 py-3 rounded-3 fw-bold fs-5">Dùng thử miễn phí ngay</a>
                 </div>
                 
                 <div class="col-lg-6">
@@ -236,8 +236,10 @@
         </div>
     </section>
 
-    <section id="features" class="py-5">
-        <div class="container py-5 text-center">
+    <hr>
+
+    <section id="features" class="">
+        <div class="container  text-center">
             <h2 class="fw-bold fs-1 mb-3">Tính năng đột phá</h2>
             <p class="text-secondary mb-5">Thiết kế tối ưu cho mọi mô hình fitness club từ cơ bản đến nâng cao</p>
             
@@ -288,38 +290,44 @@
         <div class="container">
             <div class="row g-4 mb-4">
                 <div class="col-lg-4 col-md-6">
-                    <h5 class="fw-bold mb-3 text-white d-flex align-items-center">
-                        <i class="bi bi-activity text-primary me-2"></i> GymPro
-                    </h5>
-                    <p class="text-secondary small">Hệ thống quản lý phòng gym hàng đầu, giúp tự động hóa và chuyển đổi số cho doanh nghiệp fitness tại Việt Nam.</p>
+
+                     <a class="navbar-brand d-flex align-items-center fw-bold fs-4" href="#">
+                         <img src="../image/logo.png" alt="Logo GymPro" class="img-fluid" style="width: 100px; height: 50px;">
+                     </a>
+
+                    <p class="text-secondary small">
+                        Hệ thống quản lý phòng gym hàng đầu, giúp tự động hóa 
+                         và chuyển đổi số cho doanh nghiệp fitness tại Việt Nam.
+                    </p>
+
                 </div>
                 <div class="col-lg-2 col-md-6">
                     <h6 class="fw-bold mb-3 text-white">Sản phẩm</h6>
                     <ul class="list-unstyled text-secondary small">
                         <li class="mb-2"><a href="#" class="text-decoration-none text-secondary hover-white">Tính năng</a></li>
-                        <li class="mb-2"><a href="#" class="text-decoration-none text-secondary hover-white">Bảng giá</a></li>
+                        <li class="mb-2"><a href="../Auth/DangKy.php" class="text-decoration-none text-secondary hover-white">Bảng giá</a></li>
                         <li class="mb-2"><a href="#" class="text-decoration-none text-secondary hover-white">Cập nhật</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h6 class="fw-bold mb-3 text-white">Liên hệ</h6>
                     <ul class="list-unstyled text-secondary small">
-                        <li class="mb-2"><i class="bi bi-telephone me-2"></i> 1900 68xx</li>
-                        <li class="mb-2"><i class="bi bi-envelope me-2"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a1c2cecfd5c0c2d5e1c6d8ccd1d3ce8fd7cf">[email&#160;protected]</a></li>
-                        <li class="mb-2"><i class="bi bi-geo-alt me-2"></i> Tòa nhà ABC, Hà Nội</li>
+                        <li class="mb-2"><i class="bi bi-telephone me-2"></i> 1900 678910</li>
+                        <li class="mb-2"><i class="bi bi-envelope me-2"></i> <a>Email </a></li>
+                        <li class="mb-2"><i class="bi bi-geo-alt me-2"></i> 256 Nguyễn Văn Cừ, Phường Ninh Kiều, TP.Cần Thơ</li>
                     </ul>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h6 class="fw-bold mb-3 text-white">Kết nối</h6>
                     <div class="d-flex gap-2">
-                        <a href="#" class="btn btn-outline-secondary rounded-circle btn-sm"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="btn btn-outline-secondary rounded-circle btn-sm"><i class="bi bi-youtube"></i></a>
-                        <a href="#" class="btn btn-outline-secondary rounded-circle btn-sm"><i class="bi bi-tiktok"></i></a>
+                        <a href="https://www.facebook.com/CTUT.CT" class="btn btn-outline-secondary rounded-circle btn-sm"><i class="bi bi-facebook"></i></a>
+                        <a href="https://www.youtube.com/" class="btn btn-outline-secondary rounded-circle btn-sm"><i class="bi bi-youtube"></i></a>
+                        <a href="https://www.tiktok.com/@tuyensinh.ctuet.edu.vn?_r=1&_t=ZS-94P8Tmz57fZ" class="btn btn-outline-secondary rounded-circle btn-sm"><i class="bi bi-tiktok"></i></a>
                     </div>
                 </div>
             </div>
             <div class="text-center pt-4 border-top border-secondary border-opacity-25 text-secondary small">
-                <p class="mb-0">&copy; 2026 GYMPRO MANAGEMENT SYSTEM. Tích hợp bởi Bootstrap 5.</p>
+                <p class="mb-0">&copy; 2026 GYMPRO MANAGEMENT SYSTEM.</p>
             </div>
         </div>
     </footer>
