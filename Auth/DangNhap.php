@@ -329,7 +329,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <header>
         <div class="logo"><i class="fa-solid fa-dumbbell"></i> GymPro</div>
         <div>
-            <a href="DangKy.php" style="color: white; text-decoration: none; font-size: 14px;">Dang ky ngay</a>
+            <a href="DangKy.php" style="color: white; text-decoration: none; font-size: 14px;">Đăng ký ngay</a>
         </div>
     </header>
 
@@ -338,8 +338,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="icon-header">
                 <i class="fa-solid fa-dumbbell"></i>
             </div>
-            <h2>CHAO MUNG BAN TRO LAI</h2>
-            <p class="subtitle">Dang nhap quan tri phong gym</p>
+            <h2>CHÀO MỪNG BẠN TRỞ LẠI</h2>
+            <p class="subtitle">Đăng nhập để quản lý phòng gym</p>
 
             <?php if ($error !== ''): ?>
                 <div class="error-box"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></div>
@@ -354,7 +354,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             type="email"
                             name="email"
                             value="<?php echo htmlspecialchars($emailValue, ENT_QUOTES, 'UTF-8'); ?>"
-                            placeholder="Nhap email cua ban"
+                            placeholder="Nhập email của bạn"
                             required>
                     </div>
                 </div>
@@ -362,27 +362,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="input-group">
                     <div class="label-row">
                         <label>Mat khau</label>
-                        <a href="QuenMatKhau.php" class="forgot-link">Quen mat khau?</a>
+                        <a href="QuenMatKhau.php" class="forgot-link">Quên mật khẩu?</a>
                     </div>
                     <div class="input-wrapper">
                         <i class="fa-solid fa-lock"></i>
-                        <input type="password" id="password" name="mat_khau" placeholder="Nhap mat khau" required>
+                        <input type="password" id="password" name="mat_khau" placeholder="Nhập mật khẩu" required>
                         <i class="fa-regular fa-eye toggle-password" id="togglePassword"></i>
                     </div>
                 </div>
 
                 <div class="remember-me">
                     <input type="checkbox" id="remember" name="remember" <?php echo isset($_POST['remember']) || isset($_COOKIE['remember_email']) ? 'checked' : ''; ?>>
-                    <label for="remember">Ghi nho email dang nhap</label>
+                    <label for="remember">Ghi nhớ email đăng nhập</label>
                 </div>
 
                 <button type="submit" class="btn-submit">
-                    Dang nhap <i class="fa-solid fa-right-to-bracket"></i>
+                    Đăng nhập <i class="fa-solid fa-right-to-bracket"></i>
                 </button>
             </form>
 
             <div class="login-footer">
-                Ban chua co he thong? <a href="DangKy.php">Dang ky phong tap moi</a>
+                Bạn chưa có tài khoản? 
+                <a href="DangKy.php">Đăng ký ngay</a>
             </div>
         </div>
     </main>

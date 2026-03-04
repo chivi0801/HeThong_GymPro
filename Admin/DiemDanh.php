@@ -69,10 +69,12 @@
 
     <header class="flex items-center justify-between p-4 border-b border-slate-800 bg-[#0b1120] sticky top-0 z-50">
         <div class="flex items-center gap-4">
-            <button class="w-10 h-10 rounded-full border border-slate-700 flex items-center justify-center hover:bg-slate-800 transition text-slate-300">
+
+            <a href="TongQuan.php" class="w-10 h-10 rounded-full border border-slate-700 flex items-center justify-center hover:bg-slate-800 transition text-slate-300">
                 <i class="fas fa-arrow-left"></i>
-            </button>
-            <div class="hidden md:block font-bold text-xl tracking-wide">GymPro</div>
+            </a>
+
+            <div class="hidden md:block font-bold text-xl tracking-wide"></div>
         </div>
 
         <div class="flex-1 max-w-xl mx-4 relative hidden md:block">
@@ -239,5 +241,9 @@
         </div>
     </main>
 
+
+   
 </body>
 </html>
+
+
