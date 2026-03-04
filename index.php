@@ -313,7 +313,7 @@
                     <h6 class="fw-bold mb-3 text-white">Liên hệ</h6>
                     <ul class="list-unstyled text-secondary small">
                         <li class="mb-2"><i class="bi bi-telephone me-2"></i> 1900 678910</li>
-                        <li class="mb-2"><i class="bi bi-envelope me-2"></i> <a>Email </a></li>
+                        <li class="mb-2"><i class="bi bi-envelope me-2"></i> <a>gympro@gmail.com</a></li>
                         <li class="mb-2"><i class="bi bi-geo-alt me-2"></i> 256 Nguyễn Văn Cừ, Phường Ninh Kiều, TP.Cần Thơ</li>
                     </ul>
                 </div>
