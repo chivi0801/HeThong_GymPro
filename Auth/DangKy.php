@@ -141,7 +141,7 @@
 
         .pricing-card li i {
             color: #22c55e;
-            margin-right: 10px;
+            
         }
 
         /* Button styling */
@@ -306,15 +306,30 @@
         <h2 style="font-size: 32px; margin-bottom: 50px;">Chọn gói phù hợp với phòng gym của bạn</h2>
         <div class="pricing-container">
 
+            <!-- GÓI mien phi -->
+            <div class="pricing-card" data-plan="Miễn phí 7 ngày">
+                <h4>Gói miễn phí </h4>
+                <div class="price">7 Ngày </div>
+                <ul>
+                    <li><i class="fa-solid fa-check"></i> Full chức năng hệ thống </li>
+                    <li><i ></i> </li>
+                    <li><i ></i> </li>
+                </ul>
+                <button class="btn-select btn-default">Dùng thử ngay</button>
+            </div>
+
             <!-- GÓI CƠ BẢN -->
             <div class="pricing-card" data-plan="basic">
                 <h4>Gói Cơ Bản</h4>
                 <div class="price">300K <span>/tháng</span></div>
                 <ul>
                     <li><i class="fa-solid fa-check"></i> Quản lý hội viên</li>
-                    <li><i class="fa-solid fa-check"></i> Quét mã QR</li>
+                    <li><i class="fa-solid fa-check"></i> Quản lý gói tập</li>
+                    <li><i class="fa-solid fa-check"></i> Điểm danh QR</li>
                     <li><i class="fa-solid fa-check"></i> Tài chính cơ bản</li>
+                    
                 </ul>
+                
                 <button class="btn-select btn-default">Đăng ký ngay</button>
             </div>
 
@@ -324,6 +339,7 @@
                 <h4>Gói Nâng Cao</h4>
                 <div class="price">500K <span>/tháng</span></div>
                 <ul>
+                    <li><i class="fa-solid fa-check"></i> Tất cả chức năng gói cơ bản</li>
                     <li><i class="fa-solid fa-check"></i> Điểm danh khuôn mặt</li>
                     <li><i class="fa-solid fa-check"></i> Quản lý nhân viên</li>
                     <li><i class="fa-solid fa-check"></i> Báo cáo chuyên sâu</li>
@@ -337,9 +353,10 @@
                 <div class="price">1.000K <span>/tháng</span></div>
                 
                 <ul>
+                    <li><i class="fa-solid fa-check"></i> Tất cả chức năng gói nâng cao</li>
                     <li><i class="fa-solid fa-check"></i> Tích điểm hội viên</li>
                     <li><i class="fa-solid fa-check"></i> Hỗ trợ ưu tiên 24/7</li>
-                    <li><i class="fa-solid fa-check"></i> Tùy chỉnh thương hiệu</li>
+                    <li><i class="fa-solid fa-check"></i> Tùy chỉnh theo nhu cầu</li>
                 </ul>
 
                 <button class="btn-select btn-default">Đăng ký ngay</button>

@@ -268,7 +268,7 @@ if ($avatarLabel === '') {
     <div class="logo">
 
         <div>
-           <img src="../image/logo.png"  style="width: 100px; height: 50px;">
+           <a href="../Admin/TongQuan.php"> <img src="../image/logo.png"  style="width: 100px; height: 50px;"> </a>
              <span>Hệ thống quản lý</span>
         </div>     
  
