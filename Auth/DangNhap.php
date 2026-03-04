@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 
 if (isset($_SESSION['chu_gym_id'])) {
@@ -81,38 +81,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-bs-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GymPro - Dang nhap quan tri</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>GymPro - Đăng nhập quản trị</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        :root {
-            --primary-gradient: linear-gradient(90deg, #2563eb, #7c3aed);
-            --glass-bg: rgba(15, 23, 42, 0.8);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --error-bg: rgba(239, 68, 68, 0.15);
-            --error-border: rgba(239, 68, 68, 0.4);
-            --error-text: #fecaca;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
         body {
-            background: #0f172a url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070') no-repeat center center fixed;
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            background: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070') no-repeat center center fixed;
             background-size: cover;
-            color: white;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
 
         body::before {
@@ -123,111 +112,126 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             z-index: 0;
         }
 
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 80px;
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--glass-border);
+        /* Navbar mờ (Glassmorphism) */
+        .navbar-glass {
+            background: rgba(15, 23, 42, 0.8) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(168, 85, 247, 0.1);
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 700;
-            font-size: 20px;
+        .nav-link {
+            color: #f8fafc !important;
+            transition: color 0.3s ease;
         }
 
-        .logo i {
-            background: var(--primary-gradient);
-            padding: 8px;
-            border-radius: 8px;
-            transform: rotate(45deg);
+        .nav-link:hover {
+            color: #a855f7 !important;
         }
 
-        .auth-container {
-            flex: 1;
+        .nav-link.active {
+            color: #a855f7 !important;
+        }
+
+        .text-secondary.hover-white:hover {
+            color: white !important;
+        }
+
+        .btn-gradient {
+            background: linear-gradient(to right, #4f46e5, #9333ea);
+            color: white;
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+        }
+
+        .btn-gradient:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5);
+        }
+
+        /* Login Container */
+        .login-container {
+            position: relative;
+            z-index: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            z-index: 1;
-            padding: 100px 20px;
+            min-height: calc(100vh - 70px);
+            padding: 40px 20px;
+            margin-top: 70px;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 450px;
         }
 
         .login-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            width: 100%;
-            max-width: 450px;
-            padding: 40px;
-            border-radius: 24px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 1.25rem;
             backdrop-filter: blur(20px);
-            text-align: center;
+            padding: 45px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
         }
 
-        .icon-header {
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-icon {
             width: 60px;
             height: 60px;
             margin: 0 auto 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(37, 99, 235, 0.1);
-            border: 1px solid rgba(37, 99, 235, 0.3);
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.3);
             border-radius: 50%;
-            color: #3b82f6;
+            color: #a855f7;
+            font-size: 28px;
+        }
+
+        .login-header h2 {
             font-size: 24px;
-        }
-
-        .icon-header i {
-            transform: rotate(45deg);
-        }
-
-        h2 {
-            font-size: 22px;
-            letter-spacing: 1px;
+            font-weight: 700;
             margin-bottom: 8px;
+            color: #f8fafc;
         }
 
-        .subtitle {
+        .login-header p {
             color: #94a3b8;
             font-size: 14px;
-            margin-bottom: 20px;
+            margin: 0;
         }
 
         .error-box {
-            margin-bottom: 18px;
-            padding: 10px 12px;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fecaca;
+            padding: 12px 15px;
             border-radius: 10px;
-            background: var(--error-bg);
-            border: 1px solid var(--error-border);
-            color: var(--error-text);
+            margin-bottom: 20px;
             font-size: 13px;
             text-align: left;
         }
 
-        .input-group {
-            text-align: left;
+        .form-group {
             margin-bottom: 20px;
         }
 
-        .input-group label {
+        .form-group label {
             display: block;
             font-size: 13px;
             color: #cbd5e1;
             margin-bottom: 8px;
+            font-weight: 500;
         }
 
-        .label-row {
+        .form-label-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -237,71 +241,100 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: #3b82f6;
             text-decoration: none;
             font-size: 12px;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-link:hover {
+            color: #60a5fa;
         }
 
         .input-wrapper {
             position: relative;
         }
 
-        .input-wrapper i:first-child {
+        .input-wrapper i {
             position: absolute;
-            left: 15px;
             top: 50%;
             transform: translateY(-50%);
             color: #64748b;
+        }
+
+        .input-wrapper i:first-child {
+            left: 15px;
         }
 
         .toggle-password {
-            position: absolute;
             right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #64748b;
             cursor: pointer;
+            transition: color 0.3s ease;
         }
 
-        .input-wrapper input {
+        .toggle-password:hover {
+            color: #a855f7;
+        }
+
+        .form-control-custom {
             width: 100%;
             padding: 12px 45px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             color: white;
             outline: none;
-            transition: 0.3s;
+            transition: all 0.3s ease;
+            font-size: 14px;
         }
 
-        .input-wrapper input:focus {
-            border-color: #3b82f6;
+        .form-control-custom::placeholder {
+            color: #64748b;
+        }
+
+        .form-control-custom:focus {
             background: rgba(255, 255, 255, 0.08);
+            border-color: #a855f7;
+            box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.2);
         }
 
-        .remember-me {
+        .checkbox-group {
             display: flex;
             align-items: center;
             gap: 8px;
             margin-bottom: 25px;
-            text-align: left;
             font-size: 13px;
             color: #94a3b8;
         }
 
-        .btn-submit {
-            width: 100%;
-            padding: 15px;
-            border-radius: 12px;
-            border: none;
-            background: var(--primary-gradient);
-            color: white;
-            font-weight: 700;
+        .checkbox-group input[type="checkbox"] {
+            accent-color: #a855f7;
             cursor: pointer;
+            width: 16px;
+            height: 16px;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(90deg, #2563eb, #7c3aed);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
         }
 
         .login-footer {
+            text-align: center;
             margin-top: 25px;
             font-size: 13px;
             color: #94a3b8;
@@ -310,6 +343,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .login-footer a {
             color: #3b82f6;
             text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .login-footer a:hover {
+            color: #60a5fa;
         }
 
         .bottom-footer {
@@ -326,72 +364,95 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
 
-    <header>
-        <div class="logo"><i class="fa-solid fa-dumbbell"></i> GymPro</div>
-        <div>
-            <a href="DangKy.php" style="color: white; text-decoration: none; font-size: 14px;">Đăng ký ngay</a>
-        </div>
-    </header>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-glass fixed-top py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center fw-bold fs-4" href="../index.php">
+                <img src="../image/logo.png" alt="Logo GymPro" class="img-fluid" style="width: 100px; height: 50px;">
+            </a>
 
-    <main class="auth-container">
-        <div class="login-card">
-            <div class="icon-header">
-                <i class="fa-solid fa-dumbbell"></i>
-            </div>
-            <h2>CHÀO MỪNG BẠN TRỞ LẠI</h2>
-            <p class="subtitle">Đăng nhập để quản lý phòng gym</p>
-
-            <?php if ($error !== ''): ?>
-                <div class="error-box"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></div>
-            <?php endif; ?>
-
-            <form id="loginForm" method="post" action="">
-                <div class="input-group">
-                    <label>Email</label>
-                    <div class="input-wrapper">
-                        <i class="fa-regular fa-envelope"></i>
-                        <input
-                            type="email"
-                            name="email"
-                            value="<?php echo htmlspecialchars($emailValue, ENT_QUOTES, 'UTF-8'); ?>"
-                            placeholder="Nhập email của bạn"
-                            required>
-                    </div>
+            <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto fw-medium">
+                    <li class="nav-item"><a class="nav-link" href="../index.php#hero">Giới thiệu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../index.php#features">Liên hệ hổ trợ</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+                    <a href="DangNhap2.php" class="text-decoration-none text-secondary hover-white fw-medium">Đăng nhập</a>
+                    <a href="DangKy.php" class="btn btn-gradient px-4 py-2 rounded-3 fw-semibold">Đăng ký ngay</a>
                 </div>
-
-                <div class="input-group">
-                    <div class="label-row">
-                        <label>Mat khau</label>
-                        <a href="QuenMatKhau.php" class="forgot-link">Quên mật khẩu?</a>
-                    </div>
-                    <div class="input-wrapper">
-                        <i class="fa-solid fa-lock"></i>
-                        <input type="password" id="password" name="mat_khau" placeholder="Nhập mật khẩu" required>
-                        <i class="fa-regular fa-eye toggle-password" id="togglePassword"></i>
-                    </div>
-                </div>
-
-                <div class="remember-me">
-                    <input type="checkbox" id="remember" name="remember" <?php echo isset($_POST['remember']) || isset($_COOKIE['remember_email']) ? 'checked' : ''; ?>>
-                    <label for="remember">Ghi nhớ email đăng nhập</label>
-                </div>
-
-                <button type="submit" class="btn-submit">
-                    Đăng nhập <i class="fa-solid fa-right-to-bracket"></i>
-                </button>
-            </form>
-
-            <div class="login-footer">
-                Bạn chưa có tài khoản? 
-                <a href="DangKy.php">Đăng ký ngay</a>
             </div>
         </div>
-    </main>
+    </nav>
+
+    <!-- Login Section -->
+    <div class="login-container">
+        <div class="login-wrapper">
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="login-icon">
+                        <i class="fa-solid fa-dumbbell"></i>
+                    </div>
+                    <h2>CHÀO MỪNG TRỞ LẠI</h2>
+                    <p>Đăng nhập để quản lý phòng gym</p>
+                </div>
+
+                <?php if ($error !== ''): ?>
+                    <div class="error-box"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></div>
+                <?php endif; ?>
+
+                <form id="loginForm" method="post" action="">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-envelope"></i>
+                            <input
+                                type="email"
+                                class="form-control-custom"
+                                name="email"
+                                value="<?php echo htmlspecialchars($emailValue, ENT_QUOTES, 'UTF-8'); ?>"
+                                placeholder="Nhập email của bạn"
+                                required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-label-row">
+                            <label>Mật khẩu</label>
+                            <a href="QuenMatKhau.php" class="forgot-link">Quên mật khẩu?</a>
+                        </div>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock"></i>
+                            <input  id="password" class="form-control-custom" name="mat_khau" placeholder="Nhập mật khẩu" required >
+                            <i class="fa-regular fa-eye toggle-password" id="togglePassword"></i>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="remember" name="remember" <?php echo isset($_POST['remember']) || isset($_COOKIE['remember_email']) ? 'checked' : ''; ?>>
+                        <label for="remember" style="margin: 0; cursor: pointer;">Ghi nhớ email đăng nhập</label>
+                    </div>
+
+                    <button type="submit" class="btn-login">
+                        Đăng nhập <i class="fa-solid fa-right-to-bracket"></i>
+                    </button>
+                </form>
+
+                <div class="login-footer">
+                    Bạn chưa có tài khoản?
+                    <a href="DangKy.php">Đăng ký ngay</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer class="bottom-footer">
         © 2026 GYMPRO MANAGEMENT SYSTEM
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const togglePassword = document.getElementById('togglePassword');
         const passwordInput = document.getElementById('password');
