@@ -292,6 +292,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-glass fixed-top py-3">
         <div class="container">
+            
             <a class="navbar-brand d-flex align-items-center fw-bold fs-4" href="../index.php">
                 <img src="../image/logo.png" alt="Logo GymPro" class="img-fluid" style="width: 100px; height: 50px;">
             </a>
