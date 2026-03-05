@@ -10,8 +10,10 @@
     .top-header .search-box i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
     .top-header .search-box input {
         width: 100%; background: var(--bg-input); border: 1px solid var(--border-color);
-        padding: 10px 16px 10px 40px; border-radius: 10px; color: white; outline: none; font-size: 14px;
+        padding: 10px 16px 10px 40px; border-radius: 10px; color: var(--input-text); outline: none; font-size: 14px;
     }
+
+    .top-header .search-box input::placeholder { color: var(--text-muted); }
 
     .header-actions { display: flex; align-items: center; gap: 16px; }
 

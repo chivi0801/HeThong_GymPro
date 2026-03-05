@@ -24,6 +24,23 @@
             --danger: #ef4444;
             --success: #10b981;
             --gradient-btn: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            --input-text: #ffffff;
+        }
+
+        :root[data-theme="light"] {
+            --bg-dark: #f1f5f9;
+            --bg-panel: #ffffff;
+            --bg-sidebar: #e2e8f0;
+            --bg-input: #f8fafc;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: rgba(15, 23, 42, 0.12);
+            --primary: #2563eb;
+            --purple: #7c3aed;
+            --danger: #dc2626;
+            --success: #059669;
+            --gradient-btn: linear-gradient(90deg, #2563eb, #7c3aed);
+            --input-text: #0f172a;
         }
 
         /* 2. RESET & LAYOUT */
@@ -562,6 +579,82 @@
     </div>
 
     <script>
+        const ADMIN_THEME_KEY = 'gympro-admin-theme';
+
+        function syncThemeToggleButton(theme) {
+            const themeBtn = document.getElementById('adminThemeToggle');
+            if (!themeBtn) {
+                return;
+            }
+
+            if (theme === 'light') {
+                themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i> Chế độ tối';
+                themeBtn.setAttribute('aria-label', 'Chuyển sang chế độ tối');
+            } else {
+                themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i> Chế độ sáng';
+                themeBtn.setAttribute('aria-label', 'Chuyển sang chế độ sáng');
+            }
+        }
+
+        function applyAdminTheme(theme) {
+            const nextTheme = theme === 'light' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', nextTheme);
+            localStorage.setItem(ADMIN_THEME_KEY, nextTheme);
+            syncThemeToggleButton(nextTheme);
+        }
+
+        function initAdminTheme() {
+            const savedTheme = localStorage.getItem(ADMIN_THEME_KEY) || 'dark';
+            applyAdminTheme(savedTheme);
+        }
+
+        function bindAdminThemeToggle() {
+            const themeBtn = document.getElementById('adminThemeToggle');
+            if (!themeBtn || themeBtn.dataset.bound === '1') {
+                return;
+            }
+
+            themeBtn.dataset.bound = '1';
+            themeBtn.addEventListener('click', function () {
+                const currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+                applyAdminTheme(currentTheme === 'light' ? 'dark' : 'light');
+            });
+
+            syncThemeToggleButton(document.documentElement.getAttribute('data-theme'));
+        }
+
+        function initSidebarProfilePopup() {
+            const trigger = document.getElementById('gymProfileTrigger');
+            const overlay = document.getElementById('gymProfileOverlay');
+            const popup = document.getElementById('gymProfilePopup');
+            const closeBtn = document.getElementById('gymProfileClose');
+
+            if (!trigger || !overlay || !popup || !closeBtn) {
+                return;
+            }
+
+            const openPopup = () => {
+                overlay.classList.add('show');
+                popup.classList.add('show');
+            };
+
+            const closePopup = () => {
+                overlay.classList.remove('show');
+                popup.classList.remove('show');
+            };
+
+            trigger.addEventListener('click', openPopup);
+            closeBtn.addEventListener('click', closePopup);
+            overlay.addEventListener('click', closePopup);
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                    closePopup();
+                }
+            });
+        }
+
+        initAdminTheme();
+
         // Xử lý nạp Component
         fetch('../Components/header.php')
             .then(res => res.text())
@@ -578,7 +671,8 @@
                         link.parentElement.classList.add('active');
                     }
                 });
-                if (typeof initSidebarProfilePopup === 'function') initSidebarProfilePopup();
+                initSidebarProfilePopup();
+                bindAdminThemeToggle();
             });
 
         // Xử lý Modal
