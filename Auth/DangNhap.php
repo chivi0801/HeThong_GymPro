@@ -432,7 +432,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <div class="checkbox-group">
                         <input type="checkbox" id="remember" name="remember" <?php echo isset($_POST['remember']) || isset($_COOKIE['remember_email']) ? 'checked' : ''; ?>>
-                        <label for="remember" style="margin: 0; cursor: pointer;">Ghi nhớ email đăng nhập</label>
+                        <label for="remember" style="margin: 0; cursor: pointer;">Ghi nhớ đăng nhập</label>
                     </div>
 
                     <button type="submit" class="btn-login">

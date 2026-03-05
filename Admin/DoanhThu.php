@@ -252,15 +252,15 @@
                 <div class="finance-stats">
                     <div class="f-card thu">
                         <div class="f-title"><i class="fa-solid fa-wallet"></i> Tổng thu</div>
-                        <div class="f-value">312.450.000Ä‘</div>
+                        <div class="f-value">312.450.000</div>
                     </div>
                     <div class="f-card chi">
                         <div class="f-title"><i class="fa-solid fa-money-bill-transfer"></i> Tổng chi</div>
-                        <div class="f-value">400.000Ä‘</div>
+                        <div class="f-value">400.000</div>
                     </div>
                     <div class="f-card phatsinh">
-                        <div class="f-title"><i class="fa-solid fa-arrow-trend-up"></i> Phát sinh</div>
-                        <div class="f-value">295.000Ä‘</div>
+                        <div class="f-title"><i class="fa-solid fa-arrow-trend-up"></i>Lợi nhuận</div>
+                        <div class="f-value">295.000</div>
                     </div>
                 </div>
                 

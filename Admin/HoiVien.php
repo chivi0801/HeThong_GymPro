@@ -279,6 +279,7 @@
                                 <th>Tên hội viên</th>
                                 <th>Mã ID</th>
                                 <th>Gói tập</th>
+                                <th>Ngày bắt đầu</th>
                                 <th>Ngày hết hạn</th>
                                 <th>Trạng thái</th>
                                 <th>Thao tác</th>
@@ -295,26 +296,13 @@
                                 <td class="code-col">#FF-2023-001</td>
                                 <td>Premium Annual</td>
                                 <td>12/12/2024</td>
-                                <td><span class="badge active">Hoạt động</span></td>
-                                <td>
-                                    <div class="action-btns"><i class="fa-regular fa-eye"></i> <i class="fa-solid fa-pen"></i></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="user-col">
-                                        <div class="avatar purple">C</div>
-                                        <span>Customer</span>
-                                    </div>
-                                </td>
-                                <td class="code-col">#FF-2023-001</td>
-                                <td>Premium Annual</td>
                                 <td>12/12/2024</td>
                                 <td><span class="badge active">Hoạt động</span></td>
                                 <td>
                                     <div class="action-btns"><i class="fa-regular fa-eye"></i> <i class="fa-solid fa-pen"></i></div>
                                 </td>
                             </tr>
+                            
                             
                             <tr class="row-warning">
                                 <td>
@@ -326,43 +314,14 @@
                                 <td class="code-col">#FF-2023-142</td>
                                 <td>Monthly Standard</td>
                                 <td class="date-col">28/10/2023</td>
-                                <td><span class="badge warning">Sắp hết hạn</span></td>
-                                <td>
-                                    <div class="action-btns"><i class="fa-regular fa-eye"></i> <i class="fa-solid fa-pen"></i></div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <div class="user-col">
-                                        <div class="avatar purple">C</div>
-                                        <span>Customer</span>
-                                    </div>
-                                </td>
-                                <td class="code-col">#FF-2023-001</td>
-                                <td>Premium Annual</td>
-                                <td>12/12/2024</td>
-                                <td><span class="badge active">Hoạt động</span></td>
-                                <td>
-                                    <div class="action-btns"><i class="fa-regular fa-eye"></i> <i class="fa-solid fa-pen"></i></div>
-                                </td>
-                            </tr>
-
-                            <tr class="row-warning">
-                                <td>
-                                    <div class="user-col">
-                                        <div class="avatar" style="background: rgba(249, 115, 22, 0.2); color: #fb923c;">C</div>
-                                        <span>Customer</span>
-                                    </div>
-                                </td>
-                                <td class="code-col">#FF-2023-142</td>
-                                <td>Monthly Standard</td>
                                 <td class="date-col">28/10/2023</td>
                                 <td><span class="badge warning">Sắp hết hạn</span></td>
                                 <td>
                                     <div class="action-btns"><i class="fa-regular fa-eye"></i> <i class="fa-solid fa-pen"></i></div>
                                 </td>
                             </tr>
+
+                           
                         </tbody>
                     </table>
                 </div>
