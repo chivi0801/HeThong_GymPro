@@ -391,12 +391,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="login-container">
         <div class="login-wrapper">
             <div class="login-card">
+
                 <div class="login-header">
-                    <div class="login-icon">
-                        <i class="fa-solid fa-dumbbell"></i>
+
+                     <div>
+                        <img src="../image/logo.png" alt="Logo GymPro" class="img-fluid" style="width: 200px; height: 100px;">
                     </div>
+
                     <h2>CHÀO MỪNG TRỞ LẠI</h2>
-                    <p>Đăng nhập để quản lý phòng gym</p>
+                    <p>Đăng nhập để quản lý phòng Gym ngay</p>
+
                 </div>
 
                 <?php if ($error !== ''): ?>
@@ -432,7 +436,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <div class="checkbox-group">
                         <input type="checkbox" id="remember" name="remember" <?php echo isset($_POST['remember']) || isset($_COOKIE['remember_email']) ? 'checked' : ''; ?>>
-                        <label for="remember" style="margin: 0; cursor: pointer;">Ghi nhớ email đăng nhập</label>
+                        <label for="remember" style="margin: 0; cursor: pointer;">Ghi nhớ đăng nhập</label>
                     </div>
 
                     <button type="submit" class="btn-login">

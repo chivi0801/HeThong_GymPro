@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿<?php require_once __DIR__ . '/../actions/xuly_TongQuan.php'; ?>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -242,29 +243,41 @@
             </div>
 
             <div class="stats-grid">
+
+                 <div class="stat-card purple">
+                    <div class="stat-icon"><i class="fa-solid fa-money-bill" style="color: #22c55e;"></i></div>
+                    <div class="badge-percent">+8.2%</div>
+                    <div class="stat-title">DOANH THU HÔM NAY</div>
+                    <div class="stat-value">2.450.000đ</div>
+                </div>
+
                 <div class="stat-card">
-                    <div class="stat-icon"><i class="fa-solid fa-user-group"></i></div>
+                    <div class="stat-icon"><i class="fa-solid fa-user-group" style="color: #3b82f6;"></i></div>
                     <div class="badge-percent">+12.5%</div>
                     <div class="stat-title">Tổng số hội viên</div>
-                    <div class="stat-value">1,284</div>
+
+                    <div class="stat-value">
+
+                        <?php echo htmlspecialchars($tongHoiVienFormatted, ENT_QUOTES, 'UTF-8'); ?>
+
+                    </div>
                 </div>
-                <div class="stat-card purple">
-                    <div class="stat-icon"><i class="fa-solid fa-money-bill"></i></div>
-                    <div class="badge-percent">+8.2%</div>
-                    <div class="stat-title">DOANH THU THÁNG NAY</div>
-                    <div class="stat-value">312.450.000đ</div>
-                </div>
+
+               
+
                 <div class="stat-card orange">
-                    <div class="stat-icon"><i class="fa-solid fa-box-open"></i></div>
-                    <div class="stat-title">Tổng số gói dịch vụ</div>
-                    <div class="stat-value">86</div>
+                    <div class="stat-icon"><i class="fas fa-user-check" style="color: #8b5cf6;"></i></div>
+                    <div class="stat-title">Hội viên đang hoạt động</div>
+                    <div class="stat-value"><?php echo htmlspecialchars($hoiVienDangHoatDongFormatted, ENT_QUOTES, 'UTF-8'); ?></div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon"><i class="fa-solid fa-check-double"></i></div>
+                    <div class="stat-icon"><i class="fa-solid fa-check-double" style="color: #f59e0b;"></i></div>
                     <div class="badge-percent">+5.1%</div>
-                    <div class="stat-title">LƯU CHECK-IN HÔM NAY</div>
-                    <div class="stat-value">142</div>
+                    <div class="stat-title">LƯỢC CHECK-IN HÔM NAY</div>
+                    <div class="stat-value"><?php echo htmlspecialchars($luotCheckInHomNayFormatted, ENT_QUOTES, 'UTF-8'); ?></div>
                 </div>
+
+                
             </div>
 
             <div class="charts-grid">
@@ -375,18 +388,18 @@
                     
                     <div class="renewal-list">
                         <div class="renewal-item">
-                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&auto=format&fit=crop" alt="Customer">
+                            <img src="" alt="Customer">
                             <div class="ren-info">
-                                <h4>Customer 3</h4>
+                                <h4>Lê Thị Mai</h4>
                                 <div class="progress-bar"><div class="progress-fill" style="width: 85%;"></div></div>
                             </div>
                             <button class="btn-mail"><i class="fa-regular fa-envelope"></i></button>
                         </div>
 
                         <div class="renewal-item">
-                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop" alt="Customer">
+                            <img src="" alt="Customer">
                             <div class="ren-info">
-                                <h4>Customer 4</h4>
+                                <h4>Phạm Quốc Bảo</h4>
                                 <div class="progress-bar"><div class="progress-fill" style="width: 95%;"></div></div>
                             </div>
                             <button class="btn-mail"><i class="fa-regular fa-envelope"></i></button>
@@ -506,3 +519,4 @@
     </script>
 </body>
 </html>
+

@@ -468,7 +468,8 @@
                             <td><span class="fw-bold">Gói VIP 12 Tháng</span></td>
                             <td>365 ngày</td>
                             <td>5.500.000đ</td>
-                            <td><span class="status-badge">Kinh doanh</span></td>
+                            <td><span class="status-badge">Hoạt động               
+                            </span></td>
                             <td style="text-align: right;">
                                 <i class="fa-solid fa-ellipsis-vertical"
                                     style="color: var(--text-muted); cursor: pointer;"></i>

@@ -274,6 +274,16 @@
             color: #8b5cf6;
             text-decoration: none;
         }
+
+         .bottom-footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 20px;
+            font-size: 11px;
+            color: #64748b;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 
@@ -282,6 +292,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-glass fixed-top py-3">
         <div class="container">
+            
             <a class="navbar-brand d-flex align-items-center fw-bold fs-4" href="../index.php">
                 <img src="../image/logo.png" alt="Logo GymPro" class="img-fluid" style="width: 100px; height: 50px;">
             </a>
@@ -414,6 +425,10 @@
             </div>
         </div>
     </section>
+
+     <footer class="bottom-footer">
+        © 2026 GYMPRO MANAGEMENT SYSTEM
+    </footer>
 
     <script>
         const cards = document.querySelectorAll('.pricing-card');
