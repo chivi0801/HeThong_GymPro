@@ -274,6 +274,16 @@
             color: #8b5cf6;
             text-decoration: none;
         }
+
+         .bottom-footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 20px;
+            font-size: 11px;
+            color: #64748b;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 
@@ -409,6 +419,10 @@
             </div>
         </div>
     </section>
+
+     <footer class="bottom-footer">
+        © 2026 GYMPRO MANAGEMENT SYSTEM
+    </footer>
 
     <script>
         const cards = document.querySelectorAll('.pricing-card');

@@ -231,7 +231,7 @@
                     <div class="stat-icon"><i class="fa-solid fa-money-bill" style="color: #22c55e;"></i></div>
                     <div class="badge-percent">+8.2%</div>
                     <div class="stat-title">DOANH THU HÔM NAY</div>
-                    <div class="stat-value">312.450.000đ</div>
+                    <div class="stat-value">2.450.000đ</div>
                 </div>
 
                 <div class="stat-card">
@@ -371,18 +371,18 @@
                     
                     <div class="renewal-list">
                         <div class="renewal-item">
-                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&auto=format&fit=crop" alt="Customer">
+                            <img src="" alt="Customer">
                             <div class="ren-info">
-                                <h4>Customer 3</h4>
+                                <h4>Lê Thị Mai</h4>
                                 <div class="progress-bar"><div class="progress-fill" style="width: 85%;"></div></div>
                             </div>
                             <button class="btn-mail"><i class="fa-regular fa-envelope"></i></button>
                         </div>
 
                         <div class="renewal-item">
-                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop" alt="Customer">
+                            <img src="" alt="Customer">
                             <div class="ren-info">
-                                <h4>Customer 4</h4>
+                                <h4>Phạm Quốc Bảo</h4>
                                 <div class="progress-bar"><div class="progress-fill" style="width: 95%;"></div></div>
                             </div>
                             <button class="btn-mail"><i class="fa-regular fa-envelope"></i></button>

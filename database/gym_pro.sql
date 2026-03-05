@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 03, 2026 at 05:44 AM
+-- Generation Time: Mar 05, 2026 at 05:37 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -58,7 +58,7 @@ CREATE TABLE `dang_ky_goi` (
   `goi_tap_id` int(11) NOT NULL,
   `ngay_bat_dau` date DEFAULT NULL,
   `ngay_ket_thuc` date DEFAULT NULL,
-  `trang_thai` enum('active','expired','pending') DEFAULT 'active'
+  `trang_thai` enum('active','expired','paused','cancelled') DEFAULT 'active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -67,8 +67,53 @@ CREATE TABLE `dang_ky_goi` (
 
 INSERT INTO `dang_ky_goi` (`id`, `hoi_vien_id`, `goi_tap_id`, `ngay_bat_dau`, `ngay_ket_thuc`, `trang_thai`) VALUES
 (1, 1, 1, '2026-03-01', '2026-04-01', 'active'),
-(2, 2, 2, '2026-03-01', '2026-06-01', 'active'),
-(3, 3, 3, '2026-03-01', '2026-04-01', 'active');
+(2, 2, 2, '2026-03-01', '2026-06-01', 'expired'),
+(3, 3, 3, '2026-03-01', '2026-04-01', 'paused'),
+(4, 4, 1, '2026-03-02', '2026-04-02', 'expired'),
+(5, 5, 2, '2026-03-02', '2026-06-02', 'active'),
+(6, 6, 4, '2026-03-02', '2026-09-02', 'paused'),
+(7, 7, 3, '2026-03-02', '2026-04-02', 'expired'),
+(8, 8, 6, '2026-03-02', '2026-09-02', 'active'),
+(9, 9, 7, '2026-03-02', '2026-12-02', 'paused'),
+(10, 1, 1, '2026-03-05', '2026-04-05', 'active'),
+(11, 2, 1, '2026-03-05', '2026-04-05', 'active'),
+(12, 4, 1, '2026-03-05', '2026-04-05', 'active'),
+(13, 5, 1, '2026-03-05', '2026-04-05', 'active'),
+(14, 6, 1, '2026-03-05', '2026-04-05', 'active'),
+(15, 10, 1, '2026-03-05', '2026-04-05', 'active'),
+(16, 11, 1, '2026-03-05', '2026-04-05', 'active'),
+(17, 12, 1, '2026-03-05', '2026-04-05', 'active'),
+(18, 13, 1, '2026-03-05', '2026-04-05', 'active'),
+(19, 14, 1, '2026-03-05', '2026-04-05', 'active'),
+(20, 15, 1, '2026-03-05', '2026-04-05', 'active'),
+(21, 16, 1, '2026-03-05', '2026-04-05', 'active'),
+(22, 17, 1, '2026-03-05', '2026-04-05', 'active'),
+(23, 18, 1, '2026-03-05', '2026-04-05', 'active'),
+(24, 19, 1, '2026-03-05', '2026-04-05', 'active'),
+(25, 3, 3, '2026-03-05', '2026-04-05', 'active'),
+(26, 7, 3, '2026-03-05', '2026-04-05', 'active'),
+(27, 8, 3, '2026-03-05', '2026-04-05', 'active'),
+(28, 9, 3, '2026-03-05', '2026-04-05', 'active'),
+(29, 20, 3, '2026-03-05', '2026-04-05', 'active'),
+(30, 21, 3, '2026-03-05', '2026-04-05', 'active'),
+(31, 22, 3, '2026-03-05', '2026-04-05', 'active'),
+(32, 23, 3, '2026-03-05', '2026-04-05', 'active'),
+(33, 24, 3, '2026-03-05', '2026-04-05', 'active'),
+(34, 25, 3, '2026-03-05', '2026-04-05', 'active'),
+(35, 26, 3, '2026-03-05', '2026-04-05', 'active'),
+(36, 27, 3, '2026-03-05', '2026-04-05', 'active'),
+(37, 28, 3, '2026-03-05', '2026-04-05', 'active'),
+(38, 29, 3, '2026-03-05', '2026-04-05', 'active'),
+(39, 30, 3, '2026-03-05', '2026-04-05', 'active'),
+(40, 31, 3, '2026-03-05', '2026-04-05', 'active'),
+(41, 32, 3, '2026-03-05', '2026-04-05', 'active'),
+(42, 33, 3, '2026-03-05', '2026-04-05', 'active'),
+(43, 34, 3, '2026-03-05', '2026-04-05', 'active'),
+(44, 35, 3, '2026-03-05', '2026-04-05', 'active'),
+(45, 36, 3, '2026-03-05', '2026-04-05', 'active'),
+(46, 37, 3, '2026-03-05', '2026-04-05', 'active'),
+(47, 38, 3, '2026-03-05', '2026-04-05', 'active'),
+(48, 39, 3, '2026-03-05', '2026-04-05', 'active');
 
 -- --------------------------------------------------------
 
@@ -114,7 +159,28 @@ CREATE TABLE `diem_danh` (
 INSERT INTO `diem_danh` (`id`, `hoi_vien_id`, `thoi_gian`, `hinh_anh`) VALUES
 (1, 1, '2026-03-03 11:36:49', 'khang_01032026.jpg'),
 (2, 2, '2026-03-03 11:36:49', 'lan_01032026.jpg'),
-(3, 1, '2026-03-03 11:36:49', 'khang_02032026.jpg');
+(3, 1, '2026-03-03 11:36:49', 'khang_02032026.jpg'),
+(4, 4, '2026-03-04 07:20:00', 'bao_0403.jpg'),
+(5, 5, '2026-03-04 08:15:00', 'mai_0403.jpg'),
+(6, 6, '2026-03-04 17:30:00', 'tam_0403.jpg'),
+(7, 7, '2026-03-04 18:00:00', 'tung_0403.jpg'),
+(8, 8, '2026-03-04 19:10:00', 'hoa_0403.jpg'),
+(9, 9, '2026-03-04 20:00:00', 'phuc_0403.jpg'),
+(10, 1, '2026-03-05 07:10:00', 'check1.jpg'),
+(11, 2, '2026-03-05 07:15:00', 'check2.jpg'),
+(12, 3, '2026-03-05 07:20:00', 'check3.jpg'),
+(13, 4, '2026-03-05 07:30:00', 'check4.jpg'),
+(14, 5, '2026-03-05 07:45:00', 'check5.jpg'),
+(15, 6, '2026-03-05 08:00:00', 'check6.jpg'),
+(16, 7, '2026-03-05 08:10:00', 'check7.jpg'),
+(17, 8, '2026-03-05 08:20:00', 'check8.jpg'),
+(18, 9, '2026-03-05 08:30:00', 'check9.jpg'),
+(19, 10, '2026-03-05 08:40:00', 'check10.jpg'),
+(20, 11, '2026-03-05 09:00:00', 'check11.jpg'),
+(21, 12, '2026-03-05 09:10:00', 'check12.jpg'),
+(22, 13, '2026-03-05 09:20:00', 'check13.jpg'),
+(23, 14, '2026-03-05 09:40:00', 'check14.jpg'),
+(24, 15, '2026-03-05 10:00:00', 'check15.jpg');
 
 -- --------------------------------------------------------
 
@@ -161,7 +227,11 @@ CREATE TABLE `goi_tap` (
 INSERT INTO `goi_tap` (`id`, `ten_goi`, `thoi_han_thang`, `gia`, `mo_ta`, `chu_gym_id`) VALUES
 (1, 'Gói 1 tháng', 1, 400000.00, 'Tập tự do', 1),
 (2, 'Gói 3 tháng', 3, 1000000.00, 'Giảm giá ưu đãi', 1),
-(3, 'Gói 1 tháng', 1, 350000.00, 'Tập tự do', 2);
+(3, 'Gói 1 tháng', 1, 350000.00, 'Tập tự do', 2),
+(4, 'Gói 6 tháng', 6, 1800000.00, 'Ưu đãi dài hạn', 1),
+(5, 'Gói VIP 12 tháng', 12, 3200000.00, 'Có PT hỗ trợ', 1),
+(6, 'Gói 3 tháng', 3, 900000.00, 'Ưu đãi giảm giá', 2),
+(7, 'Gói 6 tháng', 6, 1600000.00, 'Tập tự do', 2);
 
 -- --------------------------------------------------------
 
@@ -188,7 +258,43 @@ CREATE TABLE `hoi_vien` (
 INSERT INTO `hoi_vien` (`id`, `ho_ten`, `sdt`, `email`, `ngay_sinh`, `gioi_tinh`, `ngay_dang_ky`, `trang_thai`, `chu_gym_id`) VALUES
 (1, 'Lê Minh Khang', '0911000001', 'khang@gmail.com', NULL, 'Nam', '2026-03-03', 'active', 1),
 (2, 'Phạm Thị Lan', '0911000002', 'lan@gmail.com', NULL, 'Nữ', '2026-03-03', 'active', 1),
-(3, 'Đỗ Quốc Huy', '0911000003', 'huy@gmail.com', NULL, 'Nam', '2026-03-03', 'active', 2);
+(3, 'Đỗ Quốc Huy', '0911000003', 'huy@gmail.com', NULL, 'Nam', '2026-03-03', 'active', 2),
+(4, 'Nguyễn Quốc Bảo', '0911000004', 'bao@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 1),
+(5, 'Trần Thị Mai', '0911000005', 'mai@gmail.com', NULL, 'Nữ', '2026-03-05', 'active', 1),
+(6, 'Phạm Minh Tâm', '0911000006', 'tam@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 1),
+(7, 'Lê Thanh Tùng', '0911000007', 'tung@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 2),
+(8, 'Nguyễn Thị Hoa', '0911000008', 'hoa@gmail.com', NULL, 'Nữ', '2026-03-05', 'active', 2),
+(9, 'Võ Hoàng Phúc', '0911000009', 'phuc@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 2),
+(10, 'Nguyễn Văn Nam', '0911000004', 'nam@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 1),
+(11, 'Trần Minh Phúc', '0911000005', 'phuc@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 1),
+(12, 'Lê Thị Mai', '0911000006', 'mai@gmail.com', NULL, 'Nữ', '2026-03-05', 'active', 1),
+(13, 'Phạm Quốc Bảo', '0911000007', 'bao@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 1),
+(14, 'Đỗ Minh Tuấn', '0911000008', 'tuan@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 1),
+(15, 'Nguyễn Thị Hạnh', '0911000009', 'hanh@gmail.com', NULL, 'Nữ', '2026-03-05', 'active', 1),
+(16, 'Trần Anh Khoa', '0911000010', 'khoa@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 1),
+(17, 'Lê Văn Long', '0911000011', 'long@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 1),
+(18, 'Phạm Thị Ly', '0911000012', 'ly@gmail.com', NULL, 'Nữ', '2026-03-05', 'active', 1),
+(19, 'Hoàng Minh Đức', '0911000013', 'duc@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 1),
+(20, 'Nguyễn Văn Hùng', '0912000001', 'hung@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 2),
+(21, 'Trần Thị Nga', '0912000002', 'nga@gmail.com', NULL, 'Nữ', '2026-03-05', 'active', 2),
+(22, 'Lê Văn Dũng', '0912000003', 'dung@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 2),
+(23, 'Phạm Minh Quân', '0912000004', 'quan@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 2),
+(24, 'Đỗ Thị Lan', '0912000005', 'lan2@gmail.com', NULL, 'Nữ', '2026-03-05', 'active', 2),
+(25, 'Nguyễn Thành Đạt', '0912000006', 'dat@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 2),
+(26, 'Trần Quốc Khánh', '0912000007', 'khanh@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 2),
+(27, 'Lê Thị Thảo', '0912000008', 'thao@gmail.com', NULL, 'Nữ', '2026-03-05', 'active', 2),
+(28, 'Phạm Văn Trung', '0912000009', 'trung@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 2),
+(29, 'Đỗ Minh Hiếu', '0912000010', 'hieu@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 2),
+(30, 'Nguyễn Quốc Anh', '0912000011', 'anh@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 2),
+(31, 'Trần Thị Bích', '0912000012', 'bich@gmail.com', NULL, 'Nữ', '2026-03-05', 'active', 2),
+(32, 'Lê Văn Hải', '0912000013', 'hai@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 2),
+(33, 'Phạm Thị Nhung', '0912000014', 'nhung@gmail.com', NULL, 'Nữ', '2026-03-05', 'active', 2),
+(34, 'Đỗ Văn Lâm', '0912000015', 'lam@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 2),
+(35, 'Nguyễn Minh Tuấn', '0912000016', 'tuan2@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 2),
+(36, 'Trần Thanh Sơn', '0912000017', 'son@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 2),
+(37, 'Lê Thị Ngọc', '0912000018', 'ngoc@gmail.com', NULL, 'Nữ', '2026-03-05', 'active', 2),
+(38, 'Phạm Văn Bình', '0912000019', 'binh@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 2),
+(39, 'Đỗ Minh Tâm', '0912000020', 'tam@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 2);
 
 -- --------------------------------------------------------
 
@@ -211,7 +317,13 @@ CREATE TABLE `thanh_toan` (
 INSERT INTO `thanh_toan` (`id`, `dang_ky_id`, `so_tien`, `ngay_thanh_toan`, `phuong_thuc`) VALUES
 (1, 1, 400000.00, '2026-03-03', 'Tiền mặt'),
 (2, 2, 1000000.00, '2026-03-03', 'Chuyển khoản'),
-(3, 3, 350000.00, '2026-03-03', 'Tiền mặt');
+(3, 3, 350000.00, '2026-03-03', 'Tiền mặt'),
+(4, 4, 400000.00, '2026-03-05', 'Tiền mặt'),
+(5, 5, 1000000.00, '2026-03-05', 'Chuyển khoản'),
+(6, 6, 1800000.00, '2026-03-05', 'Tiền mặt'),
+(7, 7, 350000.00, '2026-03-05', 'Tiền mặt'),
+(8, 8, 1600000.00, '2026-03-05', 'Chuyển khoản'),
+(9, 9, 900000.00, '2026-03-05', 'Tiền mặt');
 
 -- --------------------------------------------------------
 
@@ -317,7 +429,7 @@ ALTER TABLE `chu_gym`
 -- AUTO_INCREMENT for table `dang_ky_goi`
 --
 ALTER TABLE `dang_ky_goi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `dang_ky_he_thong`
@@ -329,7 +441,7 @@ ALTER TABLE `dang_ky_he_thong`
 -- AUTO_INCREMENT for table `diem_danh`
 --
 ALTER TABLE `diem_danh`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `goi_he_thong`
@@ -341,19 +453,19 @@ ALTER TABLE `goi_he_thong`
 -- AUTO_INCREMENT for table `goi_tap`
 --
 ALTER TABLE `goi_tap`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `hoi_vien`
 --
 ALTER TABLE `hoi_vien`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `thanh_toan`
 --
 ALTER TABLE `thanh_toan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `thanh_toan_he_thong`

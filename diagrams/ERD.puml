@@ -82,7 +82,7 @@ entity dang_ky_goi {
   goi_tap_id : INT <<FK>>
   ngay_bat_dau : DATE
   ngay_ket_thuc : DATE
-  trang_thai : ENUM('active','expired','pending')
+  trang_thai : ENUM('active','expired','paused','cancelled')
 }
 
 entity thanh_toan {
