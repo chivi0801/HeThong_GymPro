@@ -77,56 +77,25 @@ $result_goi = $conn->query($sql_goi);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* 1. BIẾN MÀU HỆ THỐNG */
-        :root {
-            --bg-dark: #121521;
-            --bg-panel: #1a1e2d;
-            --bg-sidebar: #151825;
-            --bg-input: #23283c;
-            --text-main: #ffffff;
-            --text-muted: #94a3b8;
-            --border-color: rgba(255, 255, 255, 0.08);
-            --primary: #3b82f6;
-            --purple: #8b5cf6;
-            --danger: #ef4444;
-            --success: #10b981;
-            --gradient-btn: linear-gradient(90deg, #3b82f6, #8b5cf6);
-            --input-text: #ffffff;
-            --overlay-bg: rgba(0, 0, 0, 0.65);
-        }
-
-        :root[data-theme="light"] {
-            --bg-dark: #f1f5f9;
-            --bg-panel: #ffffff;
-            --bg-sidebar: #e2e8f0;
-            --bg-input: #f8fafc;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border-color: rgba(15, 23, 42, 0.12);
-            --primary: #2563eb;
-            --purple: #7c3aed;
-            --danger: #dc2626;
-            --success: #059669;
-            --gradient-btn: linear-gradient(90deg, #2563eb, #7c3aed);
-            --input-text: #0f172a;
-            --overlay-bg: rgba(15, 23, 42, 0.45);
-        }
-
-        /* 2. RESET & LAYOUT */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
+        /* CSS CŨ GIỮ NGUYÊN */
+        :root { --bg-dark: #121521; --bg-panel: #1a1e2d; --bg-sidebar: #151825; --bg-input: #23283c; --text-main: #ffffff; --text-muted: #94a3b8; --border-color: rgba(255, 255, 255, 0.08); --primary: #3b82f6; --purple: #8b5cf6; --danger: #ef4444; --success: #10b981; --gradient-btn: linear-gradient(90deg, #3b82f6, #8b5cf6); }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; background-color: var(--bg-dark); }
+        .page-body { flex: 1; padding: 32px 40px; overflow-y: auto; }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
+        .mb-1 { margin-bottom: 4px; } .mb-4 { margin-bottom: 24px; }
+        .text-muted { color: var(--text-muted); font-size: 14px; } .fw-bold { font-weight: 700; }
+        h2 { font-size: 24px; letter-spacing: -0.5px; color: #fff; }
+        .data-card { background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 16px; width: 100%; border-collapse: collapse; overflow: hidden; }
+        .custom-table { width: 100%; border-collapse: collapse; text-align: left; }
+        .custom-table thead { background: rgba(255, 255, 255, 0.02); }
+        .custom-table th { padding: 16px 24px; color: var(--text-muted); font-size: 12px; text-transform: uppercase; font-weight: 600; border-bottom: 1px solid var(--border-color); }
+        .custom-table td { padding: 20px 24px; border-bottom: 1px solid var(--border-color); font-size: 14px; color: var(--text-main); }
+        .btn-add { background: var(--gradient-btn); border: none; color: white; padding: 10px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+        .status-badge { padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 500; }
+        .badge-active { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .badge-paused { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
         
         /* Modal CSS */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 9999; padding: 20px; }
@@ -160,6 +129,14 @@ $result_goi = $conn->query($sql_goi);
         .action-cell { text-align: right; position: relative; }
         .btn-action { background: none; border: none; color: var(--text-muted); font-size: 18px; cursor: pointer; padding: 4px 8px; border-radius: 6px; }
         .btn-action:hover { color: #fff; background: rgba(255,255,255,0.1); }
+        .unlimited-text {
+            color: #10b981; /* Màu xanh lá hiện đại */
+            font-weight: 600;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
         
         .dropdown-menu {
             display: none; position: absolute; right: 24px; top: 100%;
@@ -168,369 +145,13 @@ $result_goi = $conn->query($sql_goi);
             border-radius: 10px; border: 1px solid var(--border-color);
             overflow: hidden; text-align: left;
         }
-
-        .page-body {
-            flex: 1;
-            padding: 32px 40px;
-            overflow-y: auto;
-        }
-
-        /* 3. TYPOGRAPHY & UTILS */
-        .flex-between {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .mb-1 {
-            margin-bottom: 4px;
-        }
-
-        .mb-4 {
-            margin-bottom: 24px;
-        }
-
-        .text-muted {
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-
-        .fw-bold {
-            font-weight: 700;
-        }
-
-        h2 {
-            font-size: 24px;
-            letter-spacing: -0.5px;
-            color: #fff;
-        }
-
-        /* 4. CUSTOM TABLE (KHÔNG BOOTSTRAP) */
-        .data-card {
-            background: var(--bg-panel);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            width: 100%;
-            border-collapse: collapse;
-            overflow: hidden;
-        }
-
-        .custom-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
-
-        .custom-table thead {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .custom-table th {
-            padding: 16px 24px;
-            color: var(--text-muted);
-            font-size: 12px;
-            text-transform: uppercase;
-            font-weight: 600;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .custom-table td {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 14px;
-            color: var(--text-main);
-        }
-
-        .custom-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* 5. BUTTONS & BADGES */
-        .btn-add {
-            background: var(--gradient-btn);
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-add:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px var(--primary-glow);
-        }
-
-        .status-badge {
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--primary);
-            padding: 4px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        /* --- CSS CHO MODAL THUẦN --- */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--overlay-bg);
-            backdrop-filter: blur(8px);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            padding: 20px;
-        }
-
-        .modal-content {
-            background: var(--bg-panel);
-            width: 100%;
-            max-width: 480px;
-            border-radius: 20px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 24px 60px rgba(0,0,0,0.5);
-            animation: modalFadeUp 0.3s ease-out;
-            overflow: hidden;
-        }
-
-        @keyframes modalFadeUp {
-            from { transform: translateY(24px); opacity: 0; }
-            to   { transform: translateY(0);   opacity: 1; }
-        }
-
-        /* Header */
-        .modal-header {
-            padding: 24px 24px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .modal-header-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .modal-icon {
-            font-size: 22px;
-        }
-
-        .modal-header h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-main);
-            margin: 0;
-        }
-
-        .modal-header p {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin: 2px 0 0;
-        }
-
-        .close-btn {
-            background: var(--bg-input);
-            border: none;
-            color: var(--text-muted);
-            font-size: 18px;
-            cursor: pointer;
-            line-height: 1;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.2s;
-        }
-
-        .close-btn:hover {
-            background: rgba(59, 130, 246, 0.12);
-            color: var(--text-main);
-        }
-
-        /* Form */
-        .modal-form {
-            padding: 20px 24px 24px;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 14px;
-            margin-bottom: 16px;
-        }
-
-        .form-row .form-group {
-            flex: 1;
-            margin-bottom: 0;
-        }
-
-        .modal-form label {
-            display: block;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-
-        .input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .input-icon {
-            position: absolute;
-            left: 14px;
-            color: var(--text-muted);
-            font-size: 14px;
-            pointer-events: none;
-        }
-
-        .input-suffix {
-            position: absolute;
-            right: 14px;
-            color: var(--text-muted);
-            font-size: 13px;
-            font-weight: 500;
-            pointer-events: none;
-        }
-
-        .input-control {
-            width: 100%;
-            background: var(--bg-input);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 12px 16px;
-            color: var(--input-text);
-            font-size: 14px;
-            transition: all 0.2s;
-            outline: none;
-            appearance: none;
-            -webkit-appearance: none;
-        }
-
-        .input-control.has-icon {
-            padding-left: 38px;
-        }
-
-        .input-control.has-suffix {
-            padding-right: 52px;
-        }
-
-        .input-control:focus {
-            border-color: rgba(99, 102, 241, 0.6);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
-        }
-
-        .input-control::placeholder {
-            color: var(--text-muted);
-        }
-
-        /* Select with caret */
-        .select-wrapper {
-            position: relative;
-        }
-
-        .select-wrapper .input-control {
-            cursor: pointer;
-        }
-
-        .select-caret {
-            position: absolute;
-            right: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            font-size: 13px;
-            pointer-events: none;
-        }
-
-        /* Status toggle */
-        .status-toggle {
-            display: flex;
-            gap: 10px;
-        }
-
-        .status-btn {
-            padding: 9px 20px;
-            border-radius: 20px;
-            border: 1.5px solid transparent;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .status-btn.active-status {
-            background: rgba(99, 102, 241, 0.18);
-            border-color: #6366f1;
-            color: #a5b4fc;
-        }
-
-        .status-btn.inactive-status {
-            background: transparent;
-            border-color: var(--border-color);
-            color: var(--text-muted);
-        }
-
-        .status-btn.inactive-status:hover {
-            border-color: var(--primary);
-            color: var(--text-main);
-        }
-
-        /* Submit */
-        .btn-submit {
-            width: 100%;
-            background: linear-gradient(90deg, #6366f1, #8b5cf6);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 15px;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 24px;
-        }
-
-        .btn-submit:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(99,102,241,0.35);
-        }
-
-        .btn-cancel-text {
-            width: 100%;
-            text-align: center;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 13px;
-            cursor: pointer;
-            margin-top: 12px;
-            padding: 4px;
-        }
-
-        .btn-cancel-text:hover {
-            color: var(--text-main);
+        .dropdown-menu.show { display: block; animation: fadeIn 0.15s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .dropdown-item {
+            display: flex; align-items: center; gap: 10px; padding: 12px 16px;
+            color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 500;
+            border: none; background: none; width: 100%; cursor: pointer;
         }
         .dropdown-item:hover { background-color: rgba(255,255,255,0.05); }
         .dropdown-item.danger { color: var(--danger); }
