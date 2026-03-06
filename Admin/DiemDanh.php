@@ -7,6 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <script defer src="script.js"></script>
+
     <style>
         :root {
             --bg-dark: #121521;
@@ -133,11 +136,21 @@
             margin-bottom: 16px;
         }
 
-        .camera-box img {
+        .camera-video {
+            position: absolute;
+            inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.45;
+            opacity: 0.9;
+        }
+
+        .camera-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
         }
 
         .camera-pill {
@@ -170,18 +183,7 @@
 
         .dot.red { background: #ef4444; }
 
-        .face-frame {
-            position: absolute;
-            width: 230px;
-            height: 230px;
-            border-radius: 24px;
-            border: 2px solid #22d3ee;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            overflow: hidden;
-            background: rgba(34, 211, 238, 0.05);
-        }
+
 
         .scanner-line {
             position: absolute;
@@ -365,13 +367,20 @@
 
             <div class="dd-grid">
                 <section class="panel">
+
                     <div class="camera-box">
-                        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop" alt="Gym Camera View">
+
+                        <video id="ddCameraVideo" class="camera-video" autoplay muted playsinline></video>
+
+                        <canvas id="ddCameraCanvas" class="camera-canvas"></canvas>
+
+
                         <div class="camera-pill"><span class="dot red"></span>CAM 01 - ĐANG HOẠT ĐỘNG</div>
-                        <div class="face-frame"><div class="scanner-line"></div></div>
+
+
                         <div class="camera-footer">
-                            <span><i class="fa-solid fa-user"></i> Nhận diện: <strong>Bật</strong></span>
-                            <span><i class="fa-solid fa-bolt"></i> Độ trễ: 18ms</span>
+                            <span><i class="fa-solid fa-user"></i> Nhận diện: <strong id="ddDetectStatus">Đang khởi tạo...</strong></span>
+                            <span><i class="fa-solid fa-bolt"></i> Độ trễ: <span id="ddDetectLatency">-- ms</span></span>
                         </div>
                     </div>
 
@@ -493,6 +502,99 @@
         }
 
         initAdminTheme();
+
+        const FACE_MODEL_URL = '../models';
+        let detectTimer = null;
+
+        async function waitForFaceApi(maxWaitMs = 5000) {
+            const startedAt = Date.now();
+            while (typeof faceapi === 'undefined') {
+                if (Date.now() - startedAt > maxWaitMs) {
+                    throw new Error('Không tải được thư viện face-api.js');
+                }
+                await new Promise((resolve) => setTimeout(resolve, 80));
+            }
+        }
+
+        async function initDiemDanhCamera() {
+            const video = document.getElementById('ddCameraVideo');
+            const canvas = document.getElementById('ddCameraCanvas');
+            const statusEl = document.getElementById('ddDetectStatus');
+            const latencyEl = document.getElementById('ddDetectLatency');
+            if (!video || !canvas || !statusEl || !latencyEl) {
+                return;
+            }
+
+            const setDetectStatus = (text) => {
+                statusEl.textContent = text;
+            };
+
+            const setLatency = (ms) => {
+                latencyEl.textContent = `${ms} ms`;
+            };
+
+            const startDetectLoop = (displaySize) => {
+                canvas.width = displaySize.width;
+                canvas.height = displaySize.height;
+                faceapi.matchDimensions(canvas, displaySize);
+
+                if (detectTimer) {
+                    clearInterval(detectTimer);
+                }
+
+                detectTimer = setInterval(async () => {
+                    const startedAt = performance.now();
+                    const detections = await faceapi.detectAllFaces(
+                        video,
+                        new faceapi.TinyFaceDetectorOptions()
+                    );
+
+                    const ctx = canvas.getContext('2d');
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    const resizedDetections = faceapi.resizeResults(detections, displaySize);
+
+                    if (resizedDetections.length > 0) {
+                        faceapi.draw.drawDetections(canvas, resizedDetections);
+                        setDetectStatus('Đã phát hiện');
+                    } else {
+                        setDetectStatus('Chưa phát hiện');
+                    }
+
+                    setLatency(Math.round(performance.now() - startedAt));
+                }, 120);
+            };
+
+            try {
+                await waitForFaceApi();
+                setDetectStatus('Đang tải AI');
+                await faceapi.nets.tinyFaceDetector.loadFromUri(FACE_MODEL_URL);
+                setDetectStatus('Đang mở camera');
+
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { width: 1280, height: 720, facingMode: 'user' }
+                });
+                video.srcObject = stream;
+                await video.play();
+                const start = () => {
+                    const displaySize = {
+                        width: video.clientWidth || video.videoWidth || 640,
+                        height: video.clientHeight || video.videoHeight || 360
+                    };
+                    startDetectLoop(displaySize);
+                };
+
+                if (video.readyState >= 1) {
+                    start();
+                } else {
+                    video.addEventListener('loadedmetadata', start, { once: true });
+                }
+            } catch (error) {
+                console.error(error);
+                setDetectStatus('Lỗi camera/AI');
+            }
+        }
+
+        window.addEventListener('load', initDiemDanhCamera);
 
         // - NOTE: Khoi tao popup profile sau khi sidebar load xong
         function initSidebarProfilePopup() {
