@@ -165,11 +165,11 @@ if ($avatarLabel === '') {
         bottom: 24px;
         width: 360px;
         max-width: calc(100vw - 32px);
-        background: #171b2a;
-        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: var(--popup-bg, #171b2a);
+        border: 1px solid var(--popup-border, rgba(255, 255, 255, 0.12));
         border-radius: 16px;
         z-index: 2600;
-        color: #fff;
+        color: var(--popup-text, #fff);
         box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
         opacity: 0;
         transform: translateY(10px);
@@ -189,7 +189,7 @@ if ($avatarLabel === '') {
         justify-content: space-between;
         align-items: center;
         padding: 14px 16px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        border-bottom: 1px solid var(--popup-divider, rgba(255, 255, 255, 0.08));
         background: linear-gradient(90deg, rgba(59, 130, 246, 0.14), rgba(139, 92, 246, 0.14));
     }
 
@@ -202,9 +202,9 @@ if ($avatarLabel === '') {
         width: 30px;
         height: 30px;
         border-radius: 8px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
+        border: 1px solid var(--popup-border-strong, rgba(255, 255, 255, 0.18));
         background: transparent;
-        color: #cbd5e1;
+        color: var(--popup-muted, #cbd5e1);
         cursor: pointer;
     }
 
@@ -223,18 +223,40 @@ if ($avatarLabel === '') {
         font-size: 11px;
         letter-spacing: 0.4px;
         text-transform: uppercase;
-        color: #94a3b8;
+        color: var(--popup-muted, #94a3b8);
     }
 
     .gym-profile-item strong {
         font-size: 14px;
-        color: #fff;
+        color: var(--popup-text, #fff);
         word-break: break-word;
     }
 
     .gym-profile-footer {
         padding: 14px 16px 16px;
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        border-top: 1px solid var(--popup-divider, rgba(255, 255, 255, 0.08));
+    }
+
+    .theme-toggle-btn {
+        width: 100%;
+        height: 42px;
+        border-radius: 10px;
+        border: 1px solid var(--popup-border-strong, rgba(255, 255, 255, 0.2));
+        background: var(--popup-toggle-bg, rgba(59, 130, 246, 0.12));
+        color: var(--popup-text, #fff);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+        margin-bottom: 10px;
+    }
+
+    .theme-toggle-btn:hover {
+        filter: brightness(1.08);
     }
 
     .btn-logout {
@@ -251,6 +273,16 @@ if ($avatarLabel === '') {
         text-decoration: none;
         font-size: 14px;
         font-weight: 600;
+    }
+
+    :root[data-theme="light"] {
+        --popup-bg: #ffffff;
+        --popup-border: rgba(15, 23, 42, 0.14);
+        --popup-border-strong: rgba(15, 23, 42, 0.22);
+        --popup-divider: rgba(15, 23, 42, 0.08);
+        --popup-text: #0f172a;
+        --popup-muted: #64748b;
+        --popup-toggle-bg: rgba(59, 130, 246, 0.12);
     }
 
     @media (max-width: 768px) {
@@ -323,6 +355,10 @@ if ($avatarLabel === '') {
     </div>
 
     <div class="gym-profile-footer">
+        <button type="button" class="theme-toggle-btn" id="adminThemeToggle">
+            <i class="fa-solid fa-sun"></i>
+            Chế độ sáng
+        </button>
         <a class="btn-logout" href="../Auth/DangXuat.php">
             <i class="fa-solid fa-right-from-bracket"></i>
             Đăng xuất

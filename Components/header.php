@@ -14,6 +14,10 @@
     .top-header .search-box { position: relative; width: 350px; }
     .top-header .search-box i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
     .top-header .search-box input {
+<<<<<<< HEAD
+        width: 100%; background: var(--bg-input); border: 1px solid var(--border-color);
+        padding: 10px 16px 10px 40px; border-radius: 10px; color: var(--input-text); outline: none; font-size: 14px;
+=======
         width: 100%;
         background: var(--bg-input);
         border: 1px solid var(--border-color);
@@ -22,7 +26,10 @@
         color: white;
         outline: none;
         font-size: 14px;
+>>>>>>> e971cf101f8f39429c38cec43ddc607171c84c39
     }
+
+    .top-header .search-box input::placeholder { color: var(--text-muted); }
 
     .header-actions { display: flex; align-items: center; gap: 16px; }
 
