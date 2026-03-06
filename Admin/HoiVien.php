@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 
 // ---------------------------------------------------------
 // FIX CHỖ NÀY: Lấy danh sách Gói Tập (Chỉ lưu vào mảng thôi, cấm nhét logic hội viên vào đây)
-$sql_goi = "SELECT id, ten_goi, thoi_han_thang FROM goi_tap";
+$sql_goi = "SELECT id, ten_goi, thoi_han_ngay FROM goi_tap";
 $result_goi = $conn->query($sql_goi);
 $danh_sach_goi = [];
 if ($result_goi && $result_goi->num_rows > 0) {
@@ -551,14 +551,12 @@ $result = $conn->query($sql);
                             <input type="email" name="email" id="e_email" class="form-control">
                         </div>
                         <select id="e_goitap" name="goi_tap_id" class="form-control">
-                            <option value="">-- Chọn gói tập --</option>
-                            
+                            <option value="">-- Chọn gói tập để gia hạn --</option>
                             <?php foreach($danh_sach_goi as $goi): ?>
-                                <option value="<?= htmlspecialchars($goi['id']) ?>" data-thang="<?= htmlspecialchars($goi['thoi_han_thang']) ?>">
-                                    <?= htmlspecialchars($goi['ten_goi']) ?>
+                                <option value="<?= htmlspecialchars($goi['id']) ?>" data-ngay="<?= htmlspecialchars($goi['thoi_han_ngay']) ?>">
+                                    <?= htmlspecialchars($goi['ten_goi']) ?> (<?= $goi['thoi_han_ngay'] ?> ngày)
                                 </option>
                             <?php endforeach; ?>
-                            
                         </select>
                         <div class="form-group">
                             <label>Ngày hết hạn</label>
@@ -724,24 +722,30 @@ $result = $conn->query($sql);
         // ==========================================
         document.getElementById('e_goitap').addEventListener('change', function() {
             var selectedOption = this.options[this.selectedIndex];
-            var soThang = selectedOption.getAttribute('data-thang');
+            var soNgay = selectedOption.getAttribute('data-ngay'); // Lấy số ngày từ data-ngay
 
-            if (soThang && parseInt(soThang) > 0) {
+            if (soNgay && parseInt(soNgay) > 0) {
                 var oldExpire = document.getElementById('e_hethan').getAttribute('data-old-expire');
-                var baseDate = new Date(); // Lấy hôm nay làm gốc
+                var today = new Date();
+                today.setHours(0, 0, 0, 0); // Reset giờ về 0 để so sánh chuẩn xác
                 
+                var baseDate = new Date(); // Mặc định gốc là hôm nay
+
                 // Khách đang còn hạn -> Lấy ngày cũ làm mốc cộng dồn
                 if (oldExpire) {
                     var oldExpireDate = new Date(oldExpire);
-                    if (oldExpireDate > baseDate) {
+                    oldExpireDate.setHours(0, 0, 0, 0);
+                    
+                    // Chỉ cộng dồn nếu ngày cũ vẫn còn ở tương lai hoặc là hôm nay
+                    if (oldExpireDate >= today) {
                         baseDate = oldExpireDate;
                     }
                 }
 
-                // Cộng thêm số tháng
-                baseDate.setMonth(baseDate.getMonth() + parseInt(soThang));
+                // Cộng thêm số ngày (Sử dụng getDate + số ngày mới)
+                baseDate.setDate(baseDate.getDate() + parseInt(soNgay));
                 
-                // Format lại yyyy-mm-dd
+                // Format lại yyyy-mm-dd để đẩy vào input date
                 var yyyy = baseDate.getFullYear();
                 var mm = String(baseDate.getMonth() + 1).padStart(2, '0');
                 var dd = String(baseDate.getDate()).padStart(2, '0');

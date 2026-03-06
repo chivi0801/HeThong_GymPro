@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     $ten_goi = $_POST['ten_goi'];
     $gia = (float) preg_replace("/[^0-9]/", "", $_POST['gia']);
     $thoi_han_ngay = $_POST['thoi_han_ngay'];
-    $so_luong_nguoi = $_POST['so_luong_nguoi'];
+    $so_luong_nguoi = intval($_POST['so_luong_nguoi']);
     $mo_ta = $_POST['mo_ta'] ?? '';
     $trang_thai = $_POST['trang_thai'] ?? 'active';
     
@@ -535,6 +535,14 @@ $result_goi = $conn->query($sql_goi);
         .dropdown-item:hover { background-color: rgba(255,255,255,0.05); }
         .dropdown-item.danger { color: var(--danger); }
         .dropdown-item.danger:hover { background-color: rgba(239, 68, 68, 0.1); }
+        .badge-unlimited {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -574,7 +582,15 @@ $result_goi = $conn->query($sql_goi);
                                 <tr>
                                     <td><span class="fw-bold"><?= htmlspecialchars($row['ten_goi']) ?></span></td>
                                     <td><?= htmlspecialchars($row['thoi_han_ngay']) ?> ngày</td>
-                                    <td><?= htmlspecialchars($row['so_luong_nguoi']) ?> người</td>
+                                    
+                                    <td>
+                                        <?php if ($row['so_luong_nguoi'] == 0): ?>
+                                            <span class="unlimited-text">Không giới hạn</span>
+                                        <?php else: ?>
+                                            <?= htmlspecialchars($row['so_luong_nguoi']) ?> người
+                                        <?php endif; ?>
+                                    </td>
+                                    
                                     <td><?= number_format($row['gia'], 0, ',', '.') ?>đ</td>
                                     <td>
                                         <?php if(isset($row['trang_thai']) && $row['trang_thai'] == 'paused'): ?>
@@ -676,6 +692,7 @@ $result_goi = $conn->query($sql_goi);
                             <option value="2">2 người</option>
                             <option value="5">5 người</option>
                             <option value="10">10 người</option>
+                            <option value="0">Không giới hạn</option>
                         </select>
                         <i class="select-caret fa-solid fa-chevron-down"></i>
                     </div>
@@ -773,6 +790,7 @@ $result_goi = $conn->query($sql_goi);
             document.getElementById('input_gia').value = gia;
             document.getElementById('input_thoi_han_ngay').value = thoi_han_ngay;
             document.getElementById('input_so_luong_nguoi').value = so_luong_nguoi;
+            document.getElementById('packageModal').style.display = 'flex';
             document.getElementById('input_mo_ta').value = mo_ta;
             
             if(trang_thai === 'paused') {
