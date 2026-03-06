@@ -25,6 +25,7 @@
             --success: #10b981;
             --gradient-btn: linear-gradient(90deg, #3b82f6, #8b5cf6);
             --input-text: #ffffff;
+            --overlay-bg: rgba(0, 0, 0, 0.65);
         }
 
         :root[data-theme="light"] {
@@ -41,6 +42,7 @@
             --success: #059669;
             --gradient-btn: linear-gradient(90deg, #2563eb, #7c3aed);
             --input-text: #0f172a;
+            --overlay-bg: rgba(15, 23, 42, 0.45);
         }
 
         /* 2. RESET & LAYOUT */
@@ -180,7 +182,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.65);
+            background: var(--overlay-bg);
             backdrop-filter: blur(8px);
             display: none;
             justify-content: center;
@@ -190,11 +192,11 @@
         }
 
         .modal-content {
-            background: #1e2235;
+            background: var(--bg-panel);
             width: 100%;
             max-width: 480px;
             border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.07);
+            border: 1px solid var(--border-color);
             box-shadow: 0 24px 60px rgba(0,0,0,0.5);
             animation: modalFadeUp 0.3s ease-out;
             overflow: hidden;
@@ -226,7 +228,7 @@
         .modal-header h3 {
             font-size: 18px;
             font-weight: 700;
-            color: #fff;
+            color: var(--text-main);
             margin: 0;
         }
 
@@ -237,7 +239,7 @@
         }
 
         .close-btn {
-            background: rgba(255,255,255,0.06);
+            background: var(--bg-input);
             border: none;
             color: var(--text-muted);
             font-size: 18px;
@@ -253,8 +255,8 @@
         }
 
         .close-btn:hover {
-            background: rgba(255,255,255,0.12);
-            color: #fff;
+            background: rgba(59, 130, 246, 0.12);
+            color: var(--text-main);
         }
 
         /* Form */
@@ -310,11 +312,11 @@
 
         .input-control {
             width: 100%;
-            background: #272c3f;
-            border: 1px solid rgba(255,255,255,0.08);
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
             border-radius: 10px;
             padding: 12px 16px;
-            color: #fff;
+            color: var(--input-text);
             font-size: 14px;
             transition: all 0.2s;
             outline: none;
@@ -336,7 +338,7 @@
         }
 
         .input-control::placeholder {
-            color: rgba(148,163,184,0.45);
+            color: var(--text-muted);
         }
 
         /* Select with caret */
@@ -382,13 +384,13 @@
 
         .status-btn.inactive-status {
             background: transparent;
-            border-color: rgba(255,255,255,0.12);
+            border-color: var(--border-color);
             color: var(--text-muted);
         }
 
         .status-btn.inactive-status:hover {
-            border-color: rgba(255,255,255,0.25);
-            color: #fff;
+            border-color: var(--primary);
+            color: var(--text-main);
         }
 
         /* Submit */
@@ -429,7 +431,7 @@
         }
 
         .btn-cancel-text:hover {
-            color: #fff;
+            color: var(--text-main);
         }
     </style>
 </head>

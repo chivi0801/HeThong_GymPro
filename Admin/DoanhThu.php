@@ -386,17 +386,7 @@
                         </div>
                     </div>
 
-                    <div class="filter-group">
-                        <div class="filter-label">Nhân viên</div>
-                        <div class="radio-list">
-                            <label class="radio-item">
-                                <input type="radio" name="employee" checked> Của tôi
-                            </label>
-                            <label class="radio-item">
-                                <input type="radio" name="employee"> Tất cả
-                            </label>
-                        </div>
-                    </div>
+                   
 
                     <div class="filter-group">
                         <div class="filter-label">Loại</div>
@@ -407,14 +397,16 @@
                         </div>
                     </div>
 
-                    <div class="filter-group">
+                      <div class="filter-group">
                         <div class="filter-label">Trạng thái</div>
-                        <div class="filter-btns-row">
-                            <button class="filter-badge active">Đã thanh toán</button>
-                            <button class="filter-badge">Chưa thanh toán</button>
+                        <div class="filter-btns-column">
+                            <button class="filter-btn active">Tất cả</button>
+                            <button class="filter-btn">Đã thanh toán</button>
+                            <button class="filter-btn">Chưa thanh toán</button>
                         </div>
                     </div>
 
+                    
                 </div>
 
             </div>

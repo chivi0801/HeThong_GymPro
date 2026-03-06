@@ -263,9 +263,9 @@ if ($avatarLabel === '') {
         width: 100%;
         height: 42px;
         border-radius: 10px;
-        border: 1px solid rgba(239, 68, 68, 0.45);
-        background: rgba(239, 68, 68, 0.14);
-        color: #fecaca;
+        border: 1px solid var(--popup-logout-border, rgba(239, 68, 68, 0.45));
+        background: var(--popup-logout-bg, rgba(239, 68, 68, 0.14));
+        color: var(--popup-logout-text, #fecaca);
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -273,6 +273,10 @@ if ($avatarLabel === '') {
         text-decoration: none;
         font-size: 14px;
         font-weight: 600;
+    }
+
+    .btn-logout:hover {
+        filter: brightness(1.06);
     }
 
     :root[data-theme="light"] {
@@ -283,6 +287,9 @@ if ($avatarLabel === '') {
         --popup-text: #0f172a;
         --popup-muted: #64748b;
         --popup-toggle-bg: rgba(59, 130, 246, 0.12);
+        --popup-logout-border: rgba(220, 38, 38, 0.35);
+        --popup-logout-bg: rgba(239, 68, 68, 0.2);
+        --popup-logout-text: #b91c1c;
     }
 
     @media (max-width: 768px) {
