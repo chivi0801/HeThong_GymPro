@@ -34,10 +34,9 @@ CREATE TABLE `chu_gym` (
   `email` varchar(100) NOT NULL,
   `sdt` varchar(15) DEFAULT NULL,
   `mat_khau` varchar(255) NOT NULL,
-  `ngay_tao` date DEFAULT curdate(),
+  `ngay_tao` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `trang_thai` enum('active','expired','pending') DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 --
 -- Dumping data for table `chu_gym`
 --
@@ -244,9 +243,9 @@ CREATE TABLE `hoi_vien` (
   `ho_ten` varchar(100) NOT NULL,
   `sdt` varchar(15) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `ngay_sinh` date DEFAULT NULL,
+  `ngay_sinh` DATE DEFAULT NULL,
   `gioi_tinh` varchar(10) DEFAULT NULL,
-  `ngay_dang_ky` date DEFAULT curdate(),
+  `ngay_dang_ky` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `trang_thai` enum('active','expired','pending') DEFAULT 'active',
   `chu_gym_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -306,7 +305,7 @@ CREATE TABLE `thanh_toan` (
   `id` int(11) NOT NULL,
   `dang_ky_id` int(11) NOT NULL,
   `so_tien` decimal(10,2) NOT NULL,
-  `ngay_thanh_toan` date DEFAULT curdate(),
+  `ngay_thanh_toan`  DATETIME DEFAULT CURRENT_TIMESTAMP,
   `phuong_thuc` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -335,7 +334,7 @@ CREATE TABLE `thanh_toan_he_thong` (
   `id` int(11) NOT NULL,
   `dang_ky_he_thong_id` int(11) NOT NULL,
   `so_tien` decimal(10,2) NOT NULL,
-  `ngay_thanh_toan` date DEFAULT curdate(),
+  `ngay_thanh_toan` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `phuong_thuc` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -522,6 +521,70 @@ ALTER TABLE `thanh_toan_he_thong`
   ADD CONSTRAINT `thanh_toan_he_thong_ibfk_1` FOREIGN KEY (`dang_ky_he_thong_id`) REFERENCES `dang_ky_he_thong` (`id`) ON DELETE CASCADE;
 COMMIT;
 
+ALTER TABLE hoi_vien
+ADD COLUMN ma_id VARCHAR(50) AFTER id,
+ADD COLUMN goi_tap VARCHAR(100) AFTER email,
+ADD COLUMN ngay_het_han DATE AFTER ngay_dang_ky;
+
+UPDATE hoi_vien 
+SET ma_id = '#FF-2026-001', goi_tap = 'Premium Annual', ngay_het_han = '2027-03-03', trang_thai = 'Hoạt động' 
+WHERE id = 1;
+
+UPDATE hoi_vien 
+SET ma_id = '#FF-2026-002', goi_tap = 'Premium Annual', ngay_het_han = '2027-03-03', trang_thai = 'Hoạt động' 
+WHERE id = 2;
+
+UPDATE hoi_vien 
+SET ma_id = '#FF-2026-003', goi_tap = 'Monthly Standard', ngay_het_han = '2026-03-10', trang_thai = 'Sắp hết hạn' 
+WHERE id = 3;
+
+-- 1. Sửa lại cột trang_thai để nhận các giá trị Tiếng Anh mới
+ALTER TABLE hoi_vien 
+MODIFY trang_thai ENUM('active', 'expiring', 'expired', 'reserved', 'paused') DEFAULT 'active';
+
+-- 2. Cập nhật lại dữ liệu cho chuẩn Tiếng Anh (không xài 'Hoạt động' hay 'Sắp hết hạn' trong DB nữa)
+UPDATE hoi_vien SET ma_id = '#FF-2026-001', goi_tap = 'Premium Annual', ngay_het_han = '2027-03-03', trang_thai = 'active' WHERE id = 1;
+UPDATE hoi_vien SET ma_id = '#FF-2026-002', goi_tap = 'Premium Annual', ngay_het_han = '2027-03-03', trang_thai = 'active' WHERE id = 2;
+UPDATE hoi_vien SET ma_id = '#FF-2026-003', goi_tap = 'Monthly Standard', ngay_het_han = '2026-03-10', trang_thai = 'expiring' WHERE id = 3;
+
+
+-- Xóa cột cũ
+ALTER TABLE hoi_vien DROP COLUMN goi_tap;
+
+-- Thêm cột mới là số nguyên để chứa ID gói tập
+ALTER TABLE hoi_vien ADD COLUMN goi_tap_id INT AFTER email;
+
+-- Cập nhật lại dữ liệu mẫu cho khớp với bảng goi_tap của mày
+UPDATE hoi_vien SET goi_tap_id = 1 WHERE id = 1;
+UPDATE hoi_vien SET goi_tap_id = 2 WHERE id = 2;
+UPDATE hoi_vien SET goi_tap_id = 3 WHERE id = 3;
+
+
+-- 1. Cập nhật bảng Gói Tập (Thêm loại gói và số buổi)
+ALTER TABLE goi_tap 
+ADD COLUMN loai_goi ENUM('thoi_gian', 'so_buoi') DEFAULT 'thoi_gian' AFTER gia,
+ADD COLUMN so_buoi INT DEFAULT 0 AFTER loai_goi;
+
+-- (Mẫu: Set thử gói số 3 thành gói 10 buổi lẻ)
+UPDATE goi_tap SET loai_goi = 'so_buoi', so_buoi = 10, thoi_han_thang = 0 WHERE id = 3;
+
+-- 2. Cập nhật bảng Hội Viên (Lưu số buổi còn lại và hạn bảo lưu)
+ALTER TABLE hoi_vien 
+ADD COLUMN so_buoi_con_lai INT DEFAULT 0 AFTER ngay_het_han,
+ADD COLUMN ngay_het_bao_luu DATE NULL AFTER so_buoi_con_lai;
+
+
+-- 1. Đổi tên cột thoi_han_thang thành thoi_han_ngay (vì UI frontend để là 30 ngày, 60 ngày...)
+ALTER TABLE goi_tap CHANGE COLUMN thoi_han_thang thoi_han_ngay INT NOT NULL DEFAULT 30;
+
+-- 2. Thêm cột số lượng người (cho phép chọn 1, 2, 5... người tập chung 1 gói)
+ALTER TABLE goi_tap ADD COLUMN so_luong_nguoi INT NOT NULL DEFAULT 1 AFTER gia;
+
+-- 3. Thêm cột trạng thái (Đang bán = 'active', Tạm dừng = 'paused')
+ALTER TABLE goi_tap ADD COLUMN trang_thai VARCHAR(20) NOT NULL DEFAULT 'active' AFTER mo_ta;
+
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+

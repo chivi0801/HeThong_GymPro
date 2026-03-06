@@ -1,4 +1,40 @@
-﻿<!DOCTYPE html>
+﻿<?php
+// ==========================================
+// 1. KẾT NỐI DATABASE
+// ==========================================
+$servername = "localhost";
+$username = "dev_user";
+$password = "123"; 
+$dbname = "gym_pro"; 
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Lỗi kết nối: " . $conn->connect_error);
+}
+
+// ---------------------------------------------------------
+// FIX CHỖ NÀY: Lấy danh sách Gói Tập (Chỉ lưu vào mảng thôi, cấm nhét logic hội viên vào đây)
+$sql_goi = "SELECT id, ten_goi, thoi_han_ngay FROM goi_tap";
+$result_goi = $conn->query($sql_goi);
+$danh_sach_goi = [];
+if ($result_goi && $result_goi->num_rows > 0) {
+    while($row_goi = $result_goi->fetch_assoc()) {
+        $danh_sach_goi[] = $row_goi; 
+    }
+}
+// ---------------------------------------------------------
+
+// Lấy danh sách Hội Viên để lát xuống dưới <tbody> đổ ra bảng
+$sql = "SELECT hv.*, gt.ten_goi as ten_goi_tap, gt.loai_goi 
+        FROM hoi_vien hv 
+        LEFT JOIN goi_tap gt ON hv.goi_tap_id = gt.id";
+$result = $conn->query($sql);
+
+
+
+?>
+
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -22,24 +58,6 @@
             --danger: #ef4444;
             --success: #10b981;
             --gradient-btn: linear-gradient(90deg, #3b82f6, #8b5cf6);
-            --input-text: #ffffff;
-        }
-
-        :root[data-theme="light"] {
-            --bg-dark: #f1f5f9;
-            --bg-panel: #ffffff;
-            --bg-sidebar: #e2e8f0;
-            --bg-input: #f8fafc;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border-color: rgba(15, 23, 42, 0.12);
-            --primary: #2563eb;
-            --purple: #7c3aed;
-            --warning: #ea580c;
-            --danger: #dc2626;
-            --success: #059669;
-            --gradient-btn: linear-gradient(90deg, #2563eb, #7c3aed);
-            --input-text: #0f172a;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
@@ -216,6 +234,50 @@
         .page-btn.active { background: var(--purple); color: white; font-weight: 600; }
         .page-text { font-size: 13px; color: var(--text-muted); margin: 0 8px; cursor: pointer; }
 
+        /* ================= GIAO DIỆN MODAL & POPUP ================= */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);
+            z-index: 999; display: flex; align-items: center; justify-content: center;
+        }
+        .modal-overlay.hidden { display: none !important; }
+
+        .modal-box {
+            background: var(--bg-panel); border: 1px solid var(--border-color);
+            border-radius: 16px; padding: 24px; position: relative; color: white;
+        }
+        .modal-box.hidden { display: none !important; }
+
+        .modal-close {
+            position: absolute; top: 16px; right: 16px; background: none; border: none;
+            color: var(--text-muted); font-size: 18px; cursor: pointer; transition: 0.2s;
+        }
+        .modal-close:hover { color: white; }
+
+        .modal-title { font-size: 18px; font-weight: 700; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color); }
+
+        /* Custom cho Popup Xem Chi Tiết */
+        .view-info p { margin-bottom: 12px; font-size: 14px; display: flex;}
+        .view-info .lbl { width: 100px; color: var(--text-muted); }
+        .view-info .val { font-weight: 500; }
+        .text-orange { color: var(--warning); }
+        .text-purple { color: var(--purple); font-family: monospace; }
+
+        /* Custom cho Popup Chỉnh Sửa (Form) */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
+        .form-control {
+            width: 100%; background: var(--bg-input); border: 1px solid var(--border-color);
+            color: white; padding: 10px 12px; border-radius: 8px; outline: none; transition: 0.2s; font-size: 14px;
+        }
+        .form-control:focus { border-color: var(--purple); }
+
+        .modal-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-color); }
+        .btn-cancel { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 14px;}
+        .btn-cancel:hover { background: rgba(255,255,255,0.05); color: white; }
+        .btn-save { background: var(--primary); border: none; color: white; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 500; font-size: 14px;}
+        .btn-save:hover { opacity: 0.9; }
+
     </style>
 </head>
 <body>
@@ -243,15 +305,42 @@
                     </button>
                 </div>
             </div>
+           <?php
+            // Khởi tạo mặc định bằng 0 để lỡ lỗi thì web vẫn không bị trắng bóc
+            $tong_hoi_vien = 0;
+            $dang_hoat_dong = 0;
+            $sap_het_han = 0;
 
-            <div class="member-stats">
+            // Bọc Try-Catch để lỡ sai tên cột trong Database thì trang web KHÔNG BỊ SẬP
+            try {
+                if (isset($conn)) {
+                    // 1. Đếm tổng
+                    $kq_tong = $conn->query("SELECT COUNT(id) as total FROM hoi_vien");
+                    if ($kq_tong) $tong_hoi_vien = $kq_tong->fetch_assoc()['total'] ?? 0;
+
+                    // 2. Đếm hoạt động
+                    $sql_hoat_dong = "SELECT COUNT(id) as active_count FROM hoi_vien WHERE trang_thai = 'active' AND (ngay_het_han >= CURDATE() OR so_buoi_con_lai > 0)";
+                    $kq_hoat_dong = $conn->query($sql_hoat_dong);
+                    if ($kq_hoat_dong) $dang_hoat_dong = $kq_hoat_dong->fetch_assoc()['active_count'] ?? 0;
+
+                    // 3. Đếm sắp hết hạn (Đã gỡ bỏ điều kiện loai_goi gây lỗi)
+                    $sql_sap_het = "SELECT COUNT(id) as warning_count FROM hoi_vien WHERE trang_thai = 'active' AND ngay_het_han BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)";
+                    $kq_sap_het = $conn->query($sql_sap_het);
+                    if ($kq_sap_het) $sap_het_han = $kq_sap_het->fetch_assoc()['warning_count'] ?? 0;
+                }
+            } catch (Exception $e) {
+                // Nếu dính lỗi SQL (ví dụ sai tên cột, sai bảng), nó sẽ nhảy vào đây
+                // Mình chỉ cần im lặng bỏ qua để giao diện HTML bên dưới vẫn được vẽ ra bình thường
+            }
+            ?>
+<div class="member-stats">
                 <div class="stat-card-m blue">
                     <div class="top">
                         <span class="title">Tổng hội viên</span>
                         <div class="icon-s"><i class="fa-solid fa-users"></i></div>
                     </div>
-                    <div class="value">1,284</div>
-                    <div class="desc blue-text"><i class="fa-solid fa-arrow-trend-up"></i> +12% tháng này</div>
+                    <div class="value"><?= number_format($tong_hoi_vien) ?></div>
+                    <div class="desc blue-text"><i class="fa-solid fa-arrow-trend-up"></i> Cập nhật tự động</div>
                 </div>
                 
                 <div class="stat-card-m purple">
@@ -259,8 +348,8 @@
                         <span class="title">Gói tập hoạt động</span>
                         <div class="icon-s"><i class="fa-solid fa-shield-halved"></i></div>
                     </div>
-                    <div class="value">1,102</div>
-                    <div class="desc blue-text"><i class="fa-solid fa-arrow-trend-up"></i> +5% so với tuần trước</div>
+                    <div class="value"><?= number_format($dang_hoat_dong) ?></div>
+                    <div class="desc blue-text"><i class="fa-solid fa-check"></i> Đang tham gia tập</div>
                 </div>
 
                 <div class="stat-card-m warning">
@@ -268,11 +357,10 @@
                         <span class="title">Sắp Hết Hạn</span>
                         <div class="icon-s"><i class="fa-solid fa-triangle-exclamation"></i></div>
                     </div>
-                    <div class="value">45</div>
-                    <div class="desc warning-text">Cần gia hạn ngay</div>
+                    <div class="value"><?= number_format($sap_het_han) ?></div>
+                    <div class="desc warning-text">Cần gọi gia hạn ngay</div>
                 </div>
             </div>
-
             <div class="table-panel">
                 
                 <div class="table-header-controls">
@@ -297,49 +385,115 @@
                                 <th>Tên hội viên</th>
                                 <th>Mã ID</th>
                                 <th>Gói tập</th>
-                                <th>Ngày bắt đầu</th>
                                 <th>Ngày hết hạn</th>
                                 <th>Trạng thái</th>
                                 <th>Thao tác</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <div class="user-col">
-                                        <div class="avatar purple">C</div>
-                                        <span>Customer</span>
-                                    </div>
-                                </td>
-                                <td class="code-col">#FF-2023-001</td>
-                                <td>Premium Annual</td>
-                                <td>12/12/2024</td>
-                                <td>12/12/2024</td>
-                                <td><span class="badge active">Hoạt động</span></td>
-                                <td>
-                                    <div class="action-btns"><i class="fa-regular fa-eye"></i> <i class="fa-solid fa-pen"></i></div>
-                                </td>
-                            </tr>
-                            
-                            
-                            <tr class="row-warning">
-                                <td>
-                                    <div class="user-col">
-                                        <div class="avatar" style="background: rgba(249, 115, 22, 0.2); color: #fb923c;">C</div>
-                                        <span>Customer</span>
-                                    </div>
-                                </td>
-                                <td class="code-col">#FF-2023-142</td>
-                                <td>Monthly Standard</td>
-                                <td class="date-col">28/10/2023</td>
-                                <td class="date-col">28/10/2023</td>
-                                <td><span class="badge warning">Sắp hết hạn</span></td>
-                                <td>
-                                    <div class="action-btns"><i class="fa-regular fa-eye"></i> <i class="fa-solid fa-pen"></i></div>
-                                </td>
-                            </tr>
+                            <?php
+                            if ($result && $result->num_rows > 0):
+                                $today_timestamp = strtotime('today'); 
 
-                           
+                                while($row = $result->fetch_assoc()):
+                                    $db_status = strtolower($row['trang_thai']); 
+                                    $loai_goi = $row['loai_goi'] ?? 'thoi_gian'; 
+                                    $real_status_key = ''; 
+                                    $display_status = '';
+
+                                    // TỰ ĐỘNG MỞ BẢO LƯU (Logic hiển thị)
+                                    if ($db_status == 'reserved' && !empty($row['ngay_het_bao_luu'])) {
+                                        if ($today_timestamp > strtotime($row['ngay_het_bao_luu'])) {
+                                            $db_status = 'active'; 
+                                        }
+                                    }
+
+                                    // LOGIC XẾP LOẠI TRẠNG THÁI
+                                    if ($db_status == 'reserved') {
+                                        $real_status_key = 'reserved';
+                                        $display_status  = 'Bảo lưu';
+                                    } elseif ($db_status == 'paused') {
+                                        $real_status_key = 'paused';
+                                        $display_status  = 'Tạm dừng';
+                                    } else {
+                                        if ($loai_goi == 'so_buoi') {
+                                            // LUỒNG 1: TÍNH THEO BUỔI
+                                            if ($row['so_buoi_con_lai'] > 0) {
+                                                $real_status_key = 'active';
+                                                $display_status  = 'Đang hoạt động';
+                                            } else {
+                                                $real_status_key = 'expired';
+                                                $display_status  = 'Hết buổi tập';
+                                            }
+                                        } else {
+                                            // LUỒNG 2: TÍNH THEO THÁNG
+                                            if (empty($row['ngay_het_han'])) {
+                                                $real_status_key = 'expired';
+                                                $display_status  = 'Chưa đăng ký';
+                                            } else {
+                                                $het_han_timestamp = strtotime($row['ngay_het_han']);
+                                                $days_diff = ($het_han_timestamp - $today_timestamp) / 86400;
+
+                                                if ($days_diff < 0) {
+                                                    $real_status_key = 'expired';
+                                                    $display_status  = 'Đã hết hạn';
+                                                } elseif ($days_diff <= 7) {
+                                                    $real_status_key = 'expiring';
+                                                    $display_status  = 'Sắp hết hạn';
+                                                } else {
+                                                    $real_status_key = 'active';
+                                                    $display_status  = 'Đang hoạt động';
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                    // Xử lý UI (Badge, Màu sắc)
+                                    $is_warning = ($real_status_key == 'expiring');
+                                    $tr_class = $is_warning ? 'row-warning' : '';
+                                    $avatar_style = $is_warning ? 'style="background: rgba(249, 115, 22, 0.2); color: #fb923c;"' : 'class="avatar purple"';
+                                    
+                                    if ($real_status_key == 'active') $badge_class = 'badge active';
+                                    elseif ($real_status_key == 'expiring') $badge_class = 'badge warning';
+                                    elseif ($real_status_key == 'expired' || $display_status == 'Hết buổi tập') $badge_class = 'badge danger';
+                                    else $badge_class = 'badge secondary'; 
+                                    
+                                    // Format ngày / buổi để hiển thị
+                                    if ($loai_goi == 'so_buoi') {
+                                        $ngay_het_han_hien_thi = "Còn " . $row['so_buoi_con_lai'] . " buổi";
+                                    } else {
+                                        $ngay_het_han_hien_thi = ($row['ngay_het_han']) ? date('d/m/Y', strtotime($row['ngay_het_han'])) : 'Chưa đăng ký';
+                                    }
+                                    
+                                    // Đóng gói JSON
+                                    $row['trang_thai_goc'] = $db_status; 
+                                    $row['trang_thai_vn'] = $display_status; 
+                                    $row['ngay_het_han_vn'] = $ngay_het_han_hien_thi;
+                                    $jsonData = htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8');
+                                    
+                                    $nameParts = explode(' ', trim($row['ho_ten']));
+                                    $initial = mb_substr(end($nameParts), 0, 1, "UTF-8");
+                            ?>
+                            <tr class="<?= $tr_class ?> row-item" data-status="<?= $display_status ?>">
+                                <td>
+                                    <div class="user-col">
+                                        <div <?= $avatar_style ?>><?= mb_strtoupper($initial, "UTF-8") ?></div>
+                                        <span><?= htmlspecialchars($row['ho_ten']) ?></span>
+                                    </div>
+                                </td>
+                                <td class="code-col"><?= htmlspecialchars($row['ma_id']) ?></td> <td><?= htmlspecialchars($row['ten_goi_tap'] ?? 'Chưa có gói') ?></td>
+                                <td><?= $ngay_het_han_hien_thi ?></td>
+                                <td><span class="<?= $badge_class ?>"><?= $display_status ?></span></td>
+                                <td>
+                                    <div class="action-btns">
+                                        <i class="fa-regular fa-eye btn-view" title="Xem chi tiết" data-info='<?= $jsonData ?>'></i> 
+                                        <i class="fa-solid fa-pen btn-edit" title="Chỉnh sửa" data-info='<?= $jsonData ?>'></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php endwhile; else: ?>
+                                <tr><td colspan="6" style="text-align: center; padding: 30px;">Chưa có dữ liệu</td></tr>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
@@ -360,55 +514,73 @@
 
             </div>
         </div>
+        <div id="modalOverlay" class="modal-overlay hidden">
+    
+            <div id="viewModal" class="modal-box hidden" style="width: 400px;">
+                <button class="modal-close close-modal"><i class="fa-solid fa-xmark"></i></button>
+                <h2 class="modal-title">Thông tin hội viên</h2>
+                <div class="view-info">
+                    <p><span class="lbl">Họ Tên:</span> <span id="v_hoten" class="val"></span></p>
+                    <p><span class="lbl">Mã ID:</span> <span id="v_maid" class="val text-purple"></span></p>
+                    <p><span class="lbl">SĐT:</span> <span id="v_sdt" class="val"></span></p>
+                    <p><span class="lbl">Email:</span> <span id="v_email" class="val"></span></p>
+                    <p><span class="lbl">Gói tập:</span> <span id="v_goitap" class="val"></span></p>
+                    <p><span class="lbl">Hết hạn:</span> <span id="v_hethan" class="val text-orange"></span></p>
+                    <p><span class="lbl">Trạng thái:</span> <span id="v_trangthai" class="val"></span></p>
+                </div>
+            </div>
 
+            <div id="editModal" class="modal-box hidden" style="width: 500px;">
+                <button class="modal-close close-modal"><i class="fa-solid fa-xmark"></i></button>
+                <h2 class="modal-title">Chỉnh sửa thông tin</h2>
+                
+                <form action="../actions/CapNhatHoiVien.php" method="POST">
+                    <input type="hidden" name="id" id="e_id">
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Họ tên</label>
+                            <input type="text" name="ho_ten" id="e_hoten" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Số điện thoại</label>
+                            <input type="text" name="sdt" id="e_sdt" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="email" id="e_email" class="form-control">
+                        </div>
+                        <select id="e_goitap" name="goi_tap_id" class="form-control">
+                            <option value="">-- Chọn gói tập để gia hạn --</option>
+                            <?php foreach($danh_sach_goi as $goi): ?>
+                                <option value="<?= htmlspecialchars($goi['id']) ?>" data-ngay="<?= htmlspecialchars($goi['thoi_han_ngay']) ?>">
+                                    <?= htmlspecialchars($goi['ten_goi']) ?> (<?= $goi['thoi_han_ngay'] ?> ngày)
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <div class="form-group">
+                            <label>Ngày hết hạn</label>
+                            <input type="date" name="ngay_het_han" id="e_hethan" class="form-control" style="color-scheme: dark;">
+                        </div>
+                        <div class="form-group">
+                            <label>Trạng thái</label>
+                                <select name="trang_thai" id="e_trangthai" class="form-control">
+                                    <option value="active">Bình thường (Hệ thống tự tính hạn)</option>
+                                    <option value="reserved">Bảo lưu</option>
+                                    <option value="paused">Tạm dừng</option>
+                                </select>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button type="button" class="close-modal btn-cancel">Hủy</button>
+                        <button type="submit" class="btn-save">Lưu thay đổi</button>
+                    </div>
+                </form>
+            </div>
+        </div>                        
     </main>
     <script>
-        const ADMIN_THEME_KEY = 'gympro-admin-theme';
-
-        function syncThemeToggleButton(theme) {
-            const themeBtn = document.getElementById('adminThemeToggle');
-            if (!themeBtn) {
-                return;
-            }
-
-            if (theme === 'light') {
-                themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i> Chế độ tối';
-                themeBtn.setAttribute('aria-label', 'Chuyển sang chế độ tối');
-            } else {
-                themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i> Chế độ sáng';
-                themeBtn.setAttribute('aria-label', 'Chuyển sang chế độ sáng');
-            }
-        }
-
-        function applyAdminTheme(theme) {
-            const nextTheme = theme === 'light' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', nextTheme);
-            localStorage.setItem(ADMIN_THEME_KEY, nextTheme);
-            syncThemeToggleButton(nextTheme);
-        }
-
-        function initAdminTheme() {
-            const savedTheme = localStorage.getItem(ADMIN_THEME_KEY) || 'dark';
-            applyAdminTheme(savedTheme);
-        }
-
-        function bindAdminThemeToggle() {
-            const themeBtn = document.getElementById('adminThemeToggle');
-            if (!themeBtn || themeBtn.dataset.bound === '1') {
-                return;
-            }
-
-            themeBtn.dataset.bound = '1';
-            themeBtn.addEventListener('click', function () {
-                const currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-                applyAdminTheme(currentTheme === 'light' ? 'dark' : 'light');
-            });
-
-            syncThemeToggleButton(document.documentElement.getAttribute('data-theme'));
-        }
-
-        initAdminTheme();
-
         function initSidebarProfilePopup() {
             const trigger = document.getElementById('gymProfileTrigger');
             const overlay = document.getElementById('gymProfileOverlay');
@@ -460,8 +632,128 @@
                 });
 
                 initSidebarProfilePopup();
-                bindAdminThemeToggle();
             });
+                    // 1. TÍNH NĂNG CHUYỂN TAB LỌC DỮ LIỆU
+        const tabs = document.querySelectorAll('.tab');
+        const rows = document.querySelectorAll('.row-item');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Xóa class active của tab cũ, gắn cho tab mới
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                const filterStatus = tab.innerText.trim(); // Lấy chữ: Tất cả, Đang hoạt động...
+                
+                // Duyệt từng dòng, ẩn/hiện tùy thuộc trạng thái
+                rows.forEach(row => {
+                    if (filterStatus === "Tất cả" || row.dataset.status === filterStatus) {
+                        row.style.display = ''; // Hiện
+                    } else {
+                        row.style.display = 'none'; // Ẩn
+                    }
+                });
+            });
+        });
+
+        // ==========================================
+        // TÍNH NĂNG MỞ POPUP XEM & SỬA
+        // ==========================================
+        const modalOverlay = document.getElementById('modalOverlay');
+        const viewModal = document.getElementById('viewModal');
+        const editModal = document.getElementById('editModal');
+        const closeBtns = document.querySelectorAll('.close-modal');
+
+        function closeAllModals() {
+            modalOverlay.classList.add('hidden');
+            viewModal.classList.add('hidden');
+            editModal.classList.add('hidden');
+        }
+
+        closeBtns.forEach(btn => btn.addEventListener('click', closeAllModals));
+        modalOverlay.addEventListener('click', (e) => {
+            if(e.target === modalOverlay) closeAllModals(); 
+        });
+
+        // GẮN SỰ KIỆN NÚT XEM (CON MẮT)
+        document.querySelectorAll('.btn-view').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const data = JSON.parse(this.getAttribute('data-info'));
+                
+                document.getElementById('v_hoten').innerText = data.ho_ten;
+                document.getElementById('v_maid').innerText = data.ma_id; // Đã đổi thành ma_id
+                document.getElementById('v_sdt').innerText = data.sdt || 'Chưa cập nhật';
+                document.getElementById('v_email').innerText = data.email || 'Chưa cập nhật';
+                
+                document.getElementById('v_goitap').innerText = data.ten_goi_tap || 'Chưa đăng ký'; 
+                document.getElementById('v_hethan').innerText = data.ngay_het_han_vn; 
+                document.getElementById('v_trangthai').innerText = data.trang_thai_vn;
+
+                modalOverlay.classList.remove('hidden');
+                viewModal.classList.remove('hidden');
+            });
+        });
+
+        // GẮN SỰ KIỆN NÚT SỬA (CÂY BÚT)
+        document.querySelectorAll('.btn-edit').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const data = JSON.parse(this.getAttribute('data-info'));
+                
+                document.getElementById('e_id').value = data.id; // Vẫn cần ID thực để submit form update
+                document.getElementById('e_hoten').value = data.ho_ten;
+                document.getElementById('e_sdt').value = data.sdt;
+                document.getElementById('e_email').value = data.email;
+                document.getElementById('e_goitap').value = '';
+                
+                let ngayHetHanFormat = data.ngay_het_han ? data.ngay_het_han.split(' ')[0] : '';
+                document.getElementById('e_hethan').value = ngayHetHanFormat;
+                
+                // Cực kì quan trọng: Lưu lại ngày cũ để lát đối chiếu gia hạn cộng dồn
+                document.getElementById('e_hethan').setAttribute('data-old-expire', ngayHetHanFormat);
+                document.getElementById('e_trangthai').value = data.trang_thai_goc;
+
+                modalOverlay.classList.remove('hidden');
+                editModal.classList.remove('hidden');
+            });
+        });
+
+        // ==========================================
+        // LOGIC GIA HẠN GÓI: CỘNG DỒN NGÀY THÔNG MINH
+        // ==========================================
+        document.getElementById('e_goitap').addEventListener('change', function() {
+            var selectedOption = this.options[this.selectedIndex];
+            var soNgay = selectedOption.getAttribute('data-ngay'); // Lấy số ngày từ data-ngay
+
+            if (soNgay && parseInt(soNgay) > 0) {
+                var oldExpire = document.getElementById('e_hethan').getAttribute('data-old-expire');
+                var today = new Date();
+                today.setHours(0, 0, 0, 0); // Reset giờ về 0 để so sánh chuẩn xác
+                
+                var baseDate = new Date(); // Mặc định gốc là hôm nay
+
+                // Khách đang còn hạn -> Lấy ngày cũ làm mốc cộng dồn
+                if (oldExpire) {
+                    var oldExpireDate = new Date(oldExpire);
+                    oldExpireDate.setHours(0, 0, 0, 0);
+                    
+                    // Chỉ cộng dồn nếu ngày cũ vẫn còn ở tương lai hoặc là hôm nay
+                    if (oldExpireDate >= today) {
+                        baseDate = oldExpireDate;
+                    }
+                }
+
+                // Cộng thêm số ngày (Sử dụng getDate + số ngày mới)
+                baseDate.setDate(baseDate.getDate() + parseInt(soNgay));
+                
+                // Format lại yyyy-mm-dd để đẩy vào input date
+                var yyyy = baseDate.getFullYear();
+                var mm = String(baseDate.getMonth() + 1).padStart(2, '0');
+                var dd = String(baseDate.getDate()).padStart(2, '0');
+                
+                document.getElementById('e_hethan').value = `${yyyy}-${mm}-${dd}`;
+            }
+        });
+        
     </script>
 </body>
 </html>
