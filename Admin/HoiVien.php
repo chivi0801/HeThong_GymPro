@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿<?php require_once __DIR__ . '/../actions/xuly_HoiVien.php'; ?>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -136,7 +137,7 @@
         .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
 
         /* ================= MEMBER STATS GRID ================= */
-        .member-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 24px; flex-shrink: 0; }
+        .member-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 24px; flex-shrink: 0; }
         .stat-card-m {
             background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 16px;
             padding: 24px; display: flex; flex-direction: column; justify-content: space-between; position: relative;
@@ -192,6 +193,9 @@
         .badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; display: inline-block; }
         .badge.active { background: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.2); }
         .badge.warning { background: rgba(249, 115, 22, 0.1); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.2); }
+        .badge.expired { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); }
+        .badge.reserved { background: rgba(14, 165, 233, 0.1); color: #38bdf8; border: 1px solid rgba(14, 165, 233, 0.25); }
+        .badge.paused { background: rgba(148, 163, 184, 0.1); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.25); }
 
         /* Actions */
         .action-btns { display: flex; gap: 12px; color: var(--text-muted); }
@@ -216,9 +220,170 @@
         .page-btn.active { background: var(--purple); color: white; font-weight: 600; }
         .page-text { font-size: 13px; color: var(--text-muted); margin: 0 8px; cursor: pointer; }
 
+        .toast-success {
+            position: fixed;
+            top: 92px;
+            right: 24px;
+            z-index: 5000;
+            background: rgba(16, 185, 129, 0.95);
+            color: #ffffff;
+            border: 1px solid rgba(16, 185, 129, 0.6);
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
+            opacity: 0;
+            transform: translateY(-8px);
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        .toast-success.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .member-detail-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(6, 8, 15, 0.72);
+            backdrop-filter: blur(3px);
+            z-index: 4600;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .member-detail-overlay.show {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        .member-detail-card {
+            width: min(92vw, 640px);
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+        }
+        .member-detail-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-dark);
+            cursor: pointer;
+        }
+        .member-detail-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .member-detail-sub {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+        .member-detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px 16px;
+            margin-bottom: 14px;
+        }
+        .member-detail-item {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .member-detail-item .label {
+            display: block;
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .member-detail-item .value {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .member-face-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 10px;
+        }
+        .member-face-status {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .btn-face-action {
+            border: none;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            background: var(--primary);
+            color: white;
+        }
+
     </style>
 </head>
 <body>
+
+    <?php $registerSuccess = isset($_GET['register_success']) && $_GET['register_success'] === '1'; ?>
+    <div id="register-success-toast" class="toast-success<?php echo $registerSuccess ? ' show' : ''; ?>">
+        Đăng ký thành công
+    </div>
+    <div id="member-detail-overlay" class="member-detail-overlay">
+        <div class="member-detail-card">
+            <button type="button" id="member-detail-close" class="member-detail-close" aria-label="Đóng popup">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="member-detail-title">Thông tin hội viên</div>
+            <div class="member-detail-sub">Thông tin cơ bản và gói tập gần đây nhất.</div>
+
+            <div class="member-detail-grid">
+                <div class="member-detail-item"><span class="label">Họ tên</span><span class="value" id="md-ho-ten">--</span></div>
+                <div class="member-detail-item"><span class="label">Mã ID</span><span class="value" id="md-ma-id">--</span></div>
+                <div class="member-detail-item"><span class="label">Số điện thoại</span><span class="value" id="md-sdt">--</span></div>
+                <div class="member-detail-item"><span class="label">Email</span><span class="value" id="md-email">--</span></div>
+                <div class="member-detail-item"><span class="label">Ngày sinh</span><span class="value" id="md-ngay-sinh">--</span></div>
+                <div class="member-detail-item"><span class="label">Giới tính</span><span class="value" id="md-gioi-tinh">--</span></div>
+                <div class="member-detail-item"><span class="label">Gói gần đây</span><span class="value" id="md-goi-tap">--</span></div>
+                <div class="member-detail-item"><span class="label">Bắt đầu - Kết thúc</span><span class="value" id="md-thoi-han">--</span></div>
+                <div class="member-detail-item"><span class="label">Trạng thái gói</span><span class="value" id="md-trang-thai">--</span></div>
+            </div>
+
+            <div class="member-face-row">
+                <div>
+                    <div class="member-detail-sub" style="margin-bottom: 4px;">Đăng ký khuôn mặt</div>
+                    <div class="member-face-status" id="md-face-status">Chưa đăng ký</div>
+                </div>
+                <button type="button" class="btn-face-action" id="md-face-action-btn">Đăng ký khuôn mặt</button>
+            </div>
+        </div>
+    </div>
 
     <div id="sidebar-placeholder"></div>
 
@@ -250,7 +415,7 @@
                         <span class="title">Tổng hội viên</span>
                         <div class="icon-s"><i class="fa-solid fa-users"></i></div>
                     </div>
-                    <div class="value">1,284</div>
+                    <div class="value"><?php echo htmlspecialchars($tongHoiVienFormatted, ENT_QUOTES, 'UTF-8'); ?></div>
                     <div class="desc blue-text"><i class="fa-solid fa-arrow-trend-up"></i> +12% tháng này</div>
                 </div>
                 
@@ -259,30 +424,40 @@
                         <span class="title">Gói tập hoạt động</span>
                         <div class="icon-s"><i class="fa-solid fa-shield-halved"></i></div>
                     </div>
-                    <div class="value">1,102</div>
+                    <div class="value"><?php echo htmlspecialchars($hoiVienDangHoatDongFormatted, ENT_QUOTES, 'UTF-8'); ?></div>
                     <div class="desc blue-text"><i class="fa-solid fa-arrow-trend-up"></i> +5% so với tuần trước</div>
                 </div>
 
                 <div class="stat-card-m warning">
                     <div class="top">
-                        <span class="title">Sắp Hết Hạn</span>
+                        <span class="title">Sắp Hết Hạn (trong 3 ngày)</span>
                         <div class="icon-s"><i class="fa-solid fa-triangle-exclamation"></i></div>
                     </div>
-                    <div class="value">45</div>
-                    <div class="desc warning-text">Cần gia hạn ngay</div>
+                    <div class="value"><?php echo htmlspecialchars($hoiVienSapHetHanFormatted, ENT_QUOTES, 'UTF-8'); ?></div>
+                    <div class="desc warning-text">Gửi nhắc nhở</div>
                 </div>
+
+                <div class="stat-card-m warning">
+                    <div class="top">
+                        <span class="title">Đã Hết Hạn</span>
+                        <div class="icon-s"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    </div>
+                    <div class="value"><?php echo htmlspecialchars($hoiVienDaHetHanFormatted, ENT_QUOTES, 'UTF-8'); ?></div>
+                    <div class="desc warning-text">Gia hạn ngay</div>
+                </div>
+                
             </div>
 
             <div class="table-panel">
                 
                 <div class="table-header-controls">
                     <div class="tabs">
-                        <div class="tab active">Tất cả</div>
-                        <div class="tab">Đang hoạt động</div>
-                        <div class="tab">Sắp hết hạn</div>
-                        <div class="tab">Đã hết hạn</div>
-                        <div class="tab">Bảo lưu</div>
-                        <div class="tab">Tạm dừng</div>
+                        <div class="tab active" data-status-filter="all">Tất cả</div>
+                        <div class="tab" data-status-filter="active">Đang hoạt động</div>
+                        <div class="tab" data-status-filter="expiring">Sắp hết hạn</div>
+                        <div class="tab" data-status-filter="expired">Đã hết hạn</div>
+                        <div class="tab" data-status-filter="reserved">Bảo lưu</div>
+                        <div class="tab" data-status-filter="paused">Tạm dừng</div>
                     </div>
                     <div class="filters">
                         <button class="btn-filter"><i class="fa-solid fa-filter"></i> Lọc</button>
@@ -304,50 +479,69 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <div class="user-col">
-                                        <div class="avatar purple">C</div>
-                                        <span>Customer</span>
-                                    </div>
-                                </td>
-                                <td class="code-col">#FF-2023-001</td>
-                                <td>Premium Annual</td>
-                                <td>12/12/2024</td>
-                                <td>12/12/2024</td>
-                                <td><span class="badge active">Hoạt động</span></td>
-                                <td>
-                                    <div class="action-btns"><i class="fa-regular fa-eye"></i> <i class="fa-solid fa-pen"></i></div>
+                            <?php if (!empty($hoiVienRows)): ?>
+                                <?php foreach ($hoiVienRows as $member): ?>
+                                    <?php
+                                        $statusKey = $member['normalized_status'] ?? 'active';
+                                        $statusMeta = $statusDisplayMap[$statusKey] ?? ['label' => 'Khong xac dinh', 'badgeClass' => 'paused', 'warningRow' => false];
+                                        $memberName = trim((string) ($member['ho_ten'] ?? ''));
+                                        $avatarChar = strtoupper(substr($memberName, 0, 1));
+                                        $rowClass = !empty($statusMeta['warningRow']) ? 'row-warning' : '';
+                                    ?>
+                                    <tr
+                                        class="<?php echo $rowClass; ?> member-row"
+                                        data-member-id="<?php echo (int) ($member['id'] ?? 0); ?>"
+                                        data-status="<?php echo htmlspecialchars($statusKey, ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-ho-ten="<?php echo htmlspecialchars($memberName !== '' ? $memberName : 'Chua cap nhat', ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-ma-id="<?php echo htmlspecialchars((string) ($member['ma_id'] ?? '--'), ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-sdt="<?php echo htmlspecialchars((string) ($member['sdt'] ?? '--'), ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-email="<?php echo htmlspecialchars((string) (!empty($member['email']) ? $member['email'] : '--'), ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-ngay-sinh="<?php echo htmlspecialchars((string) ($member['ngay_sinh_fmt'] ?? '--/--/----'), ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-gioi-tinh="<?php echo htmlspecialchars((string) (!empty($member['gioi_tinh']) ? $member['gioi_tinh'] : '--'), ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-goi-tap="<?php echo htmlspecialchars((string) ($member['ten_goi'] ?? 'Chua co goi'), ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-ngay-bat-dau="<?php echo htmlspecialchars((string) ($member['ngay_bat_dau_fmt'] ?? '--/--/----'), ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-ngay-het-han="<?php echo htmlspecialchars((string) ($member['ngay_het_han_fmt'] ?? '--/--/----'), ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-trang-thai-label="<?php echo htmlspecialchars((string) $statusMeta['label'], ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-face-registered="<?php echo !empty($member['da_dang_ky_khuon_mat']) ? '1' : '0'; ?>"
+                                    >
+                                        <td>
+                                            <div class="user-col">
+                                                <div class="avatar <?php echo $statusKey === 'active' ? 'purple' : ''; ?>"><?php echo htmlspecialchars($avatarChar !== '' ? $avatarChar : '?', ENT_QUOTES, 'UTF-8'); ?></div>
+                                                <span><?php echo htmlspecialchars($memberName !== '' ? $memberName : 'Chua cap nhat', ENT_QUOTES, 'UTF-8'); ?></span>
+                                            </div>
+                                        </td>
+                                        <td class="code-col"><?php echo htmlspecialchars((string) ($member['ma_id'] ?? '--'), ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td><?php echo htmlspecialchars((string) ($member['ten_goi'] ?? 'Chua co goi'), ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td><?php echo htmlspecialchars((string) ($member['ngay_bat_dau_fmt'] ?? '--/--/----'), ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="<?php echo $rowClass !== '' ? 'date-col' : ''; ?>"><?php echo htmlspecialchars((string) ($member['ngay_het_han_fmt'] ?? '--/--/----'), ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td><span class="badge <?php echo htmlspecialchars((string) $statusMeta['badgeClass'], ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars((string) $statusMeta['label'], ENT_QUOTES, 'UTF-8'); ?></span></td>
+                                        <td>
+                                            <div class="action-btns">
+                                                <i class="fa-regular fa-eye js-open-member-detail" title="Xem chi tiết"></i>
+                                                <i class="fa-solid fa-pen js-open-member-detail" title="Xem/Cập nhật"></i>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 32px 16px;">
+                                        Chưa có dữ liệu hội viên để hiển thị.
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                            <tr id="status-empty-row" style="display: none;">
+                                <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 32px 16px;">
+                                    Không có hội viên nào ở trạng thái này.
                                 </td>
                             </tr>
-                            
-                            
-                            <tr class="row-warning">
-                                <td>
-                                    <div class="user-col">
-                                        <div class="avatar" style="background: rgba(249, 115, 22, 0.2); color: #fb923c;">C</div>
-                                        <span>Customer</span>
-                                    </div>
-                                </td>
-                                <td class="code-col">#FF-2023-142</td>
-                                <td>Monthly Standard</td>
-                                <td class="date-col">28/10/2023</td>
-                                <td class="date-col">28/10/2023</td>
-                                <td><span class="badge warning">Sắp hết hạn</span></td>
-                                <td>
-                                    <div class="action-btns"><i class="fa-regular fa-eye"></i> <i class="fa-solid fa-pen"></i></div>
-                                </td>
-                            </tr>
-
-                           
                         </tbody>
                     </table>
                 </div>
 
                 <div class="pagination-area">
-                    <div class="page-info">
-                        Hiển thị 
-                        <select><option>5</option><option>10</option><option>20</option></select>
+                    <div class="page-info" id="member-page-info">
+                        Hiển thị tất cả <?php echo htmlspecialchars($tongHoiVienFormatted, ENT_QUOTES, 'UTF-8'); ?> hội viên
                     </div>
                     <div class="pagination">
                         <span class="page-text">Trước</span>
@@ -407,7 +601,152 @@
             syncThemeToggleButton(document.documentElement.getAttribute('data-theme'));
         }
 
+        function initHoiVienStatusTabs() {
+            const tabs = document.querySelectorAll('.tabs .tab');
+            const rows = document.querySelectorAll('tbody .member-row');
+            const emptyRow = document.getElementById('status-empty-row');
+            const pageInfo = document.getElementById('member-page-info');
+
+            if (!tabs.length || !pageInfo) {
+                return;
+            }
+
+            const totalRows = rows.length;
+
+            const updatePageInfo = (visibleCount, filterKey) => {
+                if (filterKey === 'all') {
+                    pageInfo.textContent = `Hien thi tat ca ${visibleCount} hoi vien`;
+                    return;
+                }
+                pageInfo.textContent = `Hien thi ${visibleCount}/${totalRows} hoi vien`;
+            };
+
+            const applyFilter = (filterKey) => {
+                let visibleCount = 0;
+
+                rows.forEach((row) => {
+                    const rowStatus = row.getAttribute('data-status');
+                    const isVisible = filterKey === 'all' || rowStatus === filterKey;
+                    row.style.display = isVisible ? '' : 'none';
+                    if (isVisible) {
+                        visibleCount++;
+                    }
+                });
+
+                if (emptyRow) {
+                    emptyRow.style.display = visibleCount === 0 ? '' : 'none';
+                }
+
+                updatePageInfo(visibleCount, filterKey);
+            };
+
+            tabs.forEach((tab) => {
+                tab.addEventListener('click', function () {
+                    tabs.forEach((item) => item.classList.remove('active'));
+                    this.classList.add('active');
+                    applyFilter(this.getAttribute('data-status-filter') || 'all');
+                });
+            });
+
+            applyFilter('all');
+        }
+
+        function initRegisterSuccessToast() {
+            const toast = document.getElementById('register-success-toast');
+            if (!toast || !toast.classList.contains('show')) {
+                return;
+            }
+
+            window.setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2200);
+        }
+
+        function initMemberDetailPopup() {
+            const overlay = document.getElementById('member-detail-overlay');
+            const closeBtn = document.getElementById('member-detail-close');
+            const actionIcons = document.querySelectorAll('.js-open-member-detail');
+            const faceActionBtn = document.getElementById('md-face-action-btn');
+            let currentMemberId = 0;
+
+            if (!overlay || !closeBtn || !actionIcons.length) {
+                return;
+            }
+
+            const fields = {
+                hoTen: document.getElementById('md-ho-ten'),
+                maId: document.getElementById('md-ma-id'),
+                sdt: document.getElementById('md-sdt'),
+                email: document.getElementById('md-email'),
+                ngaySinh: document.getElementById('md-ngay-sinh'),
+                gioiTinh: document.getElementById('md-gioi-tinh'),
+                goiTap: document.getElementById('md-goi-tap'),
+                thoiHan: document.getElementById('md-thoi-han'),
+                trangThai: document.getElementById('md-trang-thai'),
+                faceStatus: document.getElementById('md-face-status')
+            };
+
+            const closePopup = () => {
+                overlay.classList.remove('show');
+            };
+
+            const openPopupByRow = (row) => {
+                fields.hoTen.textContent = row.dataset.hoTen || '--';
+                fields.maId.textContent = row.dataset.maId || '--';
+                fields.sdt.textContent = row.dataset.sdt || '--';
+                fields.email.textContent = row.dataset.email || '--';
+                fields.ngaySinh.textContent = row.dataset.ngaySinh || '--';
+                fields.gioiTinh.textContent = row.dataset.gioiTinh || '--';
+                fields.goiTap.textContent = row.dataset.goiTap || '--';
+                fields.thoiHan.textContent = `${row.dataset.ngayBatDau || '--/--/----'} - ${row.dataset.ngayHetHan || '--/--/----'}`;
+                fields.trangThai.textContent = row.dataset.trangThaiLabel || '--';
+
+                const isFaceRegistered = row.dataset.faceRegistered === '1';
+                fields.faceStatus.textContent = isFaceRegistered ? 'Đã đăng ký' : 'Chưa đăng ký';
+                currentMemberId = Number(row.dataset.memberId || 0);
+                if (faceActionBtn) {
+                    faceActionBtn.textContent = isFaceRegistered ? 'Cập nhật khuôn mặt' : 'Đăng ký khuôn mặt';
+                }
+
+                overlay.classList.add('show');
+            };
+
+            actionIcons.forEach((icon) => {
+                icon.addEventListener('click', function () {
+                    const row = this.closest('.member-row');
+                    if (!row) {
+                        return;
+                    }
+                    openPopupByRow(row);
+                });
+            });
+
+            closeBtn.addEventListener('click', closePopup);
+            if (faceActionBtn) {
+                faceActionBtn.addEventListener('click', function () {
+                    if (!currentMemberId) {
+                        return;
+                    }
+                    window.location.href = `../Admin/DiemDanh.php?mode=enroll&member_id=${currentMemberId}`;
+                });
+            }
+            overlay.addEventListener('click', function (event) {
+                if (event.target === overlay) {
+                    closePopup();
+                }
+            });
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                    closePopup();
+                }
+            });
+        }
+
         initAdminTheme();
+        initHoiVienStatusTabs();
+        initRegisterSuccessToast();
+        initMemberDetailPopup();
 
         function initSidebarProfilePopup() {
             const trigger = document.getElementById('gymProfileTrigger');
@@ -465,3 +804,4 @@
     </script>
 </body>
 </html>
+

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 05, 2026 at 05:37 PM
+-- Generation Time: Mar 06, 2026 at 06:30 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -34,9 +34,10 @@ CREATE TABLE `chu_gym` (
   `email` varchar(100) NOT NULL,
   `sdt` varchar(15) DEFAULT NULL,
   `mat_khau` varchar(255) NOT NULL,
-  `ngay_tao` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `ngay_tao` date DEFAULT curdate(),
   `trang_thai` enum('active','expired','pending') DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 --
 -- Dumping data for table `chu_gym`
 --
@@ -112,7 +113,26 @@ INSERT INTO `dang_ky_goi` (`id`, `hoi_vien_id`, `goi_tap_id`, `ngay_bat_dau`, `n
 (45, 36, 3, '2026-03-05', '2026-04-05', 'active'),
 (46, 37, 3, '2026-03-05', '2026-04-05', 'active'),
 (47, 38, 3, '2026-03-05', '2026-04-05', 'active'),
-(48, 39, 3, '2026-03-05', '2026-04-05', 'active');
+(48, 39, 3, '2026-03-05', '2026-04-05', 'active'),
+(65, 10, 1, '2025-12-01', '2026-01-01', 'expired'),
+(66, 11, 1, '2025-11-01', '2025-12-01', 'expired'),
+(67, 20, 3, '2025-12-01', '2026-01-01', 'expired'),
+(68, 21, 3, '2025-11-01', '2025-12-01', 'expired'),
+(69, 12, 1, '2026-02-10', '2026-03-08', 'active'),
+(70, 13, 1, '2026-02-10', '2026-03-09', 'active'),
+(71, 22, 3, '2026-02-10', '2026-03-08', 'active'),
+(72, 23, 3, '2026-02-10', '2026-03-09', 'active'),
+(73, 14, 1, '2026-02-01', '2026-04-01', 'paused'),
+(74, 15, 1, '2026-02-01', '2026-04-01', 'paused'),
+(75, 24, 3, '2026-02-01', '2026-04-01', 'paused'),
+(76, 25, 3, '2026-02-01', '2026-04-01', 'paused'),
+(77, 16, 1, '2026-02-01', '2026-04-01', 'cancelled'),
+(78, 17, 1, '2026-02-01', '2026-04-01', 'cancelled'),
+(79, 26, 3, '2026-02-01', '2026-04-01', 'cancelled'),
+(80, 27, 3, '2026-02-01', '2026-04-01', 'cancelled'),
+(81, 56, 1, '2026-03-06', '2026-04-05', 'active'),
+(82, 57, 2, '2026-03-06', '2026-06-04', 'active'),
+(83, 58, 4, '2026-03-06', '2026-09-02', 'active');
 
 -- --------------------------------------------------------
 
@@ -179,7 +199,8 @@ INSERT INTO `diem_danh` (`id`, `hoi_vien_id`, `thoi_gian`, `hinh_anh`) VALUES
 (21, 12, '2026-03-05 09:10:00', 'check12.jpg'),
 (22, 13, '2026-03-05 09:20:00', 'check13.jpg'),
 (23, 14, '2026-03-05 09:40:00', 'check14.jpg'),
-(24, 15, '2026-03-05 10:00:00', 'check15.jpg');
+(24, 15, '2026-03-05 10:00:00', 'check15.jpg'),
+(25, 56, '2026-03-07 00:13:21', NULL);
 
 -- --------------------------------------------------------
 
@@ -243,10 +264,10 @@ CREATE TABLE `hoi_vien` (
   `ho_ten` varchar(100) NOT NULL,
   `sdt` varchar(15) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `ngay_sinh` DATE DEFAULT NULL,
+  `ngay_sinh` date DEFAULT NULL,
   `gioi_tinh` varchar(10) DEFAULT NULL,
-  `ngay_dang_ky` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  `trang_thai` enum('active','expired','pending') DEFAULT 'active',
+  `ngay_dang_ky` date DEFAULT curdate(),
+  `trang_thai` enum('active','expired') DEFAULT 'active',
   `chu_gym_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -293,7 +314,34 @@ INSERT INTO `hoi_vien` (`id`, `ho_ten`, `sdt`, `email`, `ngay_sinh`, `gioi_tinh`
 (36, 'Trần Thanh Sơn', '0912000017', 'son@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 2),
 (37, 'Lê Thị Ngọc', '0912000018', 'ngoc@gmail.com', NULL, 'Nữ', '2026-03-05', 'active', 2),
 (38, 'Phạm Văn Bình', '0912000019', 'binh@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 2),
-(39, 'Đỗ Minh Tâm', '0912000020', 'tam@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 2);
+(39, 'Đỗ Minh Tâm', '0912000020', 'tam@gmail.com', NULL, 'Nam', '2026-03-05', 'active', 2),
+(56, 'Lưu Chí Vỹ', '0398556524', NULL, NULL, 'Nam', '2026-03-06', 'active', 1),
+(57, 'Trịnh Bình Khang', '0123456678', NULL, NULL, 'Nam', '2026-03-06', 'active', 1),
+(58, 'Trịnh Bình Khinh', '0123456678', NULL, NULL, 'Khác', '2026-03-06', 'active', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `khuon_mat_hoi_vien`
+--
+
+CREATE TABLE `khuon_mat_hoi_vien` (
+  `id` int(11) NOT NULL,
+  `hoi_vien_id` int(11) NOT NULL,
+  `embedding` longblob NOT NULL,
+  `embedding_size` smallint(6) NOT NULL DEFAULT 128,
+  `anh_mau` varchar(255) DEFAULT NULL,
+  `trang_thai` tinyint(1) NOT NULL DEFAULT 1,
+  `ngay_tao` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `khuon_mat_hoi_vien`
+--
+
+INSERT INTO `khuon_mat_hoi_vien` (`id`, `hoi_vien_id`, `embedding`, `embedding_size`, `anh_mau`, `trang_thai`, `ngay_tao`) VALUES
+(1, 56, 0x5c8b07bebf2e983de950403d3e058fbcd14220beb91a1cbdced794bdf3830dbe5090903da67c01be14dc713e1aaae3bc7e5135be3754c9bdc52427bda3672b3eeaf41bbe970dfbbd983f94bd0e51e43bd1a5aa3dc02e8d3deb762d3dc31b133c203ae0bddf43c0bec53c28bdf64c17bd0d7d553c1bec5cbd263ea8bdc1ae8e3d400f57be3b543abd26c41f3d17aae63d951062bc70bff53c96ee143e90cabe3ba0bb90befa58a23d31abc23c3d0e8e3eabcd403eaaaea63d60c1713a8cefffbd3fcdca3dab8221be401d733d0234183e411b8c3d560b253d3ceb20bd804ad8bde8a1623b3baba23dfd43ecbd230dbe3cf295143ef5c7dbbd69c493bbca6e05be5a36553e5378313cac0409bef5f71bbe2b397d3db3ea1dbeae64d4bdf2c52c3dc2ed27be9a4d3bbe8166b2be3466303dbda1c23e40bd083e15ca38bed088883bba163cbc3218cb3c1cb4ff3d671a273ea07539bb32493f3d77bd72bde829d83c5415613e7a904abd13f91ebd64f9853e5eaea93bf458af3d23deae3b7e5e323d9b644bbd01c0f53c40f4cebd68a1053dfa9dcb3b1fb29fbdcc9c203d224a0d3e82ea13bed060353e85fb60bd466dd53d98f4633dafff043d676eb5bd4b1fe3bd5e7cad3d422345be39126c3eef1b6f3ed943ec3d096cef3d966f0b3ef155a83db265b0bc8448563d7bdb5bbe5ded23bddf6eec3d8a6189bdc042db3d3e8f1f3d, 128, NULL, 0, '2026-03-07 00:13:19'),
+(2, 56, 0x48b2adbd463ea63d7255913cb42e40bd623cecbd3d5d4abd01689bbd787aecbd359f6c3da6da04bea4a0813e704038bd3aa937be8d69a3bdf507e5bcbb3f1c3e3c2f38bec2fba2bd8190acbd980e383c1b13ac3d4099913d960e7d3cb1c20e3da43202be9524b4be7dc550bd608febbcb09abc3c1ea71dbdaac278bd7cf2203d7c045fbee1bb55bd48ab1f3d2cab773d6c9335bd638e68bc59591c3e18749c3b6b3285beae63c73da806483d2d18893ebfea4a3e5dcb883d00031dbc8fb700bef173fe3dd9363abef3e3ca3c5ab4003e8aa38a3d60fd813d6418d5bc37dff6bd60de223d0245953d3dfdfbbdccc8a73b3a60c23dda6dbcbdec76bd3c106fc2bdd5ae693e5fd50e3c56720bbe32df0fbe848f833dacdd1bbe32399abd05d17b3dc23605be0ccd31bec2bbadbe10b1ac3c2554b73e1b85063e9dbf48bee65d023d21faf9bc6267c93cb57e253e6e82113e23310ebcafc4a33c81988bbd3249e53c0bf0793e4a1d60bd6ba149bd2d5e8c3e4a52743c2080ac3d38a7353da030143dc2a7c2bdbe6a963a9c33c3bd0a65173dbc62323dbd7988bd121bcf3cdae61e3eaf0419beda184e3e368500bd35b6be3d2d689e3df91c123d5a7fb2bdcd25bdbd7b8b933dcbaa51be92506f3e0420323e2b9abc3dc467ea3dd3050b3e7281643d28146dbddcde3f3d58e859be818344bd1e66e63d70a581bd80f8103ee8d67e3a, 128, NULL, 1, '2026-03-07 00:16:19');
 
 -- --------------------------------------------------------
 
@@ -305,7 +353,7 @@ CREATE TABLE `thanh_toan` (
   `id` int(11) NOT NULL,
   `dang_ky_id` int(11) NOT NULL,
   `so_tien` decimal(10,2) NOT NULL,
-  `ngay_thanh_toan`  DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `ngay_thanh_toan` date DEFAULT curdate(),
   `phuong_thuc` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -334,7 +382,7 @@ CREATE TABLE `thanh_toan_he_thong` (
   `id` int(11) NOT NULL,
   `dang_ky_he_thong_id` int(11) NOT NULL,
   `so_tien` decimal(10,2) NOT NULL,
-  `ngay_thanh_toan` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `ngay_thanh_toan` date DEFAULT curdate(),
   `phuong_thuc` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -401,6 +449,13 @@ ALTER TABLE `hoi_vien`
   ADD KEY `chu_gym_id` (`chu_gym_id`);
 
 --
+-- Indexes for table `khuon_mat_hoi_vien`
+--
+ALTER TABLE `khuon_mat_hoi_vien`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_km_hv_trang_thai` (`hoi_vien_id`,`trang_thai`);
+
+--
 -- Indexes for table `thanh_toan`
 --
 ALTER TABLE `thanh_toan`
@@ -428,7 +483,7 @@ ALTER TABLE `chu_gym`
 -- AUTO_INCREMENT for table `dang_ky_goi`
 --
 ALTER TABLE `dang_ky_goi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT for table `dang_ky_he_thong`
@@ -440,7 +495,7 @@ ALTER TABLE `dang_ky_he_thong`
 -- AUTO_INCREMENT for table `diem_danh`
 --
 ALTER TABLE `diem_danh`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `goi_he_thong`
@@ -458,7 +513,13 @@ ALTER TABLE `goi_tap`
 -- AUTO_INCREMENT for table `hoi_vien`
 --
 ALTER TABLE `hoi_vien`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+
+--
+-- AUTO_INCREMENT for table `khuon_mat_hoi_vien`
+--
+ALTER TABLE `khuon_mat_hoi_vien`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `thanh_toan`
@@ -509,6 +570,12 @@ ALTER TABLE `hoi_vien`
   ADD CONSTRAINT `hoi_vien_ibfk_1` FOREIGN KEY (`chu_gym_id`) REFERENCES `chu_gym` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `khuon_mat_hoi_vien`
+--
+ALTER TABLE `khuon_mat_hoi_vien`
+  ADD CONSTRAINT `fk_khuon_mat_hoi_vien_hoi_vien` FOREIGN KEY (`hoi_vien_id`) REFERENCES `hoi_vien` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `thanh_toan`
 --
 ALTER TABLE `thanh_toan`
@@ -521,70 +588,6 @@ ALTER TABLE `thanh_toan_he_thong`
   ADD CONSTRAINT `thanh_toan_he_thong_ibfk_1` FOREIGN KEY (`dang_ky_he_thong_id`) REFERENCES `dang_ky_he_thong` (`id`) ON DELETE CASCADE;
 COMMIT;
 
-ALTER TABLE hoi_vien
-ADD COLUMN ma_id VARCHAR(50) AFTER id,
-ADD COLUMN goi_tap VARCHAR(100) AFTER email,
-ADD COLUMN ngay_het_han DATE AFTER ngay_dang_ky;
-
-UPDATE hoi_vien 
-SET ma_id = '#FF-2026-001', goi_tap = 'Premium Annual', ngay_het_han = '2027-03-03', trang_thai = 'Hoạt động' 
-WHERE id = 1;
-
-UPDATE hoi_vien 
-SET ma_id = '#FF-2026-002', goi_tap = 'Premium Annual', ngay_het_han = '2027-03-03', trang_thai = 'Hoạt động' 
-WHERE id = 2;
-
-UPDATE hoi_vien 
-SET ma_id = '#FF-2026-003', goi_tap = 'Monthly Standard', ngay_het_han = '2026-03-10', trang_thai = 'Sắp hết hạn' 
-WHERE id = 3;
-
--- 1. Sửa lại cột trang_thai để nhận các giá trị Tiếng Anh mới
-ALTER TABLE hoi_vien 
-MODIFY trang_thai ENUM('active', 'expiring', 'expired', 'reserved', 'paused') DEFAULT 'active';
-
--- 2. Cập nhật lại dữ liệu cho chuẩn Tiếng Anh (không xài 'Hoạt động' hay 'Sắp hết hạn' trong DB nữa)
-UPDATE hoi_vien SET ma_id = '#FF-2026-001', goi_tap = 'Premium Annual', ngay_het_han = '2027-03-03', trang_thai = 'active' WHERE id = 1;
-UPDATE hoi_vien SET ma_id = '#FF-2026-002', goi_tap = 'Premium Annual', ngay_het_han = '2027-03-03', trang_thai = 'active' WHERE id = 2;
-UPDATE hoi_vien SET ma_id = '#FF-2026-003', goi_tap = 'Monthly Standard', ngay_het_han = '2026-03-10', trang_thai = 'expiring' WHERE id = 3;
-
-
--- Xóa cột cũ
-ALTER TABLE hoi_vien DROP COLUMN goi_tap;
-
--- Thêm cột mới là số nguyên để chứa ID gói tập
-ALTER TABLE hoi_vien ADD COLUMN goi_tap_id INT AFTER email;
-
--- Cập nhật lại dữ liệu mẫu cho khớp với bảng goi_tap của mày
-UPDATE hoi_vien SET goi_tap_id = 1 WHERE id = 1;
-UPDATE hoi_vien SET goi_tap_id = 2 WHERE id = 2;
-UPDATE hoi_vien SET goi_tap_id = 3 WHERE id = 3;
-
-
--- 1. Cập nhật bảng Gói Tập (Thêm loại gói và số buổi)
-ALTER TABLE goi_tap 
-ADD COLUMN loai_goi ENUM('thoi_gian', 'so_buoi') DEFAULT 'thoi_gian' AFTER gia,
-ADD COLUMN so_buoi INT DEFAULT 0 AFTER loai_goi;
-
--- (Mẫu: Set thử gói số 3 thành gói 10 buổi lẻ)
-UPDATE goi_tap SET loai_goi = 'so_buoi', so_buoi = 10, thoi_han_thang = 0 WHERE id = 3;
-
--- 2. Cập nhật bảng Hội Viên (Lưu số buổi còn lại và hạn bảo lưu)
-ALTER TABLE hoi_vien 
-ADD COLUMN so_buoi_con_lai INT DEFAULT 0 AFTER ngay_het_han,
-ADD COLUMN ngay_het_bao_luu DATE NULL AFTER so_buoi_con_lai;
-
-
--- 1. Đổi tên cột thoi_han_thang thành thoi_han_ngay (vì UI frontend để là 30 ngày, 60 ngày...)
-ALTER TABLE goi_tap CHANGE COLUMN thoi_han_thang thoi_han_ngay INT NOT NULL DEFAULT 30;
-
--- 2. Thêm cột số lượng người (cho phép chọn 1, 2, 5... người tập chung 1 gói)
-ALTER TABLE goi_tap ADD COLUMN so_luong_nguoi INT NOT NULL DEFAULT 1 AFTER gia;
-
--- 3. Thêm cột trạng thái (Đang bán = 'active', Tạm dừng = 'paused')
-ALTER TABLE goi_tap ADD COLUMN trang_thai VARCHAR(20) NOT NULL DEFAULT 'active' AFTER mo_ta;
-
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
