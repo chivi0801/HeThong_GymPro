@@ -1,3 +1,8 @@
+<?php
+
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -562,7 +567,13 @@
 
 <body>
 
-    <?php include '../Components/sidebar.php'; ?>
+    <?php 
+    // Kiểm tra session đã start
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    include '../Components/sidebar.php'; 
+    ?>
     <!-- sidebar.php xuất ra: <aside class="sidebar">...</aside> -->
     <!-- CSS của sidebar đã có sẵn trong sidebar.php, không cần viết lại -->
 
