@@ -33,7 +33,7 @@ entity dang_ky_he_thong {
   --
   chu_gym_id : INT <<FK>>
   goi_he_thong_id : INT <<FK>>
-  so_thang: INT NOT NULL
+  so_thang : INT
   ngay_bat_dau : DATE
   ngay_ket_thuc : DATE
   trang_thai : ENUM('active','expired','pending')
@@ -61,7 +61,7 @@ entity hoi_vien {
   ngay_sinh : DATE
   gioi_tinh : VARCHAR
   ngay_dang_ky : DATE
-  trang_thai : ENUM('active','expired','pending')
+  trang_thai : ENUM('active','expired')
   chu_gym_id : INT <<FK>>
 }
 
@@ -102,6 +102,17 @@ entity diem_danh {
   hinh_anh : VARCHAR
 }
 
+entity khuon_mat_hoi_vien {
+  +id : INT <<PK>>
+  --
+  hoi_vien_id : INT <<FK>>
+  embedding : LONGBLOB
+  embedding_size : SMALLINT
+  anh_mau : VARCHAR
+  trang_thai : TINYINT
+  ngay_tao : DATETIME
+}
+
 ' ======================
 ' RELATIONSHIPS
 ' ======================
@@ -119,5 +130,7 @@ goi_tap  ||--o{ dang_ky_goi
 dang_ky_goi ||--o{ thanh_toan
 
 hoi_vien ||--o{ diem_danh
+
+hoi_vien ||--o{ khuon_mat_hoi_vien
 
 @enduml
