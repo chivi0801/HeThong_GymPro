@@ -152,8 +152,19 @@ if ($ddMode === 'enroll' && $ddEnrollMemberId > 0) {
 
                     <div class="enroll-bar" id="ddEnrollBar" style="display:none;">
                         <span class="enroll-pill" id="ddEnrollTargetText">Đang đăng ký khuôn mặt</span>
+                        <span class="enroll-pill" style="background:rgba(59,130,246,.1);color:#3b82f6;"><i class="fa-solid fa-images"></i> <span id="ddEnrollCount">0/5</span> cảnh</span>
                         <button type="button" class="btn btn-primary" id="ddEnrollBtn">Lưu khuôn mặt</button>
                         <a href="../Admin/HoiVien.php" class="btn btn-ghost" style="text-decoration:none;">Quay lại</a>
+                    </div>
+                    <div id="ddEnrollHint" style="display:none;margin-bottom:16px;padding:12px;background:rgba(139,92,246,.1);border-radius:12px;border-left:3px solid #8b5cf6;font-size:13px;color:var(--text-muted);line-height:1.5;">
+                        <strong style="color:#8b5cf6;">💡 Gợi ý:</strong> Để cải thiện độ chính xác, hãy lưu khuôn mặt từ nhiều góc độ khác nhau:
+                        <div style="margin-top:8px;margin-left:12px;">
+                            ✓ Nhìn thẳng vào camera<br>
+                            ✓ Quay mặt sang trái 45°<br>
+                            ✓ Quay mặt sang phải 45°<br>
+                            ✓ Ngửa mặt lên hơi<br>
+                            ✓ Hạ mặt xuống hơi
+                        </div>
                     </div>
 
                     <div class="panel" style="padding: 16px;">
@@ -342,11 +353,11 @@ if ($ddMode === 'enroll' && $ddEnrollMemberId > 0) {
             const labeled = [];
 
             data.members.forEach((member) => {
-                if (!Array.isArray(member.embedding) || member.embedding.length === 0) {
+                if (!Array.isArray(member.embeddings) || member.embeddings.length === 0) {
                     return;
                 }
-                const descriptor = new Float32Array(member.embedding);
-                labeled.push(new faceapi.LabeledFaceDescriptors(member.label, [descriptor]));
+                const descriptors = member.embeddings.map(emb => new Float32Array(emb));
+                labeled.push(new faceapi.LabeledFaceDescriptors(member.label, descriptors));
                 memberByLabel.set(member.label, member);
             });
 
@@ -382,6 +393,8 @@ if ($ddMode === 'enroll' && $ddEnrollMemberId > 0) {
             if (DD_CONFIG.mode !== 'enroll' || !DD_CONFIG.enrollTarget || !DD_CONFIG.enrollTarget.id) return;
             const video = document.getElementById('ddCameraVideo');
             const statusEl = document.getElementById('ddDetectStatus');
+            const enrollBtn = document.getElementById('ddEnrollBtn');
+            const enrollCountEl = document.getElementById('ddEnrollCount');
 
             const detection = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
                 .withFaceLandmarks()
@@ -393,27 +406,46 @@ if ($ddMode === 'enroll' && $ddEnrollMemberId > 0) {
             }
 
             statusEl.textContent = 'Đang lưu khuôn mặt...';
-            const response = await fetch('../actions/api_face_enroll.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'same-origin',
-                body: JSON.stringify({
-                    member_id: DD_CONFIG.enrollTarget.id,
-                    embedding: Array.from(detection.descriptor)
-                })
-            });
-            const payload = await response.json();
+            if (enrollBtn) enrollBtn.disabled = true;
 
-            if (!payload.success) {
-                statusEl.textContent = 'Lưu khuôn mặt thất bại';
-                alert(payload.message || 'Không thể lưu khuôn mặt');
-                return;
+            try {
+                const response = await fetch('../actions/api_face_enroll.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({
+                        member_id: DD_CONFIG.enrollTarget.id,
+                        embedding: Array.from(detection.descriptor)
+                    })
+                });
+                const payload = await response.json();
+
+                if (!payload.success) {
+                    statusEl.textContent = 'Lưu khuôn mặt thất bại';
+                    alert(payload.message || 'Không thể lưu khuôn mặt');
+                    if (enrollBtn) enrollBtn.disabled = false;
+                    return;
+                }
+
+                const embedCount = payload.embedding_count || 1;
+                statusEl.textContent = `Đã lưu khuôn mặt (${embedCount})`;
+                if (enrollCountEl) {
+                    enrollCountEl.textContent = `${embedCount}/5`;
+                    if (embedCount >= 5) {
+                        enrollCountEl.style.color = '#10b981';
+                    }
+                }
+
+                alert(`Đã lưu thành công! Số cảnh đã thu thập: ${embedCount}. Hãy quay mặt theo những góc khác để cải thiện độ nhận diện.`);
+                DD_CONFIG.enrollTarget.da_dang_ky_khuon_mat = 1;
+                await fetchKnownMembers();
+                if (enrollBtn) enrollBtn.disabled = false;
+            } catch (error) {
+                console.error(error);
+                statusEl.textContent = 'Lỗi khi lưu khuôn mặt';
+                alert('Không thể lưu khuôn mặt');
+                if (enrollBtn) enrollBtn.disabled = false;
             }
-
-            statusEl.textContent = 'Đã lưu khuôn mặt';
-            alert('Đăng ký khuôn mặt thành công');
-            DD_CONFIG.enrollTarget.da_dang_ky_khuon_mat = 1;
-            await fetchKnownMembers();
         }
 
         async function initDiemDanhCamera() {
@@ -423,6 +455,7 @@ if ($ddMode === 'enroll' && $ddEnrollMemberId > 0) {
             const latencyEl = document.getElementById('ddDetectLatency');
             const modeHintEl = document.getElementById('ddModeHint');
             const enrollBar = document.getElementById('ddEnrollBar');
+            const enrollHint = document.getElementById('ddEnrollHint');
             const enrollBtn = document.getElementById('ddEnrollBtn');
             const enrollTargetText = document.getElementById('ddEnrollTargetText');
             const resetBtn = document.getElementById('ddResetBtn');
@@ -432,7 +465,8 @@ if ($ddMode === 'enroll' && $ddEnrollMemberId > 0) {
 
             if (DD_CONFIG.mode === 'enroll' && DD_CONFIG.enrollTarget) {
                 if (enrollBar) enrollBar.style.display = 'flex';
-                if (modeHintEl) modeHintEl.textContent = `Chế độ đăng ký khuôn mặt cho ${DD_CONFIG.enrollTarget.ho_ten}.`;
+                if (enrollHint) enrollHint.style.display = 'block';
+                if (modeHintEl) modeHintEl.textContent = `Chế độ đăng ký khuôn mặt cho ${DD_CONFIG.enrollTarget.ho_ten}. Thu thập từ nhiều góc độ để cải thiện độ nhận diện.`;
                 if (enrollTargetText) {
                     enrollTargetText.textContent = `${DD_CONFIG.enrollTarget.ho_ten} (${DD_CONFIG.enrollTarget.ma_id || '--'})`;
                 }

@@ -427,11 +427,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <label>Mật khẩu</label>
                             <a href="QuenMatKhau.php" class="forgot-link">Quên mật khẩu?</a>
                         </div>
+
                         <div class="input-wrapper">
                             <i class="fa-solid fa-lock"></i>
                             <input  id="password" class="form-control-custom" name="mat_khau" placeholder="Nhập mật khẩu" required >
+        
                             <i class="fa-regular fa-eye toggle-password" id="togglePassword"></i>
                         </div>
+                        
                     </div>
 
                     <div class="checkbox-group">

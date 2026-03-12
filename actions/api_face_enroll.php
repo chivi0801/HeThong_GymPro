@@ -59,13 +59,6 @@ if (!$member) {
 
 $conn->begin_transaction();
 try {
-    $stmtDisableOld = $conn->prepare("UPDATE khuon_mat_hoi_vien SET trang_thai = 0 WHERE hoi_vien_id = ? AND trang_thai = 1");
-    if ($stmtDisableOld) {
-        $stmtDisableOld->bind_param('i', $memberId);
-        $stmtDisableOld->execute();
-        $stmtDisableOld->close();
-    }
-
     $stmtInsert = $conn->prepare("INSERT INTO khuon_mat_hoi_vien (hoi_vien_id, embedding, embedding_size, anh_mau, trang_thai) VALUES (?, ?, ?, NULL, 1)");
     if (!$stmtInsert) {
         throw new RuntimeException('Khong tao duoc lenh luu khuon mat');
@@ -87,5 +80,21 @@ try {
 }
 
 $conn->close();
-echo json_encode(['success' => true, 'message' => 'Da luu khuon mat'], JSON_UNESCAPED_UNICODE);
+
+$connCount = @new mysqli('localhost', 'root', '', 'gym_pro');
+$embeddingCount = 0;
+if (!$connCount->connect_error) {
+    $connCount->set_charset('utf8mb4');
+    $stmtCount = $connCount->prepare("SELECT COUNT(*) AS cnt FROM khuon_mat_hoi_vien WHERE hoi_vien_id = ? AND trang_thai = 1");
+    if ($stmtCount) {
+        $stmtCount->bind_param('i', $memberId);
+        $stmtCount->execute();
+        $countRow = $stmtCount->get_result()->fetch_assoc();
+        $embeddingCount = (int) ($countRow['cnt'] ?? 0);
+        $stmtCount->close();
+    }
+    $connCount->close();
+}
+
+echo json_encode(['success' => true, 'message' => 'Da luu khuon mat', 'embedding_count' => $embeddingCount], JSON_UNESCAPED_UNICODE);
 ?>
