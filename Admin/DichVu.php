@@ -427,7 +427,7 @@
             font-size: 13px;
             cursor: pointer;
             margin-top: 12px;
-            padding: 4px;
+            padding: 4px; 
         }
 
         .btn-cancel-text:hover {
@@ -445,10 +445,12 @@
 
         <div class="page-body">
             <div class="flex-between mb-4">
+
                 <div>
-                    <h2 class="mb-1">Quản lý gói dịch vụ</h2>
+                    <h1 class="mb-2"> Quản lý gói dịch vụ</h1>
                     <p class="text-muted">Thiết lập và quản lý danh sách gói tập tại phòng gym</p>
                 </div>
+
                 <button class="btn-add" onclick="openModal()">
                     <i class="fa-solid fa-plus"></i> Thêm gói mới
                 </button>
