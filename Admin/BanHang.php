@@ -10,77 +10,64 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 :root {
-    --bg-body:      #0b0f1c;
-    --bg-sidebar:   #0d1120;
-    --bg-panel:     #111827;
-    --bg-dark:      #0d1120;
-    --bg-input:     #1a2035;
-    --border:       rgba(255,255,255,0.08);
-    --text:         #f1f5f9;
-    --muted:        #64748b;
-    --input-text:   #f1f5f9;
-    --primary:      #8b5cf6;
-    --purple:       #8b5cf6;
-    --green:        #22c55e;
-    --red:          #ef4444;
-    --blue:         #3b82f6;
-    --orange:       #f97316;
-    --yellow:       #eab308;
-    /* Alias cho sidebar.php & header.php */
-    --border-color: rgba(255,255,255,0.08);
-    --text-main:    #f1f5f9;
-    --text-muted:   #64748b;
+    --bg-dark: #121521;
+    --bg-panel: #1a1e2d;
+    --bg-sidebar: #151825;
+    --bg-input: #23283c;
+    --text-main: #ffffff;
+    --text-muted: #94a3b8;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --primary: #3b82f6;
+    --purple: #8b5cf6;
+    --warning: #f97316;
+    --danger: #ef4444;
+    --success: #10b981;
+    --gradient-btn: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    --input-text: #ffffff;
+    /* Alias untuk kompatibilitas */
+    --border: rgba(255, 255, 255, 0.08);
+    --text: #ffffff;
+    --muted: #94a3b8;
+    --bg-body: #121521;
 }
 :root[data-theme="light"] {
-    --bg-body:    #f1f5f9;
-    --bg-sidebar: #ffffff;
-    --bg-panel:   #ffffff;
-    --bg-dark:    #f8fafc;
-    --bg-input:   #f1f5f9;
-    --border:     rgba(15,23,42,0.12);
-    --text:       #0f172a;
-    --muted:      #64748b;
+    --bg-dark: #f1f5f9;
+    --bg-panel: #ffffff;
+    --bg-sidebar: #e2e8f0;
+    --bg-input: #f8fafc;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --border-color: rgba(15, 23, 42, 0.12);
+    --primary: #2563eb;
+    --purple: #7c3aed;
+    --warning: #ea580c;
+    --danger: #dc2626;
+    --success: #059669;
+    --gradient-btn: linear-gradient(90deg, #2563eb, #7c3aed);
     --input-text: #0f172a;
-    /* Alias light */
-    --border-color: rgba(15,23,42,0.12);
-    --text-main:    #0f172a;
-    --text-muted:   #64748b;
-    /* Popup vars */
-    --popup-bg: #ffffff;
-    --popup-border: rgba(15,23,42,0.14);
-    --popup-border-strong: rgba(15,23,42,0.22);
-    --popup-divider: rgba(15,23,42,0.08);
-    --popup-text: #0f172a;
-    --popup-muted: #64748b;
-    --popup-toggle-bg: rgba(59,130,246,0.12);
-    --popup-logout-border: rgba(220,38,38,0.35);
-    --popup-logout-bg: rgba(239,68,68,0.2);
-    --popup-logout-text: #b91c1c;
+    /* Alias untuk kompatibilitas */
+    --border: rgba(15, 23, 42, 0.12);
+    --text: #0f172a;
+    --muted: #64748b;
+    --bg-body: #f1f5f9;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg-body);color:var(--text);display:flex;height:100vh;overflow:hidden}
 
 /* ── SIDEBAR ── */
-.sidebar{width:220px;height:100vh;background:var(--bg-sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:24px 14px;flex-shrink:0}
-.logo{display:flex;flex-direction:column;align-items:center;margin-bottom:32px;text-decoration:none}
-.logo img{width:90px;height:44px;object-fit:contain}
-.logo-sub{font-size:10px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-top:4px}
-.nav-menu{flex:1;list-style:none;overflow-y:auto}
-.nav-menu::-webkit-scrollbar{width:3px}
-.nav-menu::-webkit-scrollbar-thumb{background:#334155;border-radius:10px}
-.nav-menu li{margin-bottom:4px}
-.nav-menu a{display:flex;align-items:center;gap:11px;padding:11px 14px;border-radius:11px;color:var(--muted);text-decoration:none;font-size:13.5px;font-weight:500;transition:.2s}
-.nav-menu a:hover{color:var(--text);background:rgba(255,255,255,.05)}
-.nav-menu a i{font-size:15px;width:18px;text-align:center}
-.nav-menu li.active a{background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.3);color:var(--text)}
-.nav-menu li.active a i{color:var(--purple)}
-.user-profile{margin-top:auto;display:flex;align-items:center;gap:11px;padding:14px 10px 0;border-top:1px solid var(--border);cursor:pointer}
-.avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
-.user-info h4{font-size:13px;font-weight:600}
-.user-info p{font-size:11px;color:var(--muted)}
+
+ .sidebar {
+            width: 260px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 24px 16px;
+            flex-shrink: 0;
+        }
 
 /* ── LAYOUT ── */
-.main{display:flex;flex:1;overflow:hidden;flex-direction:column}
+.main-content{display:flex;flex:1;overflow:hidden;flex-direction:column}
 
 /* ── HEADER ── */
 .top-header{display:flex;justify-content:space-between;align-items:center;padding:0 32px;height:72px;flex-shrink:0;background:var(--bg-panel);border-bottom:1px solid var(--border)}
@@ -93,8 +80,8 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg-body);color
 .btn-scan{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;white-space:nowrap}
 .btn-add{display:flex;align-items:center;gap:7px;background:var(--primary);border:none;color:#fff;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap}
 
-/* ── PAGE BODY ── */
-.page-body{flex:1;overflow-y:auto;padding:28px 32px}
+/* ── PAGE CONTENT ── */
+.page-content{flex:1;overflow-y:auto;padding:24px 40px}
 .page-title{font-size:22px;font-weight:700;margin-bottom:3px}
 .page-subtitle{font-size:13px;color:var(--muted);margin-bottom:22px}
 
@@ -192,23 +179,18 @@ tbody td{padding:13px 16px;font-size:13.5px;vertical-align:middle}
 .toast i{color:var(--green)}
 
 /* scrollbar */
-.page-body::-webkit-scrollbar{width:4px}
-.page-body::-webkit-scrollbar-thumb{background:#334155;border-radius:10px}
+.page-content::-webkit-scrollbar{width:4px}
+.page-content::-webkit-scrollbar-thumb{background:#334155;border-radius:10px}
 </style>
 </head>
 <body>
 
-<!-- ══════════════ SIDEBAR ══════════════ -->
-<?php include '../Components/sidebar.php'; ?>
+    <div id="sidebar-placeholder"></div>
 
-<!-- ══════════════ MAIN ══════════════ -->
-<div class="main">
-
-    <!-- HEADER -->
-    <?php include '../Components/header.php'; ?>
-
-    <!-- PAGE BODY -->
-    <div class="page-body">
+    <main class="main-content">
+        
+        <div id="header-placeholder"></div>
+        <div class="page-content">
         <div class="page-title">QUẢN LÝ BÁN HÀNG</div>
         <div class="page-subtitle">Quản lý danh mục sản phẩm và theo dõi doanh số bán hàng</div>
 
@@ -249,8 +231,7 @@ tbody td{padding:13px 16px;font-size:13.5px;vertical-align:middle}
                 <div class="page-btns" id="pgBtns"></div>
             </div>
         </div>
-    </div>
-</div>
+    </main>
 
 <!-- ══════════ POPUP BÁN HÀNG ══════════ -->
 <div class="popup-overlay" id="sellOverlay">
@@ -515,30 +496,52 @@ function fmt(n){ return n.toLocaleString('vi-VN')+'đ'; }
 // ── INIT ──
 renderTable();
 
-// ── SIDEBAR ACTIVE ──
-document.querySelectorAll('.sidebar .nav-menu a').forEach(a => {
-    if (a.getAttribute('href') === 'BanHang.php') a.closest('li').classList.add('active');
-});
+// ── LOAD HEADER & SIDEBAR ──
+fetch('../Components/header.php')
+    .then(response => response.text())
+    .then(data => document.getElementById('header-placeholder').innerHTML = data);
 
-// ── SIDEBAR PROFILE POPUP ──
-const _tr = document.getElementById('gymProfileTrigger');
-const _pp = document.getElementById('gymProfilePopup');
-const _ov = document.getElementById('gymProfileOverlay');
-const _cl = document.getElementById('gymProfileClose');
-if (_tr && _pp) {
-    _tr.addEventListener('click', () => { _pp.classList.add('show'); _ov.classList.add('show'); });
-    _cl.addEventListener('click', () => { _pp.classList.remove('show'); _ov.classList.remove('show'); });
-    _ov.addEventListener('click', () => { _pp.classList.remove('show'); _ov.classList.remove('show'); });
+fetch('../Components/sidebar.php')
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('sidebar-placeholder').innerHTML = data;
+
+        let currentPage = window.location.pathname.split('/').pop();
+        if (currentPage === '') currentPage = 'TongQuan.php';
+
+        const navLinks = document.querySelectorAll('.nav-menu a');
+        navLinks.forEach(link => {
+            const linkHref = link.getAttribute('href');
+            if (linkHref === currentPage) {
+                link.parentElement.classList.add('active');
+            }
+        });
+
+        initSidebarProfilePopup();
+        bindAdminThemeToggle();
+    });
+
+function initSidebarProfilePopup() {
+    const _tr = document.getElementById('gymProfileTrigger');
+    const _pp = document.getElementById('gymProfilePopup');
+    const _ov = document.getElementById('gymProfileOverlay');
+    const _cl = document.getElementById('gymProfileClose');
+    if (_tr && _pp) {
+        _tr.addEventListener('click', () => { _pp.classList.add('show'); _ov.classList.add('show'); });
+        _cl.addEventListener('click', () => { _pp.classList.remove('show'); _ov.classList.remove('show'); });
+        _ov.addEventListener('click', () => { _pp.classList.remove('show'); _ov.classList.remove('show'); });
+    }
 }
 
-// ── THEME TOGGLE ──
-const _thm = document.getElementById('adminThemeToggle');
-if (_thm) {
-    _thm.addEventListener('click', () => {
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
-        _thm.innerHTML = isDark ? '<i class="fa-solid fa-moon"></i> Chế độ tối' : '<i class="fa-solid fa-sun"></i> Chế độ sáng';
-    });
+function bindAdminThemeToggle() {
+    const _thm = document.getElementById('adminThemeToggle');
+    if (_thm) {
+        _thm.addEventListener('click', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            _thm.innerHTML = isDark ? '<i class="fa-solid fa-moon"></i> Chế độ tối' : '<i class="fa-solid fa-sun"></i> Chế độ sáng';
+        });
+    }
 }
 </script>
 </body>

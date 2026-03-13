@@ -703,6 +703,7 @@
             let modal = document.getElementById('packageModal');
             if (event.target == modal) closeModal();
         }
+        
     </script>
 </body>
 

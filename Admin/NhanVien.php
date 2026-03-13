@@ -562,6 +562,14 @@ session_start();
         }
 
         .btn-cancel-text:hover { color: var(--text-main); }
+
+         .page-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto; /* Chá»‰ cho phÃ©p cuá»™n ná»™i dung trang */
+            padding: 24px 40px;
+        }
     </style>
 </head>
 
@@ -577,13 +585,11 @@ session_start();
     <!-- sidebar.php xuất ra: <aside class="sidebar">...</aside> -->
     <!-- CSS của sidebar đã có sẵn trong sidebar.php, không cần viết lại -->
 
-    <main class="main-content">
+    <main class="main-content"> 
+            <div id="header-placeholder"></div>
 
-        <?php include '../Components/header.php'; ?>
-        <!-- header.php xuất ra: <header class="top-header">...</header> -->
-        <!-- CSS của header đã có sẵn trong header.php, không cần viết lại -->
-
-        <div class="page-body">
+            <div class="page-content">
+            
 
             <!-- Tiêu đề trang -->
             <div class="flex-between mb-4">
@@ -702,7 +708,8 @@ session_start();
                     </div>
                 </div>
             </div>
-
+            
+                        </div>
         </div><!-- end .page-body -->
     </main>
 
@@ -898,6 +905,11 @@ session_start();
                 r.style.display = (status === 'all' || r.dataset.status === status) ? '' : 'none';
             });
         }
+
+        fetch('../Components/header.php')
+            .then(response => response.text())
+            .then(data => document.getElementById('header-placeholder').innerHTML = data);
+            
     </script>
 </body>
 </html>
