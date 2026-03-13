@@ -42,25 +42,23 @@ if ($action === 'get') {
     $id = (int)($_POST['id'] ?? 0);
     $ten_goi = $_POST['ten_goi'] ?? '';
     $gia = (float)($_POST['gia'] ?? 0);
-    $thoi_han_ngay = (int)($_POST['thoi_han_ngay'] ?? 0);
-    $so_luong_hoi_vien = (int)($_POST['so_luong_hoi_vien'] ?? 1);
+    $thoi_han_thang = (int)($_POST['thoi_han_thang'] ?? 0);
     $mo_ta = $_POST['mo_ta'] ?? '';
-    $trang_thai = $_POST['trang_thai'] ?? 'active';
 
     if ($id > 0) {
         $isUsed = checkUsage($conn, $id, $chuGymId);
         if ($isUsed) {
-            $stmt = $conn->prepare("UPDATE goi_tap SET ten_goi=?, so_luong_hoi_vien=?, mo_ta=?, trang_thai=? WHERE id=? AND chu_gym_id=?");
-            $stmt->bind_param("sissii", $ten_goi, $so_luong_hoi_vien, $mo_ta, $trang_thai, $id, $chuGymId);
+            $stmt = $conn->prepare("UPDATE goi_tap SET ten_goi=?, mo_ta=? WHERE id=? AND chu_gym_id=?");
+            $stmt->bind_param("ssii", $ten_goi, $mo_ta, $id, $chuGymId);
         } else {
-            $stmt = $conn->prepare("UPDATE goi_tap SET ten_goi=?, gia=?, thoi_han_ngay=?, so_luong_hoi_vien=?, mo_ta=?, trang_thai=? WHERE id=? AND chu_gym_id=?");
-            $stmt->bind_param("sdiissii", $ten_goi, $gia, $thoi_han_ngay, $so_luong_hoi_vien, $mo_ta, $trang_thai, $id, $chuGymId);
+            $stmt = $conn->prepare("UPDATE goi_tap SET ten_goi=?, gia=?, thoi_han_thang=?, mo_ta=? WHERE id=? AND chu_gym_id=?");
+            $stmt->bind_param("sdisii", $ten_goi, $gia, $thoi_han_thang, $mo_ta, $id, $chuGymId);
         }
         $stmt->execute();
         echo json_encode(['success' => true, 'message' => 'Cập nhật thành công']);
     } else {
-        $stmt = $conn->prepare("INSERT INTO goi_tap (chu_gym_id, ten_goi, gia, thoi_han_ngay, so_luong_hoi_vien, mo_ta, trang_thai) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("isdiiss", $chuGymId, $ten_goi, $gia, $thoi_han_ngay, $so_luong_hoi_vien, $mo_ta, $trang_thai);
+        $stmt = $conn->prepare("INSERT INTO goi_tap (chu_gym_id, ten_goi, gia, thoi_han_thang, mo_ta) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("isdis", $chuGymId, $ten_goi, $gia, $thoi_han_thang, $mo_ta);
         $stmt->execute();
         echo json_encode(['success' => true, 'message' => 'Thêm thành công']);
     }
@@ -76,12 +74,6 @@ if ($action === 'get') {
         echo json_encode(['success' => true]);
     }
 
-} elseif ($action === 'toggle_status') {
-    $id = (int)($_POST['id'] ?? 0);
-    $stmt = $conn->prepare("UPDATE goi_tap SET trang_thai = IF(trang_thai='active', 'paused', 'active') WHERE id = ? AND chu_gym_id = ?");
-    $stmt->bind_param("ii", $id, $chuGymId);
-    $stmt->execute();
-    echo json_encode(['success' => true]);
 }
 
 $conn->close();

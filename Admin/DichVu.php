@@ -1,5 +1,4 @@
 ﻿<?php
-session_start();
 
 // Giả lập ID chủ gym nếu chưa có session (xóa dòng này nếu đã xử lý login đầy đủ)
 if (!isset($_SESSION['chu_gym_id'])) {
@@ -16,12 +15,13 @@ if ($conn->connect_error) {
 }
 $conn->set_charset('utf8mb4');
 
-// Lấy danh sách gói tập theo đúng cấu trúc cột bạn cung cấp
-$sql = "SELECT gt.id, gt.ten_goi, gt.thoi_han_ngay, gt.gia, gt.trang_thai, COUNT(dkg.id) as is_used 
+// Lấy danh sách gói tập theo đúng cấu trúc bảng goi_tap
+$sql = "SELECT gt.id, gt.ten_goi, gt.thoi_han_thang, gt.gia, COUNT(dkg.id) as is_used 
         FROM goi_tap gt 
         LEFT JOIN dang_ky_goi dkg ON gt.id = dkg.goi_tap_id 
         WHERE gt.chu_gym_id = ? 
         GROUP BY gt.id ORDER BY gt.id DESC";
+        
 $stmt = $conn->prepare($sql);
 if ($stmt) {
     $stmt->bind_param("i", $chuGymId);
@@ -200,15 +200,6 @@ $conn->close();
         .btn-add:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 15px var(--primary-glow);
-        }
-
-        .status-badge {
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--primary);
-            padding: 4px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 500;
         }
 
         /* --- CSS CHO MODAL THUẦN --- */
@@ -423,39 +414,6 @@ $conn->close();
             pointer-events: none;
         }
 
-        /* Status toggle */
-        .status-toggle {
-            display: flex;
-            gap: 10px;
-        }
-
-        .status-btn {
-            padding: 9px 20px;
-            border-radius: 20px;
-            border: 1.5px solid transparent;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .status-btn.active-status {
-            background: rgba(99, 102, 241, 0.18);
-            border-color: #6366f1;
-            color: #a5b4fc;
-        }
-
-        .status-btn.inactive-status {
-            background: transparent;
-            border-color: var(--border-color);
-            color: var(--text-muted);
-        }
-
-        .status-btn.inactive-status:hover {
-            border-color: var(--primary);
-            color: var(--text-main);
-        }
-
         /* Submit */
         .btn-submit {
             width: 100%;
@@ -558,14 +516,13 @@ $conn->close();
                             <th>Tên gói tập</th>
                             <th>Thời hạn</th>
                             <th>Đơn giá</th>
-                            <th>Trạng thái</th>
                             <th style="text-align: right;">Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (empty($goiTapList)): ?>
                         <tr>
-                            <td colspan="5" style="text-align: center; padding: 30px; color: var(--text-muted);">
+                            <td colspan="4" style="text-align: center; padding: 30px; color: var(--text-muted);">
                                 Chưa có gói dịch vụ nào được tạo.
                             </td>
                         </tr>
@@ -573,21 +530,13 @@ $conn->close();
                             <?php foreach ($goiTapList as $goi): ?>
                             <tr>
                                 <td><span class="fw-bold"><?php echo htmlspecialchars($goi['ten_goi']); ?></span></td>
-                                <td><?php echo (int)($goi['thoi_han_ngay'] ?? 0); ?> ngày</td>
+                                <td><?php echo (int)($goi['thoi_han_thang'] ?? 0); ?> tháng</td>
                                 <td><?php echo number_format($goi['gia'], 0, ',', '.'); ?>đ</td>
-                                <td>
-                                    <?php if ($goi['trang_thai'] === 'active'): ?>
-                                        <span class="status-badge">Hoạt động</span>
-                                    <?php else: ?>
-                                        <span class="status-badge" style="background: rgba(239, 68, 68, 0.1); color: var(--danger);">Tạm dừng</span>
-                                    <?php endif; ?>
-                                </td>
                                 <td style="text-align: right;">
                                     <div class="action-menu">
                                         <i class="fa-solid fa-ellipsis-vertical" style="color: var(--text-muted); cursor: pointer; padding: 0 10px;" onclick="toggleMenu(<?php echo $goi['id']; ?>)"></i>
                                         <div class="action-dropdown" id="menu-<?php echo $goi['id']; ?>" style="text-align: left;">
                                             <a onclick="editPackage(<?php echo $goi['id']; ?>)"><i class="fa-solid fa-pen"></i> Chỉnh sửa</a>
-                                            <a onclick="toggleStatus(<?php echo $goi['id']; ?>)"><i class="fa-solid fa-power-off"></i> Đổi trạng thái</a>
                                             <?php if ($goi['is_used'] == 0): ?>
                                                 <a onclick="deletePackage(<?php echo $goi['id']; ?>)" style="color: var(--danger);"><i class="fa-solid fa-trash"></i> Xóa</a>
                                             <?php endif; ?>
@@ -649,31 +598,14 @@ $conn->close();
                         <label>Thời hạn gói</label>
                         <div class="input-wrapper select-wrapper" id="thoi_han_wrapper">
                             <i class="input-icon fa-regular fa-calendar"></i>
-                            <select id="thoi_han_ngay" name="thoi_han_ngay" class="input-control has-icon">
-                                <option value="30">30 ngày</option>
-                                <option value="60">60 ngày</option>
-                                <option value="90">90 ngày</option>
-                                <option value="180">180 ngày</option>
-                                <option value="365">365 ngày</option>
+                            <select id="thoi_han_thang" name="thoi_han_thang" class="input-control has-icon">
+                                <option value="1">1 tháng</option>
+                                <option value="3">3 tháng</option>
+                                <option value="6">6 tháng</option>
+                                <option value="12">12 tháng</option>
                             </select>
                             <i class="select-caret fa-solid fa-chevron-down"></i>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Số lượng hội viên -->
-                <div class="form-group">
-                    <label>Số lượng hội viên</label>
-                    <div class="input-wrapper select-wrapper">
-                        <i class="input-icon fa-regular fa-user"></i>
-                        <select id="so_luong_hoi_vien" name="so_luong_hoi_vien" class="input-control has-icon">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="-1">Không giới hạn</option>
-                        </select>
-                        <i class="select-caret fa-solid fa-chevron-down"></i>
                     </div>
                 </div>
 
@@ -684,18 +616,6 @@ $conn->close();
                         <i class="input-icon fa-regular fa-align-left" style="top: 14px; transform: none; position: absolute;"></i>
                         <textarea rows="3" id="mo_ta" name="mo_ta" placeholder="Nhập mô tả về đặc quyền của gói..."
                             class="input-control has-icon" style="resize: none; padding-top: 12px;"></textarea>
-                    </div>
-                </div>
-
-                <!-- Trạng thái -->
-                <div class="form-group">
-                    <label>Trạng thái</label>
-                    <div class="status-toggle">
-                        <input type="hidden" id="trang_thai" name="trang_thai" value="active">
-                        <button type="button" class="status-btn active-status" id="btn-active"
-                            onclick="setStatus('active')">Đang bán</button>
-                        <button type="button" class="status-btn inactive-status" id="btn-paused"
-                            onclick="setStatus('paused')">Tạm dừng</button>
                     </div>
                 </div>
 
@@ -819,7 +739,7 @@ $conn->close();
 
         function setFieldDisabled(disabled) {
             document.getElementById('gia_display').readOnly = disabled;
-            document.getElementById('thoi_han_ngay').disabled = disabled;
+            document.getElementById('thoi_han_thang').disabled = disabled;
             if(disabled) {
                 document.getElementById('thoi_han_wrapper').classList.add('disabled');
             } else {
@@ -836,7 +756,6 @@ $conn->close();
             document.getElementById('btn-submit-modal').innerHTML = '<i class="fa-solid fa-circle-check"></i> Xác nhận tạo gói';
             
             setFieldDisabled(false);
-            setStatus('active');
             document.getElementById('packageModal').style.display = 'flex';
         }
 
@@ -852,17 +771,15 @@ $conn->close();
                         document.getElementById('gia').value = parseInt(pkg.gia);
                         document.getElementById('gia_display').value = new Intl.NumberFormat('vi-VN').format(parseInt(pkg.gia));
                         
-                        // Handle thoi_han_ngay selection
-                        const thoiHanSelect = document.getElementById('thoi_han_ngay');
-                        let thoiHanExists = Array.from(thoiHanSelect.options).some(opt => opt.value == pkg.thoi_han_ngay);
+                        // Handle thoi_han_thang selection
+                        const thoiHanSelect = document.getElementById('thoi_han_thang');
+                        let thoiHanExists = Array.from(thoiHanSelect.options).some(opt => opt.value == pkg.thoi_han_thang);
                         if (!thoiHanExists) {
-                            thoiHanSelect.innerHTML += `<option value="${pkg.thoi_han_ngay}">${pkg.thoi_han_ngay} ngày</option>`;
+                            thoiHanSelect.innerHTML += `<option value="${pkg.thoi_han_thang}">${pkg.thoi_han_thang} tháng</option>`;
                         }
-                        thoiHanSelect.value = pkg.thoi_han_ngay;
+                        thoiHanSelect.value = pkg.thoi_han_thang;
                         
-                        document.getElementById('so_luong_hoi_vien').value = pkg.so_luong_hoi_vien;
                         document.getElementById('mo_ta').value = pkg.mo_ta;
-                        setStatus(pkg.trang_thai);
                         
                         document.getElementById('modal-title').innerText = 'Cập nhật gói dịch vụ';
                         document.getElementById('btn-submit-modal').innerHTML = '<i class="fa-solid fa-circle-check"></i> Lưu thay đổi';
@@ -878,13 +795,13 @@ $conn->close();
         function savePackage(e) {
             e.preventDefault();
             // Tạm thời bật disable để lấy data
-            const selectDisabled = document.getElementById('thoi_han_ngay').disabled;
-            document.getElementById('thoi_han_ngay').disabled = false;
+            const selectDisabled = document.getElementById('thoi_han_thang').disabled;
+            document.getElementById('thoi_han_thang').disabled = false;
             
             const formData = new FormData(document.getElementById('packageForm'));
             formData.append('action', 'save');
             
-            document.getElementById('thoi_han_ngay').disabled = selectDisabled;
+            document.getElementById('thoi_han_thang').disabled = selectDisabled;
 
             fetch('../actions/api_goi_tap.php', {
                 method: 'POST',
@@ -913,16 +830,6 @@ $conn->close();
                 });
         }
 
-        function toggleStatus(id) {
-            const fd = new FormData();
-            fd.append('action', 'toggle_status');
-            fd.append('id', id);
-            fetch('../actions/api_goi_tap.php', { method: 'POST', body: fd })
-                .then(r => r.json()).then(res => {
-                    if (res.success) location.reload();
-                });
-        }
-
         function toggleMenu(id) {
             document.querySelectorAll('.action-menu').forEach(m => m.classList.remove('show'));
             document.getElementById('menu-'+id).parentElement.classList.toggle('show');
@@ -930,19 +837,6 @@ $conn->close();
 
         function closeModal() {
             document.getElementById('packageModal').style.display = 'none';
-        }
-
-        function setStatus(status) {
-            document.getElementById('trang_thai').value = status;
-            const btnActive = document.getElementById('btn-active');
-            const btnPaused = document.getElementById('btn-paused');
-            if (status === 'active') {
-                btnActive.className = 'status-btn active-status';
-                btnPaused.className = 'status-btn inactive-status';
-            } else {
-                btnActive.className = 'status-btn inactive-status';
-                btnPaused.className = 'status-btn active-status';
-            }
         }
 
         // Đóng modal & menu khi bấm ra ngoài
