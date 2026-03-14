@@ -3,8 +3,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Cấu hình Database theo đúng info của mày
     $servername = "localhost";
-    $username = "dev_user";
-    $password = "123"; 
+    $username = "root";
+    $password = ""; 
     $dbname = "gym_pro"; 
 
     $conn = new mysqli($servername, $username, $password, $dbname);

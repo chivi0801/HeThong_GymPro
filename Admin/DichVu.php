@@ -1,4 +1,40 @@
-﻿<!DOCTYPE html>
+﻿<?php
+
+// Giả lập ID chủ gym nếu chưa có session (xóa dòng này nếu đã xử lý login đầy đủ)
+if (!isset($_SESSION['chu_gym_id'])) {
+    $_SESSION['chu_gym_id'] = 1; 
+}
+
+$chuGymId = (int)$_SESSION['chu_gym_id'];
+$goiTapList = [];
+
+// Kết nối DB
+$conn = new mysqli('localhost', 'root', '', 'gym_pro');
+if ($conn->connect_error) {
+    die("Kết nối CSDL thất bại: " . $conn->connect_error);
+}
+$conn->set_charset('utf8mb4');
+
+// Lấy danh sách gói tập theo đúng cấu trúc bảng goi_tap
+$sql = "SELECT gt.id, gt.ten_goi, gt.thoi_han_thang, gt.gia, COUNT(dkg.id) as is_used 
+        FROM goi_tap gt 
+        LEFT JOIN dang_ky_goi dkg ON gt.id = dkg.goi_tap_id 
+        WHERE gt.chu_gym_id = ? 
+        GROUP BY gt.id ORDER BY gt.id DESC";
+        
+$stmt = $conn->prepare($sql);
+if ($stmt) {
+    $stmt->bind_param("i", $chuGymId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    while ($row = $result->fetch_assoc()) {
+        $goiTapList[] = $row;
+    }
+    $stmt->close();
+}
+$conn->close();
+?>
+<!DOCTYPE html>
 <html lang="vi">
 
 <head>
@@ -164,15 +200,6 @@
         .btn-add:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 15px var(--primary-glow);
-        }
-
-        .status-badge {
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--primary);
-            padding: 4px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 500;
         }
 
         /* --- CSS CHO MODAL THUẦN --- */
@@ -341,6 +368,33 @@
             color: var(--text-muted);
         }
 
+        /* Input Disabled State */
+        .input-control:disabled, .input-control[readonly] {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .select-wrapper.disabled .select-caret {
+            opacity: 0.5;
+        }
+
+        .usage-warning {
+            display: none;
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .usage-warning i {
+            margin-right: 6px;
+        }
+
         /* Select with caret */
         .select-wrapper {
             position: relative;
@@ -358,39 +412,6 @@
             color: var(--text-muted);
             font-size: 13px;
             pointer-events: none;
-        }
-
-        /* Status toggle */
-        .status-toggle {
-            display: flex;
-            gap: 10px;
-        }
-
-        .status-btn {
-            padding: 9px 20px;
-            border-radius: 20px;
-            border: 1.5px solid transparent;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .status-btn.active-status {
-            background: rgba(99, 102, 241, 0.18);
-            border-color: #6366f1;
-            color: #a5b4fc;
-        }
-
-        .status-btn.inactive-status {
-            background: transparent;
-            border-color: var(--border-color);
-            color: var(--text-muted);
-        }
-
-        .status-btn.inactive-status:hover {
-            border-color: var(--primary);
-            color: var(--text-main);
         }
 
         /* Submit */
@@ -433,6 +454,38 @@
         .btn-cancel-text:hover {
             color: var(--text-main);
         }
+
+        /* Dropdown Action Menu */
+        .action-menu {
+            position: relative;
+            display: inline-block;
+        }
+        .action-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--bg-panel);
+            min-width: 140px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 10;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+        .action-dropdown a {
+            color: var(--text-main);
+            padding: 10px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .action-dropdown a:hover {
+            background-color: var(--bg-input);
+        }
+        .action-menu.show .action-dropdown {
+            display: block;
+        }
     </style>
 </head>
 
@@ -463,22 +516,36 @@
                             <th>Tên gói tập</th>
                             <th>Thời hạn</th>
                             <th>Đơn giá</th>
-                            <th>Trạng thái</th>
                             <th style="text-align: right;">Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php if (empty($goiTapList)): ?>
                         <tr>
-                            <td><span class="fw-bold">Gói VIP 12 Tháng</span></td>
-                            <td>365 ngày</td>
-                            <td>5.500.000đ</td>
-                            <td><span class="status-badge">Hoạt động               
-                            </span></td>
-                            <td style="text-align: right;">
-                                <i class="fa-solid fa-ellipsis-vertical"
-                                    style="color: var(--text-muted); cursor: pointer;"></i>
+                            <td colspan="4" style="text-align: center; padding: 30px; color: var(--text-muted);">
+                                Chưa có gói dịch vụ nào được tạo.
                             </td>
                         </tr>
+                        <?php else: ?>
+                            <?php foreach ($goiTapList as $goi): ?>
+                            <tr>
+                                <td><span class="fw-bold"><?php echo htmlspecialchars($goi['ten_goi']); ?></span></td>
+                                <td><?php echo (int)($goi['thoi_han_thang'] ?? 0); ?> tháng</td>
+                                <td><?php echo number_format($goi['gia'], 0, ',', '.'); ?>đ</td>
+                                <td style="text-align: right;">
+                                    <div class="action-menu">
+                                        <i class="fa-solid fa-ellipsis-vertical" style="color: var(--text-muted); cursor: pointer; padding: 0 10px;" onclick="toggleMenu(<?php echo $goi['id']; ?>)"></i>
+                                        <div class="action-dropdown" id="menu-<?php echo $goi['id']; ?>" style="text-align: left;">
+                                            <a onclick="editPackage(<?php echo $goi['id']; ?>)"><i class="fa-solid fa-pen"></i> Chỉnh sửa</a>
+                                            <?php if ($goi['is_used'] == 0): ?>
+                                                <a onclick="deletePackage(<?php echo $goi['id']; ?>)" style="color: var(--danger);"><i class="fa-solid fa-trash"></i> Xóa</a>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
@@ -491,7 +558,7 @@
                 <div class="modal-header-left">
                     <span class="modal-icon">✦</span>
                     <div>
-                        <h3>Thêm gói dịch vụ mới</h3>
+                        <h3 id="modal-title">Thêm gói dịch vụ mới</h3>
                         <p>Thiết lập thông tin gói tập</p>
                     </div>
                 </div>
@@ -500,14 +567,20 @@
                 </button>
             </div>
 
-            <form class="modal-form" onsubmit="return false;">
+            <form class="modal-form" id="packageForm" onsubmit="savePackage(event)">
+                <input type="hidden" id="goi_id" name="id" value="0">
+                <input type="hidden" id="gia" name="gia" value="0">
+                
+                <div id="usage-warning" class="usage-warning">
+                    <i class="fa-solid fa-circle-exclamation"></i> Gói tập này đã có hội viên đăng ký, không thể thay đổi thời hạn và giá.
+                </div>
 
                 <!-- Tên gói tập -->
                 <div class="form-group">
                     <label>Tên gói tập</label>
                     <div class="input-wrapper">
                         <i class="input-icon fa-regular fa-gem"></i>
-                        <input type="text" placeholder="VD: Gói Platinum 3 Tháng" class="input-control has-icon">
+                        <input type="text" id="ten_goi" name="ten_goi" required placeholder="VD: Gói Platinum 3 Tháng" class="input-control has-icon">
                     </div>
                 </div>
 
@@ -517,39 +590,22 @@
                         <label>Giá niêm yết</label>
                         <div class="input-wrapper">
                             <i class="input-icon fa-regular fa-credit-card"></i>
-                            <input type="text" placeholder="0" class="input-control has-icon has-suffix">
+                            <input type="text" id="gia_display" required placeholder="0" class="input-control has-icon has-suffix" oninput="formatPrice(this)">
                             <span class="input-suffix">VNĐ</span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Thời hạn gói</label>
-                        <div class="input-wrapper select-wrapper">
+                        <div class="input-wrapper select-wrapper" id="thoi_han_wrapper">
                             <i class="input-icon fa-regular fa-calendar"></i>
-                            <select class="input-control has-icon">
-                                <option>30 ngày</option>
-                                <option>60 ngày</option>
-                                <option>90 ngày</option>
-                                <option>180 ngày</option>
-                                <option>365 ngày</option>
+                            <select id="thoi_han_thang" name="thoi_han_thang" class="input-control has-icon">
+                                <option value="1">1 tháng</option>
+                                <option value="3">3 tháng</option>
+                                <option value="6">6 tháng</option>
+                                <option value="12">12 tháng</option>
                             </select>
                             <i class="select-caret fa-solid fa-chevron-down"></i>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Số lượng hội viên -->
-                <div class="form-group">
-                    <label>Số lượng hội viên</label>
-                    <div class="input-wrapper select-wrapper">
-                        <i class="input-icon fa-regular fa-user"></i>
-                        <select class="input-control has-icon">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>5</option>
-                            <option>10</option>
-                            <option>Không giới hạn</option>
-                        </select>
-                        <i class="select-caret fa-solid fa-chevron-down"></i>
                     </div>
                 </div>
 
@@ -558,24 +614,13 @@
                     <label>Mô tả ngắn</label>
                     <div class="input-wrapper">
                         <i class="input-icon fa-regular fa-align-left" style="top: 14px; transform: none; position: absolute;"></i>
-                        <textarea rows="3" placeholder="Nhập mô tả về đặc quyền của gói..."
+                        <textarea rows="3" id="mo_ta" name="mo_ta" placeholder="Nhập mô tả về đặc quyền của gói..."
                             class="input-control has-icon" style="resize: none; padding-top: 12px;"></textarea>
                     </div>
                 </div>
 
-                <!-- Trạng thái -->
-                <div class="form-group">
-                    <label>Trạng thái</label>
-                    <div class="status-toggle">
-                        <button type="button" class="status-btn active-status" id="btn-active"
-                            onclick="setStatus('active')">Đang bán</button>
-                        <button type="button" class="status-btn inactive-status" id="btn-paused"
-                            onclick="setStatus('paused')">Tạm dừng</button>
-                    </div>
-                </div>
-
                 <!-- Submit -->
-                <button type="submit" class="btn-submit">
+                <button type="submit" class="btn-submit" id="btn-submit-modal">
                     <i class="fa-solid fa-circle-check"></i> Xác nhận tạo gói
                 </button>
                 <button type="button" class="btn-cancel-text" onclick="closeModal()">Hủy bỏ</button>
@@ -681,27 +726,127 @@
             });
 
         // Xử lý Modal
+        function formatPrice(input) {
+            let val = input.value.replace(/\D/g, ''); 
+            if(val !== '') {
+                input.value = new Intl.NumberFormat('vi-VN').format(val);
+                document.getElementById('gia').value = val;
+            } else {
+                input.value = '';
+                document.getElementById('gia').value = 0;
+            }
+        }
+
+        function setFieldDisabled(disabled) {
+            document.getElementById('gia_display').readOnly = disabled;
+            document.getElementById('thoi_han_thang').disabled = disabled;
+            if(disabled) {
+                document.getElementById('thoi_han_wrapper').classList.add('disabled');
+            } else {
+                document.getElementById('thoi_han_wrapper').classList.remove('disabled');
+            }
+            document.getElementById('usage-warning').style.display = disabled ? 'block' : 'none';
+        }
+
         function openModal() {
+            document.getElementById('packageForm').reset();
+            document.getElementById('goi_id').value = 0;
+            document.getElementById('gia').value = 0;
+            document.getElementById('modal-title').innerText = 'Thêm gói dịch vụ mới';
+            document.getElementById('btn-submit-modal').innerHTML = '<i class="fa-solid fa-circle-check"></i> Xác nhận tạo gói';
+            
+            setFieldDisabled(false);
             document.getElementById('packageModal').style.display = 'flex';
         }
+
+        function editPackage(id) {
+            fetch(`../actions/api_goi_tap.php?action=get&id=${id}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        const pkg = data.data;
+                        document.getElementById('goi_id').value = pkg.id;
+                        document.getElementById('ten_goi').value = pkg.ten_goi;
+                        
+                        document.getElementById('gia').value = parseInt(pkg.gia);
+                        document.getElementById('gia_display').value = new Intl.NumberFormat('vi-VN').format(parseInt(pkg.gia));
+                        
+                        // Handle thoi_han_thang selection
+                        const thoiHanSelect = document.getElementById('thoi_han_thang');
+                        let thoiHanExists = Array.from(thoiHanSelect.options).some(opt => opt.value == pkg.thoi_han_thang);
+                        if (!thoiHanExists) {
+                            thoiHanSelect.innerHTML += `<option value="${pkg.thoi_han_thang}">${pkg.thoi_han_thang} tháng</option>`;
+                        }
+                        thoiHanSelect.value = pkg.thoi_han_thang;
+                        
+                        document.getElementById('mo_ta').value = pkg.mo_ta;
+                        
+                        document.getElementById('modal-title').innerText = 'Cập nhật gói dịch vụ';
+                        document.getElementById('btn-submit-modal').innerHTML = '<i class="fa-solid fa-circle-check"></i> Lưu thay đổi';
+                        
+                        // Disable fields if used
+                        setFieldDisabled(pkg.is_used);
+
+                        document.getElementById('packageModal').style.display = 'flex';
+                    }
+                });
+        }
+
+        function savePackage(e) {
+            e.preventDefault();
+            // Tạm thời bật disable để lấy data
+            const selectDisabled = document.getElementById('thoi_han_thang').disabled;
+            document.getElementById('thoi_han_thang').disabled = false;
+            
+            const formData = new FormData(document.getElementById('packageForm'));
+            formData.append('action', 'save');
+            
+            document.getElementById('thoi_han_thang').disabled = selectDisabled;
+
+            fetch('../actions/api_goi_tap.php', {
+                method: 'POST',
+                body: formData
+            }).then(r => r.json()).then(res => {
+                if(res.success) {
+                    location.reload();
+                } else alert(res.message);
+            });
+        }
+
+        function validateDelete() {
+            // Already validated in PHP, but prompt here
+            return confirm("Xóa gói này?");
+        }
+
+        function deletePackage(id) {
+            if(!confirm("Bạn có chắc chắn muốn xóa?")) return;
+            const fd = new FormData();
+            fd.append('action', 'delete');
+            fd.append('id', id);
+            fetch('../actions/api_goi_tap.php', { method: 'POST', body: fd })
+                .then(r => r.json()).then(res => {
+                    if (res.success) location.reload();
+                    else alert(res.message);
+                });
+        }
+
+        function toggleMenu(id) {
+            document.querySelectorAll('.action-menu').forEach(m => m.classList.remove('show'));
+            document.getElementById('menu-'+id).parentElement.classList.toggle('show');
+        }
+
         function closeModal() {
             document.getElementById('packageModal').style.display = 'none';
         }
-        function setStatus(status) {
-            const btnActive = document.getElementById('btn-active');
-            const btnPaused = document.getElementById('btn-paused');
-            if (status === 'active') {
-                btnActive.className = 'status-btn active-status';
-                btnPaused.className = 'status-btn inactive-status';
-            } else {
-                btnActive.className = 'status-btn inactive-status';
-                btnPaused.className = 'status-btn active-status';
-            }
-        }
-        // Đóng modal khi bấm ra ngoài
+
+        // Đóng modal & menu khi bấm ra ngoài
         window.onclick = function (event) {
             let modal = document.getElementById('packageModal');
             if (event.target == modal) closeModal();
+            
+            if (!event.target.matches('.fa-ellipsis-vertical')) {
+                document.querySelectorAll('.action-menu').forEach(m => m.classList.remove('show'));
+            }
         }
         
     </script>
