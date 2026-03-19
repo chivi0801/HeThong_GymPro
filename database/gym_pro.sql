@@ -653,3 +653,6 @@ INSERT INTO `san_pham` (`chu_gym_id`, `ma_sp`, `ten_sp`, `phan_loai`, `gia_ban`,
 (1, 'WAT-002', 'Nước khoáng Lavie', 'Nước giải khát', 10000, 0),
 (1, 'WHEY-01', 'Iso 100 5lbs', 'Thực phẩm bổ sung', 2100000, 10),
 (1, 'ACC-001', 'Găng tay tập tạ Nam', 'Phụ kiện', 150000, 20);
+
+
+ALTER TABLE `san_pham` ADD `trang_thai` TINYINT(1) NOT NULL DEFAULT '1' AFTER `ton_kho`;
