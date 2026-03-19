@@ -98,6 +98,121 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg-body);color
 .btn-export{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
 .btn-import{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
 .btn-sell-now{display:flex;align-items:center;gap:7px;background:var(--primary);border:none;color:#fff;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn-primary{display:flex;align-items:center;gap:7px;background:var(--green);border:none;color:#fff;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap}
+
+/* ── PAGE CONTENT ── */
+.page-content{flex:1;overflow-y:auto;padding:24px 40px}
+.page-title{font-size:22px;font-weight:700;margin-bottom:3px}
+.page-subtitle{font-size:13px;color:var(--muted);margin-bottom:22px}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.tb-search{position:relative;flex:1;min-width:180px}
+.tb-search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px}
+.tb-search input{width:100%;background:var(--bg-input);border:1px solid var(--border);color:var(--input-text);padding:10px 13px 10px 36px;border-radius:10px;font-size:13px;outline:none}
+.tb-search input::placeholder{color:var(--muted)}
+.tab-group{display:flex;gap:7px;flex-wrap:wrap}
+.tab-btn{padding:9px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg-dark);color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:.15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn-export{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-import{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-sell-now{display:flex;align-items:center;gap:7px;background:var(--primary);border:none;color:#fff;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+
+/* ── PAGE CONTENT ── */
+.page-content{flex:1;overflow-y:auto;padding:24px 40px}
+.page-title{font-size:22px;font-weight:700;margin-bottom:3px}
+.page-subtitle{font-size:13px;color:var(--muted);margin-bottom:22px}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.tb-search{position:relative;flex:1;min-width:180px}
+.tb-search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px}
+.tb-search input{width:100%;background:var(--bg-input);border:1px solid var(--border);color:var(--input-text);padding:10px 13px 10px 36px;border-radius:10px;font-size:13px;outline:none}
+.tb-search input::placeholder{color:var(--muted)}
+.tab-group{display:flex;gap:7px;flex-wrap:wrap}
+.tab-btn{padding:9px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg-dark);color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:.15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn-export{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-import{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-sell-now{display:flex;align-items:center;gap:7px;background:var(--primary);border:none;color:#fff;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+
+/* ── PAGE CONTENT ── */
+.page-content{flex:1;overflow-y:auto;padding:24px 40px}
+.page-title{font-size:22px;font-weight:700;margin-bottom:3px}
+.page-subtitle{font-size:13px;color:var(--muted);margin-bottom:22px}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.tb-search{position:relative;flex:1;min-width:180px}
+.tb-search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px}
+.tb-search input{width:100%;background:var(--bg-input);border:1px solid var(--border);color:var(--input-text);padding:10px 13px 10px 36px;border-radius:10px;font-size:13px;outline:none}
+.tb-search input::placeholder{color:var(--muted)}
+.tab-group{display:flex;gap:7px;flex-wrap:wrap}
+.tab-btn{padding:9px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg-dark);color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:.15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn-export{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-import{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-sell-now{display:flex;align-items:center;gap:7px;background:var(--primary);border:none;color:#fff;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+
+/* ── PAGE CONTENT ── */
+.page-content{flex:1;overflow-y:auto;padding:24px 40px}
+.page-title{font-size:22px;font-weight:700;margin-bottom:3px}
+.page-subtitle{font-size:13px;color:var(--muted);margin-bottom:22px}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.tb-search{position:relative;flex:1;min-width:180px}
+.tb-search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px}
+.tb-search input{width:100%;background:var(--bg-input);border:1px solid var(--border);color:var(--input-text);padding:10px 13px 10px 36px;border-radius:10px;font-size:13px;outline:none}
+.tb-search input::placeholder{color:var(--muted)}
+.tab-group{display:flex;gap:7px;flex-wrap:wrap}
+.tab-btn{padding:9px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg-dark);color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:.15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn-export{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-import{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-sell-now{display:flex;align-items:center;gap:7px;background:var(--primary);border:none;color:#fff;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+
+/* ── PAGE CONTENT ── */
+.page-content{flex:1;overflow-y:auto;padding:24px 40px}
+.page-title{font-size:22px;font-weight:700;margin-bottom:3px}
+.page-subtitle{font-size:13px;color:var(--muted);margin-bottom:22px}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.tb-search{position:relative;flex:1;min-width:180px}
+.tb-search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px}
+.tb-search input{width:100%;background:var(--bg-input);border:1px solid var(--border);color:var(--input-text);padding:10px 13px 10px 36px;border-radius:10px;font-size:13px;outline:none}
+.tb-search input::placeholder{color:var(--muted)}
+.tab-group{display:flex;gap:7px;flex-wrap:wrap}
+.tab-btn{padding:9px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg-dark);color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:.15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn-export{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-import{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-sell-now{display:flex;align-items:center;gap:7px;background:var(--primary);border:none;color:#fff;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+
+/* ── PAGE CONTENT ── */
+.page-content{flex:1;overflow-y:auto;padding:24px 40px}
+.page-title{font-size:22px;font-weight:700;margin-bottom:3px}
+.page-subtitle{font-size:13px;color:var(--muted);margin-bottom:22px}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.tb-search{position:relative;flex:1;min-width:180px}
+.tb-search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px}
+.tb-search input{width:100%;background:var(--bg-input);border:1px solid var(--border);color:var(--input-text);padding:10px 13px 10px 36px;border-radius:10px;font-size:13px;outline:none}
+.tb-search input::placeholder{color:var(--muted)}
+.tab-group{display:flex;gap:7px;flex-wrap:wrap}
+.tab-btn{padding:9px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg-dark);color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:.15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn-export{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-import{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-sell-now{display:flex;align-items:center;gap:7px;background:var(--primary);border:none;color:#fff;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
 
 /* ── TABLE ── */
 .table-wrap{background:var(--bg-panel);border:1px solid var(--border);border-radius:16px;overflow:hidden}
@@ -209,6 +324,7 @@ tbody td{padding:13px 16px;font-size:13.5px;vertical-align:middle}
             <button class="btn-export" onclick="toast('Đã xuất file Excel!')"><i class="fa-solid fa-file-arrow-up"></i> Xuất Dữ liệu</button>
             <button class="btn-import" onclick="openImport()"><i class="fa-solid fa-boxes-stacked"></i> Nhập hàng</button>
             <button class="btn-sell-now" onclick="openSell(null)"><i class="fa-solid fa-cash-register"></i> Bán ngay</button>
+            <button class="btn-primary" onclick="openProductModal()"><i class="fa-solid fa-plus"></i> Thêm sản phẩm</button>
         </div>
 
         <!-- TABLE -->
@@ -233,84 +349,102 @@ tbody td{padding:13px 16px;font-size:13.5px;vertical-align:middle}
         </div>
     </main>
 
-<!-- ══════════ POPUP BÁN HÀNG ══════════ -->
+<!-- ══════════ POPUP BÁN HÀNG (POS MINI) ══════════ -->
 <div class="popup-overlay" id="sellOverlay">
-    <div class="popup-card">
+    <div class="popup-card" style="width: min(92vw, 600px);">
         <button class="popup-close" onclick="closeSell()"><i class="fa-solid fa-xmark"></i></button>
-        <div class="popup-title">Bán hàng nhanh</div>
-        <div class="popup-sub">Tạo đơn hàng nhanh cho hội viên</div>
+        <div class="popup-title">Giỏ Bán Hàng</div>
+        <div class="popup-sub">Thêm nhiều sản phẩm để tạo hóa đơn</div>
 
         <div class="form-group">
-            <label>Tên khách hàng</label>
-            <input id="sc_cust" type="text" placeholder="Nhập tên hoặc tìm hội viên...">
-        </div>
-        <div class="form-group">
-            <label>Chọn sản phẩm / Dịch vụ</label>
+            <label>Chọn sản phẩm vào giỏ</label>
             <div class="sel-ico">
-                <i class="fa-solid fa-box"></i>
-                <select id="sc_prod" onchange="onProdSel()">
+                <i class="fa-solid fa-barcode"></i>
+                <select id="sc_prod" onchange="addSellItem()">
                     <option value="">-- Chọn sản phẩm --</option>
                 </select>
             </div>
         </div>
 
-        <div class="prod-preview" id="sc_preview" style="display:none">
-            <div class="preview-img"><i class="fa-solid fa-box"></i></div>
-            <div>
-                <div class="preview-name" id="sc_name">–</div>
-                <div class="preview-price" id="sc_price">0đ</div>
-            </div>
+        <div class="table-wrap" style="max-height: 250px; overflow-y: auto; margin-bottom: 15px;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th>SL</th>
+                        <th>Giá</th>
+                        <th>Xóa</th>
+                    </tr>
+                </thead>
+                <tbody id="cart_sell_body">
+                    <!-- Dữ liệu giỏ hàng bán -->
+                </tbody>
+            </table>
         </div>
 
-        <div class="form-group" id="sc_qtyGroup" style="display:none">
-            <label>Số lượng</label>
-            <div class="qty-row">
-                <button class="qty-btn" onclick="chgQty(-1)"><i class="fa-solid fa-minus"></i></button>
-                <input class="qty-inp" id="sc_qty" type="number" value="1" min="1" oninput="updTotal()">
-                <button class="qty-btn" onclick="chgQty(1)"><i class="fa-solid fa-plus"></i></button>
-            </div>
-        </div>
+        <div class="total-row"><span>Tổng thanh toán:</span><strong id="cart_sell_total">0đ</strong></div>
+        <button class="btn-confirm" onclick="confirmSell()" id="btnConfirmSell"><i class="fa-solid fa-print"></i> Xác nhận In hóa đơn</button>
+    </div>
+</div>
 
-        <div class="divider"></div>
-        <div class="total-row">
-            <span>Thành tiền</span>
-            <strong id="sc_total">0đ</strong>
-        </div>
-
+<!-- ══════════ POPUP NHẬP HÀNG (LÔ NHIỀU MÓN) ══════════ -->
+<div class="popup-overlay" id="importOverlay">
+    <div class="popup-card" style="width: min(92vw, 650px);">
+        <button class="popup-close" onclick="closeImport()"><i class="fa-solid fa-xmark"></i></button>
+        <div class="popup-title">Nhập Lô Hàng Khác</div>
+        <div class="popup-sub">Nhập nhiều sản phẩm cùng lúc</div>
+        
         <div class="form-group">
+            <label>Thêm sản phẩm cần nhập</label>
             <div class="sel-ico">
-                <i class="fa-solid fa-circle-plus" style="color:var(--primary)"></i>
-                <select id="sc_prod2" onchange="onProd2Sel()">
-                    <option value="">+ Thêm sản phẩm khác</option>
+                <i class="fa-solid fa-box"></i>
+                <select id="imp_prod" onchange="addImportItem()">
+                    <option value="">-- Chọn sản phẩm --</option>
                 </select>
             </div>
         </div>
 
-        <button class="btn-confirm" onclick="confirmSell()"><i class="fa-solid fa-print"></i> Xác nhận và in hóa đơn</button>
-        <button class="btn-cancel-f" onclick="closeSell()">Hủy bỏ</button>
+        <div class="table-wrap" style="max-height: 250px; overflow-y: auto; margin-bottom: 15px;">
+            <table>
+                <thead><tr><th>Sản phẩm</th><th>Số lượng</th><th>Giá nhập (1 ĐV)</th><th>Xóa</th></tr></thead>
+                <tbody id="cart_import_body"></tbody>
+            </table>
+        </div>
+        <div class="form-group"><input id="imp_note" type="text" placeholder="Ghi chú (Nhà cung cấp, xe tải...)"></div>
+        
+        <button class="btn-confirm" onclick="confirmImport()" id="btnConfirmImport"><i class="fa-solid fa-boxes-stacked"></i> Lưu Kho</button>
     </div>
 </div>
 
-<!-- ══════════ POPUP NHẬP HÀNG ══════════ -->
-<div class="popup-overlay" id="importOverlay">
+<!-- POPUP QUẢN LÝ SẢN PHẨM -->
+<div class="popup-overlay" id="productOverlay">
     <div class="popup-card">
-        <button class="popup-close" onclick="closeImport()"><i class="fa-solid fa-xmark"></i></button>
-        <div class="popup-title">Nhập hàng vào kho</div>
-        <div class="popup-sub">Cập nhật số lượng tồn kho cho sản phẩm</div>
+        <button class="popup-close" onclick="closeProductModal()"><i class="fa-solid fa-xmark"></i></button>
+        <div class="popup-title" id="pm_title">Thêm sản phẩm mới</div>
+        <input type="hidden" id="pm_id" value="0">
+        
         <div class="form-group">
-            <label>Chọn sản phẩm</label>
-            <select id="imp_prod"><option value="">-- Chọn sản phẩm --</option></select>
+            <label>Mã sản phẩm</label>
+            <input id="pm_code" type="text" placeholder="VD: SP-001">
         </div>
         <div class="form-group">
-            <label>Số lượng nhập</label>
-            <input id="imp_qty" type="number" value="10" min="1" placeholder="Nhập số lượng...">
+            <label>Tên sản phẩm</label>
+            <input id="pm_name" type="text" placeholder="Nhập tên...">
         </div>
         <div class="form-group">
-            <label>Ghi chú</label>
-            <input id="imp_note" type="text" placeholder="Nhà cung cấp, số lô...">
+            <label>Phân loại</label>
+            <select id="pm_cat">
+                <option value="Nước giải khát">Nước giải khát</option>
+                <option value="Thực phẩm bổ sung">Thực phẩm bổ sung</option>
+                <option value="Phụ kiện">Phụ kiện</option>
+            </select>
         </div>
-        <button class="btn-confirm" onclick="confirmImport()"><i class="fa-solid fa-boxes-stacked"></i> Xác nhận nhập kho</button>
-        <button class="btn-cancel-f" onclick="closeImport()">Hủy bỏ</button>
+        <div class="form-group">
+            <label>Giá bán ra</label>
+            <input id="pm_price" type="number" placeholder="Giá bán...">
+        </div>
+        
+        <button class="btn-confirm" onclick="saveProduct()">Lưu thông tin</button>
     </div>
 </div>
 
@@ -318,19 +452,29 @@ tbody td{padding:13px 16px;font-size:13.5px;vertical-align:middle}
 <div class="toast" id="toastEl"><i class="fa-solid fa-circle-check"></i><span id="toastMsg"></span></div>
 
 <script>
-// ── DATA ──
-const PRODUCTS = [
-    {id:1, name:'Whey Gold Standard (5lbs)',     code:'WHY-001', price:1850000, stock:24,  cat:'Thực phẩm bổ sung'},
-    {id:2, name:'Nước khoáng Lavie (500ml)',      code:'WAT-002', price:10000,   stock:0,   cat:'Nước giải khát'},
-    {id:3, name:'Thanh năng lượng Mars Protein',  code:'BAR-003', price:65000,   stock:42,  cat:'Thực phẩm bổ sung'},
-    {id:4, name:'C4 Pre-Workout Original',        code:'PRE-004', price:860000,  stock:72,  cat:'Thực phẩm bổ sung'},
-    {id:5, name:'Nước suối Aqua',                 code:'WAT-005', price:5000,    stock:120, cat:'Nước giải khát'},
-    {id:6, name:'BCAA 2:1:1 Optimum',             code:'BCA-006', price:650000,  stock:18,  cat:'Thực phẩm bổ sung'},
-    {id:7, name:'Găng tay tập gym',               code:'ACC-007', price:120000,  stock:35,  cat:'Phụ kiện'},
-    {id:8, name:'Dây kháng lực tập luyện',        code:'ACC-008', price:85000,   stock:50,  cat:'Phụ kiện'},
-];
+// ---------- JS ĐÃ CÓ (RENDER BẢNG) -----------
+// (Bạn giữ nguyên phần Tải dữ liệu, Filter, Render Bảng, Toast ở bên trên)
+// ── DATA GLOBAL ──
+let PRODUCTS = [];
 
-// ── PAGINATION ──
+// ── FETCH DATA TỪ API ──
+async function loadData() {
+    try {
+        const res = await fetch('../actions/api_banhang.php?action=fetch');
+        const json = await res.json();
+        if(json.success) {
+            PRODUCTS = json.data;
+            renderTable();
+        } else {
+            toast('Lỗi tải dữ liệu: ' + json.message, true);
+        }
+    } catch(e) {
+        console.error(e);
+        toast('Lỗi kết nối máy chủ', true);
+    }
+}
+
+// ── PAGINATION & RENDER (Nhữ cũ) ──
 const PER_PAGE = 10;
 let currentPage = 1;
 let currentTab  = 'all';
@@ -354,9 +498,9 @@ function renderTable(){
     tbody.innerHTML = slice.map(p=>{
         const maxS = 150;
         const pct  = Math.min(100,(p.stock/maxS)*100);
-        const col  = p.stock===0?'var(--red)':p.stock<10?'var(--orange)':p.stock<30?'var(--yellow)':'var(--green)';
+        const col  = p.stock===0?'var(--danger)':p.stock<10?'var(--warning)':p.stock<30?'var(--primary)':'var(--success)';
         const stockCell = p.stock===0
-            ? `<span class="stock-empty"><i class="fa-solid fa-circle-exclamation"></i>0 (Hết hàng)</span>`
+            ? `<span class="stock-empty" style="color:var(--danger)"><i class="fa-solid fa-circle-exclamation"></i> 0 (Hết hàng)</span>`
             : `<div class="stock-wrap">
                  <div class="stock-bar-bg"><div class="stock-bar" style="width:${pct}%;background:${col}"></div></div>
                  <span class="stock-num" style="color:${col}">${p.stock}</span>
@@ -370,19 +514,17 @@ function renderTable(){
             <td>
                 <div class="action-btns">
                     <button class="act-btn sell" title="Bán ngay" onclick='openSell(${JSON.stringify(p)})'><i class="fa-solid fa-cart-plus"></i></button>
-                    <button class="act-btn" title="Chỉnh sửa"><i class="fa-solid fa-pen"></i></button>
-                    <button class="act-btn del" title="Xóa" onclick="delRow(${p.id})"><i class="fa-solid fa-trash"></i></button>
+                    <button class="act-btn" style="color:var(--primary)" title="Sửa" onclick='openProductModal(${JSON.stringify(p)})'><i class="fa-solid fa-pen"></i></button>
+                    <button class="act-btn del" title="Xóa" onclick="deleteProduct(${p.id})"><i class="fa-solid fa-trash"></i></button>
                 </div>
             </td>
         </tr>`;
     }).join('');
 
-    // pagination info
     const start = data.length===0?0:(currentPage-1)*PER_PAGE+1;
     const end   = Math.min(currentPage*PER_PAGE, data.length);
-    document.getElementById('pgInfo').textContent = `Hiển thị ${start}–${end} trong số ${data.length} sản phẩm`;
+    document.getElementById('pgInfo').textContent = `Hiển thị ${start}–${end} trong số ${data.length}`;
 
-    // page buttons
     const pgBtns = document.getElementById('pgBtns');
     let html = `<button class="pg-btn" onclick="goPage(${currentPage-1})"><i class="fa-solid fa-chevron-left"></i></button>`;
     for(let i=1;i<=totalPages;i++){
@@ -392,39 +534,15 @@ function renderTable(){
     pgBtns.innerHTML = html;
 }
 
-function goPage(p){
-    const max = Math.max(1,Math.ceil(filteredData().length/PER_PAGE));
-    if(p<1||p>max) return;
-    currentPage=p; renderTable();
-}
+function goPage(p){ const max = Math.max(1,Math.ceil(filteredData().length/PER_PAGE)); if(p<1||p>max) return; currentPage=p; renderTable(); }
+function setTab(btn, tab){ document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); currentTab=tab; currentPage=1; renderTable(); }
+function doFilter(){ searchQ = document.getElementById('searchInp').value.toLowerCase(); currentPage=1; renderTable(); }
 
-function setTab(btn, tab){
-    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    currentTab=tab; currentPage=1; renderTable();
-}
-
-function doFilter(){
-    searchQ = document.getElementById('searchInp').value.toLowerCase();
-    currentPage=1; renderTable();
-}
-
-function delRow(id){
-    if(!confirm('Bạn có chắc muốn xóa sản phẩm này?')) return;
-    const idx = PRODUCTS.findIndex(p=>p.id===id);
-    if(idx>-1) PRODUCTS.splice(idx,1);
-    renderTable();
-    toast('Đã xóa sản phẩm!');
-}
-
-// ── SELL POPUP ──
-let sellPrice  = 0;
-let sellExtra  = 0;
-
+// ── SELL POPUP THỰC TẾ ──
+let sellPrice = 0;
 function populateSellSelects(){
-    const opts = PRODUCTS.map(p=>`<option value="${p.id}" data-price="${p.price}">${p.name} – ${fmt(p.price)}</option>`).join('');
+    const opts = PRODUCTS.map(p=>`<option value="${p.id}" ${p.stock===0?'disabled':''}>${p.name} - ${fmt(p.price)} ${p.stock===0?'(Hết)':''}</option>`).join('');
     document.getElementById('sc_prod').innerHTML  = '<option value="">-- Chọn sản phẩm --</option>'+opts;
-    document.getElementById('sc_prod2').innerHTML = '<option value="">+ Thêm sản phẩm khác</option>'+opts;
     document.getElementById('imp_prod').innerHTML = '<option value="">-- Chọn sản phẩm --</option>'+PRODUCTS.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
 }
 
@@ -432,55 +550,222 @@ function openSell(prod){
     populateSellSelects();
     document.getElementById('sc_cust').value='';
     document.getElementById('sc_prod').value='';
-    document.getElementById('sc_prod2').value='';
     document.getElementById('sc_preview').style.display='none';
     document.getElementById('sc_qtyGroup').style.display='none';
     document.getElementById('sc_qty').value=1;
     document.getElementById('sc_total').textContent='0đ';
-    sellPrice=0; sellExtra=0;
-    if(prod){
-        document.getElementById('sc_prod').value=prod.id;
-        onProdSel();
-    }
+    sellPrice=0; 
+    if(prod && prod.stock > 0){ document.getElementById('sc_prod').value=prod.id; onProdSel(); }
     document.getElementById('sellOverlay').classList.add('show');
 }
 function closeSell(){ document.getElementById('sellOverlay').classList.remove('show'); }
 
 function onProdSel(){
     const sel = document.getElementById('sc_prod');
-    const opt = sel.options[sel.selectedIndex];
-    if(!opt||!opt.value){ sellPrice=0; document.getElementById('sc_preview').style.display='none'; document.getElementById('sc_qtyGroup').style.display='none'; updTotal(); return; }
-    const p = PRODUCTS.find(x=>x.id==opt.value);
-    if(!p) return;
+    if(!sel.value){ sellPrice=0; document.getElementById('sc_preview').style.display='none'; document.getElementById('sc_qtyGroup').style.display='none'; updTotal(); return; }
+    const p = PRODUCTS.find(x=>x.id==sel.value);
     sellPrice = p.price;
     document.getElementById('sc_name').textContent  = p.name;
     document.getElementById('sc_price').textContent = fmt(p.price);
+    document.getElementById('sc_qty').max = p.stock; // Giới hạn max theo tồn kho
+    document.getElementById('sc_qty').value = 1;
     document.getElementById('sc_preview').style.display='flex';
     document.getElementById('sc_qtyGroup').style.display='block';
     updTotal();
 }
+function chgQty(d){ 
+    const inp=document.getElementById('sc_qty');
+    const max=parseInt(inp.max)||999;
+    let n = (parseInt(inp.value)||1)+d;
+    if(n < 1) n = 1;
+    if(n > max) { n = max; toast('Chỉ còn '+max+' sản phẩm trong kho!', true); }
+    inp.value=n; 
+    updTotal(); 
+}
+function updTotal(){ const q=parseInt(document.getElementById('sc_qty').value)||1; document.getElementById('sc_total').textContent=fmt(sellPrice*q); }
 
-function onProd2Sel(){
-    const sel = document.getElementById('sc_prod2');
-    const opt = sel.options[sel.selectedIndex];
-    const p = opt&&opt.value ? PRODUCTS.find(x=>x.id==opt.value) : null;
-    sellExtra = p ? p.price : 0;
-    updTotal();
+// CALL API SELL
+async function confirmSell(){ 
+    const prodId = document.getElementById('sc_prod').value;
+    const qty = document.getElementById('sc_qty').value;
+    if(!prodId) return toast('Vui lòng chọn sản phẩm!', true);
+    
+    document.getElementById('btnConfirmSell').disabled = true;
+    try {
+        const formData = new FormData();
+        formData.append('action', 'sell');
+        formData.append('prod_id', prodId);
+        formData.append('qty', qty);
+
+        const res = await fetch('../actions/api_banhang.php', { method:'POST', body: formData });
+        const json = await res.json();
+        
+        if(json.success) {
+            closeSell(); 
+            toast('Đã bán thành công!');
+            loadData(); // Tải lại bảng để update tồn kho
+        } else {
+            toast(json.message, true);
+        }
+    } catch(e) {
+        toast('Lỗi hệ thống!', true);
+    }
+    document.getElementById('btnConfirmSell').disabled = false;
 }
 
-function chgQty(d){ const inp=document.getElementById('sc_qty'); inp.value=Math.max(1,(parseInt(inp.value)||1)+d); updTotal(); }
-function updTotal(){ const q=parseInt(document.getElementById('sc_qty').value)||1; document.getElementById('sc_total').textContent=fmt(sellPrice*q+sellExtra); }
-function confirmSell(){ closeSell(); toast('Đã xác nhận đơn hàng và in hóa đơn!'); }
+// ====== LOGIC GIỎ HÀNG BÁN ======
+let sellCart = [];
 
-// ── IMPORT POPUP ──
-function openImport(){ populateSellSelects(); document.getElementById('importOverlay').classList.add('show'); }
-function closeImport(){ document.getElementById('importOverlay').classList.remove('show'); }
-function confirmImport(){ closeImport(); toast('Đã cập nhật tồn kho thành công!'); }
+function populateSelects(){
+    const s1 = document.getElementById('sc_prod');
+    const s2 = document.getElementById('imp_prod');
+    s1.innerHTML = '<option value="">-- Thêm sản phẩm --</option>' + PRODUCTS.map(p=>`<option value="${p.id}" ${p.stock==0?'disabled':''}>${p.name} (${fmt(p.price)}) - Tồn: ${p.stock}</option>`).join('');
+    s2.innerHTML = '<option value="">-- Thêm sản phẩm --</option>' + PRODUCTS.map(p=>`<option value="${p.id}">${p.name} - Kho: ${p.stock}</option>`).join('');
+}
 
-// ── TOAST ──
-function toast(msg){
+function openSell(p = null) {
+    sellCart = [];
+    populateSelects();
+    if(p && p.stock > 0) addToSellCart(p.id);
+    renderSellCart();
+    document.getElementById('sellOverlay').classList.add('show');
+}
+function closeSell() { document.getElementById('sellOverlay').classList.remove('show'); }
+
+function addSellItem() {
+    const sel = document.getElementById('sc_prod');
+    if(sel.value) addToSellCart(sel.value);
+    sel.value = ""; // reset
+}
+
+function addToSellCart(id) {
+    const p = PRODUCTS.find(x => x.id == id);
+    const exist = sellCart.find(x => x.prod_id == id);
+    if(exist) {
+        if(exist.qty < p.stock) exist.qty++;
+        else toast('Sản phẩm ' + p.name + ' không đủ tồn kho!', true);
+    } else {
+        sellCart.push({ prod_id: p.id, name: p.name, price: p.price, qty: 1, stock: p.stock });
+    }
+    renderSellCart();
+}
+
+function updateSellQty(idx, val) {
+    let q = parseInt(val) || 1;
+    if(q > sellCart[idx].stock) { q = sellCart[idx].stock; toast('Vượt quá tồn kho!', true); }
+    sellCart[idx].qty = q;
+    renderSellCart();
+}
+
+function renderSellCart() {
+    const tbody = document.getElementById('cart_sell_body');
+    let total = 0;
+    tbody.innerHTML = sellCart.map((it, i) => {
+        total += (it.price * it.qty);
+        return `<tr>
+            <td>${it.name}</td>
+            <td><input type="number" value="${it.qty}" min="1" max="${it.stock}" onchange="updateSellQty(${i}, this.value)" style="width:50px"></td>
+            <td style="color:var(--primary); font-weight:600">${fmt(it.price * it.qty)}</td>
+            <td><button class="act-btn del" onclick="sellCart.splice(${i},1); renderSellCart()"><i class="fa-solid fa-x"></i></button></td>
+        </tr>`;
+    }).join('');
+    if(sellCart.length===0) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted)">Giỏ hàng trống</td></tr>';
+    document.getElementById('cart_sell_total').textContent = fmt(total);
+}
+
+async function confirmSell() {
+    if(sellCart.length === 0) return toast('Giỏ hàng rỗng!', true);
+    
+    document.getElementById('btnConfirmSell').disabled = true;
+    try {
+        const formData = new FormData();
+        formData.append('action', 'sell');
+        formData.append('cart', JSON.stringify(sellCart));
+
+        const res = await fetch('../actions/api_banhang.php', { method:'POST', body: formData });
+        const json = await res.json();
+        
+        if(json.success) { closeSell(); toast(json.message); loadData(); } 
+        else { toast(json.message, true); }
+    } catch(e) { toast('Lỗi kết nối', true); }
+    document.getElementById('btnConfirmSell').disabled = false;
+}
+
+// ====== LOGIC GIỎ HÀNG NHẬP ======
+let importCart = [];
+
+function openImport() {
+    importCart = [];
+    populateSelects();
+    renderImportCart();
+    document.getElementById('imp_note').value = '';
+    document.getElementById('importOverlay').classList.add('show');
+}
+function closeImport() { document.getElementById('importOverlay').classList.remove('show'); }
+
+function addImportItem() {
+    const sel = document.getElementById('imp_prod');
+    if(!sel.value) return;
+    const p = PRODUCTS.find(x => x.id == sel.value);
+    const exist = importCart.find(x => x.prod_id == p.id);
+    if(exist) exist.qty += 10;
+    else importCart.push({ prod_id: p.id, name: p.name, qty: 10, price: Math.round(p.price*0.6) }); // Mặc định gợi ý giá gốc = 60%
+    sel.value = ""; 
+    renderImportCart();
+}
+
+function updateImportData(idx, field, val) {
+    importCart[idx][field] = parseFloat(val) || 0;
+}
+
+function renderImportCart() {
+    const tbody = document.getElementById('cart_import_body');
+    tbody.innerHTML = importCart.map((it, i) => {
+        return `<tr>
+            <td>${it.name}</td>
+            <td><input type="number" value="${it.qty}" min="1" onchange="updateImportData(${i}, 'qty', this.value)" style="width:60px"></td>
+            <td><input type="number" value="${it.price}" min="0" onchange="updateImportData(${i}, 'price', this.value)" style="width:100px"></td>
+            <td><button class="act-btn del" onclick="importCart.splice(${i},1); renderImportCart()"><i class="fa-solid fa-x"></i></button></td>
+        </tr>`;
+    }).join('');
+    if(importCart.length===0) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted)">Chưa có món nào</td></tr>';
+}
+
+async function confirmImport() {
+    if(importCart.length === 0) return toast('Giỏ nhập rỗng!', true);
+    
+    document.getElementById('btnConfirmImport').disabled = true;
+    try {
+        const formData = new FormData();
+        formData.append('action', 'import');
+        formData.append('cart', JSON.stringify(importCart));
+        formData.append('note', document.getElementById('imp_note').value);
+
+        const res = await fetch('../actions/api_banhang.php', { method:'POST', body: formData });
+        const json = await res.json();
+        
+        if(json.success) { closeImport(); toast(json.message); loadData(); } 
+        else { toast(json.message, true); }
+    } catch(e) { toast('Lỗi kết nối', true); }
+    document.getElementById('btnConfirmImport').disabled = false;
+}
+
+// ── TOAST UPDATE HIỆN MÀU ĐỎ KHI CÓ LỖI ──
+function toast(msg, isError=false){
     const el=document.getElementById('toastEl');
+    const icon=el.querySelector('i');
     document.getElementById('toastMsg').textContent=msg;
+    
+    if(isError) {
+        el.style.borderLeftColor = 'var(--danger)';
+        icon.className = 'fa-solid fa-circle-xmark';
+        icon.style.color = 'var(--danger)';
+    } else {
+        el.style.borderLeftColor = 'var(--success)';
+        icon.className = 'fa-solid fa-circle-check';
+        icon.style.color = 'var(--success)';
+    }
+
     el.classList.add('show');
     setTimeout(()=>el.classList.remove('show'),3000);
 }
@@ -488,13 +773,13 @@ function toast(msg){
 // ── UTILS ──
 function fmt(n){ return n.toLocaleString('vi-VN')+'đ'; }
 
-// close overlays on outside click
+// close overlays 
 ['sellOverlay','importOverlay'].forEach(id=>{
     document.getElementById(id).addEventListener('click',function(e){ if(e.target===this) this.classList.remove('show'); });
 });
 
-// ── INIT ──
-renderTable();
+// ── INIT FETCH REAL DATA ──
+loadData();
 
 // ── LOAD HEADER & SIDEBAR ──
 fetch('../Components/header.php')
@@ -542,6 +827,54 @@ function bindAdminThemeToggle() {
             _thm.innerHTML = isDark ? '<i class="fa-solid fa-moon"></i> Chế độ tối' : '<i class="fa-solid fa-sun"></i> Chế độ sáng';
         });
     }
+}
+
+// THÊM CÁC HÀM JS NÀY VÀO TRONG THẺ <script>
+function openProductModal(prod = null) {
+    if(prod) {
+        document.getElementById('pm_title').textContent = 'Sửa sản phẩm';
+        document.getElementById('pm_id').value = prod.id;
+        document.getElementById('pm_code').value = prod.code;
+        document.getElementById('pm_name').value = prod.name;
+        document.getElementById('pm_cat').value = prod.cat;
+        document.getElementById('pm_price').value = prod.price;
+        document.getElementById('pm_code').disabled = true; // Không cho sửa mã
+    } else {
+        document.getElementById('pm_title').textContent = 'Thêm sản phẩm mới';
+        document.getElementById('pm_id').value = '0';
+        document.getElementById('pm_code').value = '';
+        document.getElementById('pm_name').value = '';
+        document.getElementById('pm_price').value = '';
+        document.getElementById('pm_code').disabled = false;
+    }
+    document.getElementById('productOverlay').classList.add('show');
+}
+function closeProductModal() { document.getElementById('productOverlay').classList.remove('show'); }
+
+async function saveProduct() {
+    const data = new FormData();
+    data.append('action', 'save_product');
+    data.append('id', document.getElementById('pm_id').value);
+    data.append('ma_sp', document.getElementById('pm_code').value);
+    data.append('ten_sp', document.getElementById('pm_name').value);
+    data.append('phan_loai', document.getElementById('pm_cat').value);
+    data.append('gia_ban', document.getElementById('pm_price').value);
+
+    const res = await fetch('../actions/api_banhang.php', { method: 'POST', body: data });
+    const json = await res.json();
+    if(json.success) {
+        closeProductModal(); toast(json.message); loadData();
+    } else { toast(json.message, true); }
+}
+
+async function deleteProduct(id) {
+    if(!confirm('Bạn có chắc muốn ẩn sản phẩm này không? Lịch sử bán hàng cũ vẫn sẽ được giữ lại.')) return;
+    const data = new FormData();
+    data.append('action', 'delete_product');
+    data.append('id', id);
+    const res = await fetch('../actions/api_banhang.php', { method: 'POST', body: data });
+    const json = await res.json();
+    if(json.success) { toast(json.message); loadData(); } else { toast(json.message, true); }
 }
 </script>
 </body>

@@ -599,3 +599,57 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+-- 1. Bảng Sản Phẩm
+CREATE TABLE `san_pham` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `chu_gym_id` int(11) NOT NULL,
+  `ma_sp` varchar(50) NOT NULL,
+  `ten_sp` varchar(255) NOT NULL,
+  `phan_loai` enum('Thực phẩm bổ sung','Nước giải khát','Phụ kiện') NOT NULL DEFAULT 'Nước giải khát',
+  `gia_ban` decimal(10,2) NOT NULL,
+  `ton_kho` int(11) DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 2. Bảng Hóa Đơn Bán Lẻ (Tạo Phiếu Thu)
+CREATE TABLE `hoa_don_ban_le` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `chu_gym_id` int(11) NOT NULL,
+  `hoi_vien_id` int(11) DEFAULT NULL,
+  `tong_tien` decimal(10,2) NOT NULL,
+  `ngay_tao` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 3. Bảng Chi Tiết Hóa Đơn
+CREATE TABLE `chi_tiet_hoa_don` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `hoa_don_id` int(11) NOT NULL,
+  `san_pham_id` int(11) NOT NULL,
+  `so_luong` int(11) NOT NULL,
+  `don_gia` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`hoa_don_id`) REFERENCES `hoa_don_ban_le`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 4. Bảng Lịch Sử Nhập Kho (Tạo Phiếu Chi)
+CREATE TABLE `lich_su_nhap_kho` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `chu_gym_id` int(11) NOT NULL,
+  `san_pham_id` int(11) NOT NULL,
+  `so_luong_nhap` int(11) NOT NULL,
+  `don_gia_nhap` decimal(10,2) NOT NULL, 
+  `tong_tien_chi` decimal(10,2) NOT NULL,
+  `ghi_chu` varchar(255) DEFAULT NULL,
+  `ngay_nhap` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- MOCK DATA CHO BẢNG SẢN PHẨM (Dành cho user chu_gym_id = 1)
+INSERT INTO `san_pham` (`chu_gym_id`, `ma_sp`, `ten_sp`, `phan_loai`, `gia_ban`, `ton_kho`) VALUES
+(1, 'WAT-001', 'Nước suối Aquafina', 'Nước giải khát', 10000, 50),
+(1, 'WAT-002', 'Nước khoáng Lavie', 'Nước giải khát', 10000, 0),
+(1, 'WHEY-01', 'Iso 100 5lbs', 'Thực phẩm bổ sung', 2100000, 10),
+(1, 'ACC-001', 'Găng tay tập tạ Nam', 'Phụ kiện', 150000, 20);
