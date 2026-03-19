@@ -72,7 +72,8 @@ if ($hasThoiHanNgay) {
     $soNgayExpr = 'IFNULL(NULLIF(thoi_han_thang, 0) * 30, 30)';
 }
 
-$sqlGoi = "SELECT id, {$soNgayExpr} AS so_ngay
+// Sửa câu SQL để lấy thêm cột `gia`
+$sqlGoi = "SELECT id, gia, {$soNgayExpr} AS so_ngay
            FROM goi_tap
            WHERE id = ? AND chu_gym_id = ?";
 $stmtGoi = $conn->prepare($sqlGoi);
@@ -97,6 +98,8 @@ $soNgay = (int) ($goi['so_ngay'] ?? 30);
 if ($soNgay <= 0) {
     $soNgay = 30;
 }
+// Lấy giá tiền của gói tập
+$giaGoi = (float)($goi['gia'] ?? 0);
 
 $ngayBatDau = date('Y-m-d');
 $ngayKetThuc = date('Y-m-d', strtotime('+' . $soNgay . ' day'));
@@ -165,7 +168,20 @@ $stmtDangKy = $conn->prepare("INSERT INTO dang_ky_goi (hoi_vien_id, goi_tap_id, 
 if ($stmtDangKy) {
     $stmtDangKy->bind_param('iiss', $hoiVienId, $goiTapId, $ngayBatDau, $ngayKetThuc);
     $stmtDangKy->execute();
+    
+    // Lấy ID của gói đăng ký vừa tạo
+    $dangKyId = $stmtDangKy->insert_id; 
     $stmtDangKy->close();
+
+    // TẠO PHIẾU THANH TOÁN (Ghi nhận Doanh Thu)
+    if ($dangKyId > 0 && $giaGoi > 0) {
+        $stmtThanhToan = $conn->prepare("INSERT INTO thanh_toan (dang_ky_id, so_tien, ngay_thanh_toan, phuong_thuc) VALUES (?, ?, CURDATE(), 'Tiền mặt')");
+        if ($stmtThanhToan) {
+            $stmtThanhToan->bind_param('id', $dangKyId, $giaGoi);
+            $stmtThanhToan->execute();
+            $stmtThanhToan->close();
+        }
+    }
 }
 
 $conn->close();

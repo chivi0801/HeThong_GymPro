@@ -242,6 +242,25 @@
         }
         .filter-badge.active { background: rgba(59, 130, 246, 0.15); border-color: transparent; color: #60a5fa; }
 
+        /* ================= POPUP & TOAST ================= */
+        .popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: 0.3s; backdrop-filter: blur(2px); }
+        .popup-overlay.show { opacity: 1; pointer-events: auto; }
+        .popup-card { background: var(--bg-panel); width: 420px; padding: 24px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid var(--border-color); position: relative; transform: translateY(-20px); transition: 0.3s; }
+        .popup-overlay.show .popup-card { transform: translateY(0); }
+        .popup-close { position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 20px; transition: 0.2s; }
+        .popup-close:hover { color: var(--danger); }
+        .popup-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--text-main); }
+        
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; margin-bottom: 8px; font-size: 13px; color: var(--text-muted); font-weight: 500; }
+        .form-group input, .form-group select { width: 100%; background: var(--bg-input); border: 1px solid var(--border-color); color: var(--input-text); padding: 12px 16px; border-radius: 10px; outline: none; font-size: 14px; }
+        .form-group input:focus, .form-group select:focus { border-color: var(--primary); }
+        .btn-confirm { width: 100%; background: var(--gradient-btn); border: none; padding: 14px; color: white; border-radius: 10px; font-weight: 600; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 24px; transition: opacity 0.2s; }
+        .btn-confirm:hover { opacity: 0.9; }
+
+        .toast { position: fixed; bottom: 24px; right: 24px; background: var(--bg-panel); padding: 16px 24px; border-radius: 12px; border-left: 4px solid var(--success); box-shadow: 0 4px 20px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 12px; color: var(--text-main); transform: translateX(120%); transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 10000; }
+        .toast.show { transform: translateX(0); }
+        .toast i { font-size: 20px; }
     </style>
 </head>
 <body>
@@ -269,21 +288,21 @@
                 <div class="finance-stats">
                     <div class="f-card thu">
                         <div class="f-title"><i class="fa-solid fa-wallet"></i> Tổng thu</div>
-                        <div class="f-value">312.450.000</div>
+                        <div class="f-value" id="card_thu">0đ</div>
                     </div>
                     <div class="f-card chi">
                         <div class="f-title"><i class="fa-solid fa-money-bill-transfer"></i> Tổng chi</div>
-                        <div class="f-value">400.000</div>
+                        <div class="f-value" id="card_chi">0đ</div>
                     </div>
                     <div class="f-card phatsinh">
                         <div class="f-title"><i class="fa-solid fa-arrow-trend-up"></i>Lợi nhuận</div>
-                        <div class="f-value">295.000</div>
+                        <div class="f-value" id="card_loinhuan">0đ</div>
                     </div>
                 </div>
                 
                 <div class="finance-actions">
-                    <button class="btn-action-purple"><i class="fa-solid fa-plus"></i> Thêm phiếu thu</button>
-                    <button class="btn-action-purple"><i class="fa-solid fa-plus"></i> Thêm phiếu chi</button>
+                    <button class="btn-action-purple" onclick="openModal('THU')"><i class="fa-solid fa-plus"></i> Thêm phiếu thu</button>
+                    <button class="btn-action-purple" onclick="openModal('CHI')"><i class="fa-solid fa-plus"></i> Thêm phiếu chi</button>
                 </div>
             </div>
 
@@ -293,11 +312,7 @@
                     <div class="table-toolbar">
                         <div class="search-box">
                             <i class="fa-solid fa-magnifying-glass"></i>
-                            <input type="text" placeholder="Tìm kiếm mã phiếu, người nộp...">
-                        </div>
-                        <div class="view-toggles">
-                            <button class="icon-btn"><i class="fa-solid fa-grip"></i></button>
-                            <button class="icon-btn" style="background: rgba(59, 130, 246, 0.1); color: var(--primary); border-color: rgba(59, 130, 246, 0.2);"><i class="fa-solid fa-list-ul"></i></button>
+                            <input type="text" id="searchInput" oninput="debounceSearch()" placeholder="Tìm kiếm mã phiếu, người nộp...">
                         </div>
                     </div>
 
@@ -307,112 +322,77 @@
                                 <tr>
                                     <th>Mã phiếu</th>
                                     <th>Thời gian</th>
-                                    <th>Loại thu chi</th>
+                                    <th>Danh mục</th>
                                     <th>Người nộp/Nhận</th>
                                     <th>Giá trị</th>
-                                    <th>Trạng thái</th>
+                                    <th>Loại</th>
+                                    <th>Phân quyền</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="col-id">XXXXXXX</td>
-                                    <td>25/02/2026</td>
-                                    <td>Chi đối tác</td>
-                                    <td>Công ty ABC</td>
-                                    <td class="col-val-red">400,000</td>
-                                    <td><span class="status-badge">Đã thanh toán</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="col-id">XXXXXXX</td>
-                                    <td>25/02/2026</td>
-                                    <td>Chi đối tác</td>
-                                    <td>Công ty ABC</td>
-                                    <td class="col-val-red">400,000</td>
-                                    <td><span class="status-badge">Đã thanh toán</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="col-id">XXXXXXX</td>
-                                    <td>25/02/2026</td>
-                                    <td>Chi đối tác</td>
-                                    <td>Công ty ABC</td>
-                                    <td class="col-val-red">400,000</td>
-                                    <td><span class="status-badge">Đã thanh toán</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="col-id">XXXXXXX</td>
-                                    <td>25/02/2026</td>
-                                    <td>Chi đối tác</td>
-                                    <td>Công ty ABC</td>
-                                    <td class="col-val-red">400,000</td>
-                                    <td><span class="status-badge">Đã thanh toán</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="col-id">XXXXXXX</td>
-                                    <td>25/02/2026</td>
-                                    <td>Chi đối tác</td>
-                                    <td>Công ty ABC</td>
-                                    <td class="col-val-red">400,000</td>
-                                    <td><span class="status-badge">Đã thanh toán</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="col-id">XXXXXXX</td>
-                                    <td>25/02/2026</td>
-                                    <td>Chi đối tác</td>
-                                    <td>Công ty ABC</td>
-                                    <td class="col-val-red">400,000</td>
-                                    <td><span class="status-badge">Đã thanh toán</span></td>
-                                </tr>
+                            <tbody id="tableBody">
+                                <!-- Dữ liệu API đổ vào đây -->
                             </tbody>
                         </table>
                     </div>
 
                     <div class="pagination-footer">
-                        <div class="total-records">Tổng số bản ghi <span>5</span></div>
-                        <div class="page-controls">
-                            <button class="p-btn"><i class="fa-solid fa-angle-left"></i></button>
-                            <button class="p-btn active">1</button>
-                            <button class="p-btn"><i class="fa-solid fa-angle-right"></i></button>
-                        </div>
+                        <div class="total-records">Tổng số bản ghi: <span id="totalRecords">0</span></div>
+                        <div class="page-controls" id="paginationControls"></div>
                     </div>
                 </div>
 
                 <div class="filter-panel">
-                    
                     <div class="filter-group">
-                        <div class="filter-label">Thời gian</div>
-                        <div class="date-picker">
-                            <i class="fa-regular fa-calendar"></i>
-                            <span>01/02/2026 - 26/02/2026</span>
-                        </div>
-                    </div>
-
-                   
-
-                    <div class="filter-group">
-                        <div class="filter-label">Loại</div>
+                        <div class="filter-label">Bộ Lọc Loại Phiếu</div>
                         <div class="filter-btns-column">
-                            <button class="filter-btn active">Tất cả</button>
-                            <button class="filter-btn">Phiếu thu</button>
-                            <button class="filter-btn">Phiếu chi</button>
+                            <button class="filter-btn active" onclick="setFilter('ALL', this)">Tất cả chứng từ</button>
+                            <button class="filter-btn" onclick="setFilter('THU', this)">Chỉ hiện Phiếu Thu</button>
+                            <button class="filter-btn" onclick="setFilter('CHI', this)">Chỉ hiện Phiếu Chi</button>
                         </div>
                     </div>
-
-                      <div class="filter-group">
-                        <div class="filter-label">Trạng thái</div>
-                        <div class="filter-btns-column">
-                            <button class="filter-btn active">Tất cả</button>
-                            <button class="filter-btn">Đã thanh toán</button>
-                            <button class="filter-btn">Chưa thanh toán</button>
-                        </div>
-                    </div>
-
-                    
                 </div>
 
             </div>
         </div>
     </main>
-    
+
+    <!-- POPUP THÊM PHIẾU THU / CHI -->
+    <div class="popup-overlay" id="transModal">
+        <div class="popup-card">
+            <button class="popup-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            <div class="popup-title" id="modalTitle">Tạo phiếu</div>
+            
+            <input type="hidden" id="transType" value="">
+            
+            <div class="form-group">
+                <label>Danh mục (Lý do)</label>
+                <input type="text" id="transCat" placeholder="VD: Thu tiền tài trợ, Chi tiền điện..." required>
+            </div>
+            <div class="form-group">
+                <label>Số tiền (VNĐ)</label>
+                <input type="number" id="transAmt" min="0" placeholder="Nhập số tiền..." required>
+            </div>
+            <div class="form-group">
+                <label>Người giao dịch (Nộp/Nhận)</label>
+                <input type="text" id="transPerson" placeholder="VD: Công ty Điện lực, Anh A...">
+            </div>
+            <div class="form-group">
+                <label>Ghi chú thêm</label>
+                <input type="text" id="transNote" placeholder="Ghi chú chi tiết (Không bắt buộc)">
+            </div>
+            
+            <button class="btn-confirm" onclick="submitTransaction()" id="btnSubmitForm">
+                <i class="fa-solid fa-check"></i> Xác nhận lưu
+            </button>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toastEl">
+        <i class="fa-solid fa-circle-check" id="toastIcon"></i>
+        <span id="toastMsg">Thao tác thành công</span>
+    </div>
+
     <script>
         const ADMIN_THEME_KEY = 'gympro-admin-theme';
 
@@ -459,6 +439,174 @@
         }
 
         initAdminTheme();
+        
+        // ================= DỮ LIỆU & TRẠNG THÁI =================
+        let allData = [];
+        let filteredData = [];
+        let currentPage = 1;
+        const PER_PAGE = 10;
+        let currentFilter = 'ALL';
+        let searchTimer;
+
+        // Tiện ích Format
+        const fmtMoney = (n) => parseInt(n).toLocaleString('vi-VN') + 'đ';
+        const fmtDate = (d) => { if(!d) return '--'; const dt = new Date(d); return `${dt.getDate().toString().padStart(2,'0')}/${(dt.getMonth()+1).toString().padStart(2,'0')}/${dt.getFullYear()} ${dt.getHours().toString().padStart(2,'0')}:${dt.getMinutes().toString().padStart(2,'0')}`;};
+
+        // UI Toast
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById('toastEl');
+            document.getElementById('toastMsg').textContent = msg;
+            toast.style.borderLeftColor = isError ? 'var(--danger)' : 'var(--success)';
+            document.getElementById('toastIcon').className = isError ? 'fa-solid fa-circle-xmark' : 'fa-solid fa-circle-check';
+            document.getElementById('toastIcon').style.color = isError ? 'var(--danger)' : 'var(--success)';
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ================= TẢI DỮ LIỆU TỪ API =================
+        async function loadData() {
+            try {
+                const res = await fetch('../actions/api_doanh_thu.php?action=fetch');
+                const json = await res.json();
+                if(json.success) {
+                    allData = json.data;
+                    
+                    // Cập nhật Top Cards
+                    document.getElementById('card_thu').textContent = fmtMoney(json.summary.thu);
+                    document.getElementById('card_chi').textContent = fmtMoney(json.summary.chi);
+                    document.getElementById('card_loinhuan').textContent = fmtMoney(json.summary.loi_nhuan);
+                    document.getElementById('card_loinhuan').style.color = json.summary.loi_nhuan < 0 ? 'var(--danger)' : 'var(--purple)';
+
+                    applyFilters();
+                }
+            } catch (err) {
+                console.error(err); showToast('Lỗi tải dữ liệu', true);
+            }
+        }
+
+        // ================= BỘ LỌC VÀ TÌM KIẾM =================
+        function setFilter(type, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentFilter = type;
+            applyFilters();
+        }
+
+        function debounceSearch() {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(() => { applyFilters(); }, 300);
+        }
+
+        function applyFilters() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            filteredData = allData.filter(item => {
+                const matchType = currentFilter === 'ALL' || item.type === currentFilter;
+                const matchSearch = item.code.toLowerCase().includes(query) || item.person.toLowerCase().includes(query) || item.category.toLowerCase().includes(query);
+                return matchType && matchSearch;
+            });
+            currentPage = 1;
+            renderTable();
+        }
+
+        // ================= RENDER BẢNG & PHÂN TRANG =================
+        function renderTable() {
+            const total = filteredData.length;
+            document.getElementById('totalRecords').textContent = total;
+            const maxPage = Math.max(1, Math.ceil(total / PER_PAGE));
+            
+            const start = (currentPage - 1) * PER_PAGE;
+            const pageData = filteredData.slice(start, start + PER_PAGE);
+
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = pageData.map(r => {
+                const valColor = r.type === 'THU' ? 'color: var(--primary)' : 'color: var(--danger)';
+                const badgeStyle = r.type === 'THU' ? 'background:rgba(16, 185, 129, 0.1); color:var(--success); border:1px solid rgba(16, 185, 129, 0.2)' : 'background:rgba(239, 68, 68, 0.1); color:var(--danger); border:1px solid rgba(239, 68, 68, 0.2)';
+                const typeText = r.type === 'THU' ? 'Phiếu Thu' : 'Phiếu Chi';
+                
+                // Hiện Icon Ổ khóa nếu là dòng Hệ thống tự sinh
+                const authIcon = r.is_sys ? `<span title="Hệ thống tự động" style="color:var(--text-muted)"><i class="fa-solid fa-lock"></i> Auto</span>` : `<span title="Chỉnh sửa thủ công" style="color:#60a5fa"><i class="fa-solid fa-user-pen"></i> User</span>`;
+
+                return `<tr>
+                    <td class="col-id">${r.code}</td>
+                    <td style="color:var(--text-muted); font-size:13px">${fmtDate(r.date)}</td>
+                    <td style="font-weight:500">${r.category}</td>
+                    <td>${r.person || 'Khách vãng lai'}</td>
+                    <td style="font-weight:700; ${valColor}">${r.type === 'THU'?'+':'-'}${fmtMoney(r.amount)}</td>
+                    <td><span class="status-badge" style="${badgeStyle}">${typeText}</span></td>
+                    <td>${authIcon}</td>
+                </tr>`;
+            }).join('');
+
+            if(total === 0) tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 40px; color:var(--text-muted)">Không tìm thấy giao dịch nào</td></tr>`;
+
+            // Vẽ nút phân trang
+            let pgHtml = `<button class="p-btn" onclick="changePage(${currentPage-1})"><i class="fa-solid fa-angle-left"></i></button>`;
+            for(let i=1; i<=maxPage; i++) {
+                pgHtml += `<button class="p-btn ${i===currentPage ? 'active':''}" onclick="changePage(${i})">${i}</button>`;
+            }
+            pgHtml += `<button class="p-btn" onclick="changePage(${currentPage+1})"><i class="fa-solid fa-angle-right"></i></button>`;
+            document.getElementById('paginationControls').innerHTML = pgHtml;
+        }
+
+        function changePage(p) {
+            const maxPage = Math.max(1, Math.ceil(filteredData.length / PER_PAGE));
+            if(p >= 1 && p <= maxPage) { currentPage = p; renderTable(); }
+        }
+
+        // ================= XỬ LÝ FORM POPUP =================
+        function openModal(type) {
+            document.getElementById('transType').value = type;
+            document.getElementById('modalTitle').innerHTML = type === 'THU' 
+                ? '<i class="fa-solid fa-arrow-down" style="color:var(--primary)"></i> Tạo phiếu thu mới' 
+                : '<i class="fa-solid fa-arrow-up" style="color:var(--danger)"></i> Tạo phiếu chi mới';
+            
+            // Reset input
+            ['transCat', 'transAmt', 'transPerson', 'transNote'].forEach(id => document.getElementById(id).value = '');
+            document.getElementById('transModal').classList.add('show');
+        }
+
+        function closeModal() { document.getElementById('transModal').classList.remove('show'); }
+
+        async function submitTransaction() {
+            const type = document.getElementById('transType').value;
+            const category = document.getElementById('transCat').value;
+            const amount = document.getElementById('transAmt').value;
+            const person = document.getElementById('transPerson').value;
+            const note = document.getElementById('transNote').value;
+
+            if(!category || !amount || amount <= 0) return showToast('Vui lòng nhập đủ danh mục và số tiền hợp lệ', true);
+
+            const btn = document.getElementById('btnSubmitForm');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang xử lý...';
+            btn.disabled = true;
+
+            const fd = new FormData();
+            fd.append('action', 'add_manual');
+            fd.append('type', type);
+            fd.append('category', category);
+            fd.append('amount', amount);
+            fd.append('person', person);
+            fd.append('note', note);
+
+            try {
+                const res = await fetch('../actions/api_doanh_thu.php', { method: 'POST', body: fd});
+                const json = await res.json();
+                if(json.success) {
+                    showToast(json.message);
+                    closeModal();
+                    loadData(); // Tải lại toàn bộ bảng và top cards
+                } else {
+                    showToast(json.message, true);
+                }
+            } catch (err) {
+                showToast('Lỗi mạng', true);
+            }
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Xác nhận lưu';
+            btn.disabled = false;
+        }
+
+        // Khởi chạy dữ liệu
+        loadData();
 
         function initSidebarProfilePopup() {
             const trigger = document.getElementById('gymProfileTrigger');
