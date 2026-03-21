@@ -320,7 +320,7 @@ if ($avatarLabel === '') {
         <li><a href="NhanVien.php"><i class="fa-solid fa-user-tie"></i> Quản lý nhân viên</a></li>
         <li><a href="BanHang.php"><i class="fa-solid fa-cart-shopping"></i> Quản lý bán hàng</a></li>
         <li><a href="DoanhThu.php"><i class="fa-solid fa-money-bill-trend-up"></i> Doanh thu</a></li>
-        <li><a href="BaoCao.php"><i class="fa-solid fa-chart-column"></i> Báo cáo</a></li>
+       <!--  <li><a href="BaoCao.php"><i class="fa-solid fa-chart-column"></i> Báo cáo</a></li> -->
     </ul>
 
     <div class="user-profile" id="gymProfileTrigger" title="Xem thông tin phòng gym">
