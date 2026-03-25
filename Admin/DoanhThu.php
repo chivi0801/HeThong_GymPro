@@ -7,6 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- THÊM THƯ VIỆN LÀM VIỆC VỚI EXCEL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    
     <style>
         :root {
             --bg-dark: #121521;
@@ -258,6 +261,11 @@
         .btn-confirm { width: 100%; background: var(--gradient-btn); border: none; padding: 14px; color: white; border-radius: 10px; font-weight: 600; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 24px; transition: opacity 0.2s; }
         .btn-confirm:hover { opacity: 0.9; }
 
+        /* BỔ SUNG CSS CHO Ô CHỌN NGÀY V1.1 */
+        .date-input { background: var(--bg-input); border: 1px solid var(--border-color); color: var(--input-text); padding: 8px 12px; border-radius: 8px; outline: none; font-size: 13px; color-scheme: dark; }
+        .date-input:focus { border-color: var(--primary); }
+        :root[data-theme="light"] .date-input { color-scheme: light; }
+
         .toast { position: fixed; bottom: 24px; right: 24px; background: var(--bg-panel); padding: 16px 24px; border-radius: 12px; border-left: 4px solid var(--success); box-shadow: 0 4px 20px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 12px; color: var(--text-main); transform: translateX(120%); transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 10000; }
         .toast.show { transform: translateX(0); }
         .toast i { font-size: 20px; }
@@ -303,6 +311,10 @@
                 <div class="finance-actions">
                     <button class="btn-action-purple" onclick="openModal('THU')"><i class="fa-solid fa-plus"></i> Thêm phiếu thu</button>
                     <button class="btn-action-purple" onclick="openModal('CHI')"><i class="fa-solid fa-plus"></i> Thêm phiếu chi</button>
+                    <!-- NÚT XUẤT EXCEL MỚI V1.1 -->
+                    <button class="btn-action-purple" style="background: var(--success);" onclick="exportExcel()">
+                        <i class="fa-solid fa-file-excel"></i> Xuất file Excel
+                    </button>
                 </div>
             </div>
 
@@ -313,6 +325,14 @@
                         <div class="search-box">
                             <i class="fa-solid fa-magnifying-glass"></i>
                             <input type="text" id="searchInput" oninput="debounceSearch()" placeholder="Tìm kiếm mã phiếu, người nộp...">
+                        </div>
+                        
+                        <!-- CỤM LỌC NGÀY MỚI V1.1 -->
+                        <div style="display: flex; gap: 8px; align-items: center; justify-content: flex-end;">
+                            <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">Bộ lọc ngày:</span>
+                            <input type="date" id="fromDate" class="date-input" onchange="applyFilters()">
+                            <span style="color: var(--text-muted);">đến</span>
+                            <input type="date" id="toDate" class="date-input" onchange="applyFilters()">
                         </div>
                     </div>
 
@@ -470,18 +490,27 @@
                 const json = await res.json();
                 if(json.success) {
                     allData = json.data;
-                    
-                    // Cập nhật Top Cards
-                    document.getElementById('card_thu').textContent = fmtMoney(json.summary.thu);
-                    document.getElementById('card_chi').textContent = fmtMoney(json.summary.chi);
-                    document.getElementById('card_loinhuan').textContent = fmtMoney(json.summary.loi_nhuan);
-                    document.getElementById('card_loinhuan').style.color = json.summary.loi_nhuan < 0 ? 'var(--danger)' : 'var(--purple)';
-
+                    // Bỏ việc gán tĩnh Top Card ở đây đi, vì nó sẽ được tính động trong applyFilters() v1.1
                     applyFilters();
                 }
             } catch (err) {
                 console.error(err); showToast('Lỗi tải dữ liệu', true);
             }
+        }
+
+        // ================= TÍNH TOÁN CARD ĐỘNG V1.1 =================
+        function updateSummaryCards(data) {
+            let thu = 0, chi = 0;
+            data.forEach(item => {
+                if (item.type === 'THU') thu += item.amount;
+                else chi += item.amount;
+            });
+            let loiNhuan = thu - chi;
+            
+            document.getElementById('card_thu').textContent = fmtMoney(thu);
+            document.getElementById('card_chi').textContent = fmtMoney(chi);
+            document.getElementById('card_loinhuan').textContent = fmtMoney(loiNhuan);
+            document.getElementById('card_loinhuan').style.color = loiNhuan < 0 ? 'var(--danger)' : 'var(--purple)';
         }
 
         // ================= BỘ LỌC VÀ TÌM KIẾM =================
@@ -499,13 +528,66 @@
 
         function applyFilters() {
             const query = document.getElementById('searchInput').value.toLowerCase();
+            let fromDate = document.getElementById('fromDate').value;
+            let toDate = document.getElementById('toDate').value;
+
+            // XỬ LÝ EDGE CASE: NGƯỜI DÙNG CHỌN NGÀY BẮT ĐẦU > NGÀY KẾT THÚC
+            if (fromDate && toDate && fromDate > toDate) {
+                // Tự động hoán đổi giá trị
+                let temp = fromDate; fromDate = toDate; toDate = temp;
+                document.getElementById('fromDate').value = fromDate;
+                document.getElementById('toDate').value = toDate;
+                showToast("Đã tự động chỉnh lại thời gian hợp lý!");
+            }
+
+            // Chuyển mốc thời gian về Timestamp để so sánh (Không giờ phút vs Cuối ngày)
+            let fromTime = fromDate ? new Date(fromDate + "T00:00:00").getTime() : 0;
+            let toTime = toDate ? new Date(toDate + "T23:59:59").getTime() : Infinity;
+
             filteredData = allData.filter(item => {
                 const matchType = currentFilter === 'ALL' || item.type === currentFilter;
                 const matchSearch = item.code.toLowerCase().includes(query) || item.person.toLowerCase().includes(query) || item.category.toLowerCase().includes(query);
-                return matchType && matchSearch;
+                
+                // Bộ lọc ngày v1.1
+                const itemTime = new Date(item.date).getTime();
+                const matchDate = (itemTime >= fromTime && itemTime <= toTime);
+
+                return matchType && matchSearch && matchDate;
             });
             currentPage = 1;
+            
+            updateSummaryCards(filteredData); // Nhảy số Hộp tổng quan
             renderTable();
+        }
+
+        // ================= XUẤT FILE EXCEL V1.1 =================
+        function exportExcel() {
+            if (filteredData.length === 0) {
+                return showToast('Bộ lọc rỗng, không có dữ liệu để xuất!', true);
+            }
+
+            // 1. Tạo mảng JSON sạch sẽ, Map tên cột thành Tiếng Việt
+            const excelData = filteredData.map(item => ({
+                "Mã Chứng Từ": item.code,
+                "Thời Gian": fmtDate(item.date),
+                "Phân Loại": item.type === 'THU' ? 'Phiếu Thu' : 'Phiếu Chi',
+                "Danh Mục": item.category,
+                "Người Nộp/Nhận": item.person || 'Khách vãng lai',
+                "Giá Trị (VNĐ)": item.amount, // KHÔNG fomat "đ" để sếp dùng Sum() trong Excel được
+                "Hệ Thống": item.is_sys ? 'Bằng máy' : 'User tạo'
+            }));
+
+            // 2. Chuyển đổi qua Sheet
+            const worksheet = XLSX.utils.json_to_sheet(excelData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "SoQuy");
+
+            // 3. Tự động tải xuống với tên file theo ngày
+            const now = new Date();
+            const dateStr = `${now.getDate()}_${now.getMonth()+1}_${now.getFullYear()}`;
+            XLSX.writeFile(workbook, `BangKe_DoanhThu_${dateStr}.xlsx`);
+            
+            showToast("Đã tải xuống file Excel!");
         }
 
         // ================= RENDER BẢNG & PHÂN TRANG =================
