@@ -8,6 +8,8 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quản lý bán hàng – GymPro</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 :root {
     --bg-dark: #121521;
@@ -99,6 +101,177 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg-body);color
 .btn-import{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
 .btn-sell-now{display:flex;align-items:center;gap:7px;background:var(--primary);border:none;color:#fff;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
 .btn-primary{display:flex;align-items:center;gap:7px;background:var(--green);border:none;color:#fff;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap}
+
+/* ── PAGE CONTENT ── */
+.page-content{flex:1;overflow-y:auto;padding:24px 40px}
+.page-title{font-size:22px;font-weight:700;margin-bottom:3px}
+.page-subtitle{font-size:13px;color:var(--muted);margin-bottom:22px}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.tb-search{position:relative;flex:1;min-width:180px}
+.tb-search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px}
+.tb-search input{width:100%;background:var(--bg-input);border:1px solid var(--border);color:var(--input-text);padding:10px 13px 10px 36px;border-radius:10px;font-size:13px;outline:none}
+.tb-search input::placeholder{color:var(--muted)}
+.tab-group{display:flex;gap:7px;flex-wrap:wrap}
+.tab-btn{padding:9px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg-dark);color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:.15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn-export{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-import{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-sell-now{display:flex;align-items:center;gap:7px;background:var(--primary);border:none;color:#fff;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+
+/* ── PAGE CONTENT ── */
+.page-content{flex:1;overflow-y:auto;padding:24px 40px}
+.page-title{font-size:22px;font-weight:700;margin-bottom:3px}
+.page-subtitle{font-size:13px;color:var(--muted);margin-bottom:22px}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.tb-search{position:relative;flex:1;min-width:180px}
+.tb-search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px}
+.tb-search input{width:100%;background:var(--bg-input);border:1px solid var(--border);color:var(--input-text);padding:10px 13px 10px 36px;border-radius:10px;font-size:13px;outline:none}
+.tb-search input::placeholder{color:var(--muted)}
+.tab-group{display:flex;gap:7px;flex-wrap:wrap}
+.tab-btn{padding:9px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg-dark);color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:.15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn-export{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-import{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-sell-now{display:flex;align-items:center;gap:7px;background:var(--primary);border:none;color:#fff;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+
+/* ── PAGE CONTENT ── */
+.page-content{flex:1;overflow-y:auto;padding:24px 40px}
+.page-title{font-size:22px;font-weight:700;margin-bottom:3px}
+.page-subtitle{font-size:13px;color:var(--muted);margin-bottom:22px}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.tb-search{position:relative;flex:1;min-width:180px}
+.tb-search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px}
+.tb-search input{width:100%;background:var(--bg-input);border:1px solid var(--border);color:var(--input-text);padding:10px 13px 10px 36px;border-radius:10px;font-size:13px;outline:none}
+.tb-search input::placeholder{color:var(--muted)}
+.tab-group{display:flex;gap:7px;flex-wrap:wrap}
+.tab-btn{padding:9px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg-dark);color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:.15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn-export{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-import{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-sell-now{display:flex;align-items:center;gap:7px;background:var(--primary);border:none;color:#fff;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+
+/* ── PAGE CONTENT ── */
+.page-content{flex:1;overflow-y:auto;padding:24px 40px}
+.page-title{font-size:22px;font-weight:700;margin-bottom:3px}
+.page-subtitle{font-size:13px;color:var(--muted);margin-bottom:22px}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.tb-search{position:relative;flex:1;min-width:180px}
+.tb-search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px}
+.tb-search input{width:100%;background:var(--bg-input);border:1px solid var(--border);color:var(--input-text);padding:10px 13px 10px 36px;border-radius:10px;font-size:13px;outline:none}
+.tb-search input::placeholder{color:var(--muted)}
+.tab-group{display:flex;gap:7px;flex-wrap:wrap}
+.tab-btn{padding:9px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg-dark);color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:.15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn-export{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-import{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-sell-now{display:flex;align-items:center;gap:7px;background:var(--primary);border:none;color:#fff;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+
+/* ── PAGE CONTENT ── */
+.page-content{flex:1;overflow-y:auto;padding:24px 40px}
+.page-title{font-size:22px;font-weight:700;margin-bottom:3px}
+.page-subtitle{font-size:13px;color:var(--muted);margin-bottom:22px}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.tb-search{position:relative;flex:1;min-width:180px}
+.tb-search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px}
+.tb-search input{width:100%;background:var(--bg-input);border:1px solid var(--border);color:var(--input-text);padding:10px 13px 10px 36px;border-radius:10px;font-size:13px;outline:none}
+.tb-search input::placeholder{color:var(--muted)}
+.tab-group{display:flex;gap:7px;flex-wrap:wrap}
+.tab-btn{padding:9px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg-dark);color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:.15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn-export{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-import{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-sell-now{display:flex;align-items:center;gap:7px;background:var(--primary);border:none;color:#fff;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+
+/* ── PAGE CONTENT ── */
+.page-content{flex:1;overflow-y:auto;padding:24px 40px}
+.page-title{font-size:22px;font-weight:700;margin-bottom:3px}
+.page-subtitle{font-size:13px;color:var(--muted);margin-bottom:22px}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.tb-search{position:relative;flex:1;min-width:180px}
+.tb-search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px}
+.tb-search input{width:100%;background:var(--bg-input);border:1px solid var(--border);color:var(--input-text);padding:10px 13px 10px 36px;border-radius:10px;font-size:13px;outline:none}
+.tb-search input::placeholder{color:var(--muted)}
+.tab-group{display:flex;gap:7px;flex-wrap:wrap}
+.tab-btn{padding:9px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg-dark);color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:.15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn-export{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-import{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-sell-now{display:flex;align-items:center;gap:7px;background:var(--primary);border:none;color:#fff;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+
+/* ── PAGE CONTENT ── */
+.page-content{flex:1;overflow-y:auto;padding:24px 40px}
+.page-title{font-size:22px;font-weight:700;margin-bottom:3px}
+.page-subtitle{font-size:13px;color:var(--muted);margin-bottom:22px}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.tb-search{position:relative;flex:1;min-width:180px}
+.tb-search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px}
+.tb-search input{width:100%;background:var(--bg-input);border:1px solid var(--border);color:var(--input-text);padding:10px 13px 10px 36px;border-radius:10px;font-size:13px;outline:none}
+.tb-search input::placeholder{color:var(--muted)}
+.tab-group{display:flex;gap:7px;flex-wrap:wrap}
+.tab-btn{padding:9px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg-dark);color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:.15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn-export{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-import{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-sell-now{display:flex;align-items:center;gap:7px;background:var(--primary);border:none;color:#fff;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+
+/* ── PAGE CONTENT ── */
+.page-content{flex:1;overflow-y:auto;padding:24px 40px}
+.page-title{font-size:22px;font-weight:700;margin-bottom:3px}
+.page-subtitle{font-size:13px;color:var(--muted);margin-bottom:22px}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.tb-search{position:relative;flex:1;min-width:180px}
+.tb-search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px}
+.tb-search input{width:100%;background:var(--bg-input);border:1px solid var(--border);color:var(--input-text);padding:10px 13px 10px 36px;border-radius:10px;font-size:13px;outline:none}
+.tb-search input::placeholder{color:var(--muted)}
+.tab-group{display:flex;gap:7px;flex-wrap:wrap}
+.tab-btn{padding:9px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg-dark);color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:.15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn-export{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-import{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-sell-now{display:flex;align-items:center;gap:7px;background:var(--primary);border:none;color:#fff;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+
+/* ── PAGE CONTENT ── */
+.page-content{flex:1;overflow-y:auto;padding:24px 40px}
+.page-title{font-size:22px;font-weight:700;margin-bottom:3px}
+.page-subtitle{font-size:13px;color:var(--muted);margin-bottom:22px}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.tb-search{position:relative;flex:1;min-width:180px}
+.tb-search i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px}
+.tb-search input{width:100%;background:var(--bg-input);border:1px solid var(--border);color:var(--input-text);padding:10px 13px 10px 36px;border-radius:10px;font-size:13px;outline:none}
+.tb-search input::placeholder{color:var(--muted)}
+.tab-group{display:flex;gap:7px;flex-wrap:wrap}
+.tab-btn{padding:9px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg-dark);color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:.15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn-export{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-import{display:flex;align-items:center;gap:7px;background:var(--bg-dark);border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn-sell-now{display:flex;align-items:center;gap:7px;background:var(--primary);border:none;color:#fff;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
 
 /* ── PAGE CONTENT ── */
 .page-content{flex:1;overflow-y:auto;padding:24px 40px}
@@ -321,7 +494,10 @@ tbody td{padding:13px 16px;font-size:13.5px;vertical-align:middle}
                 <button class="tab-btn" onclick="setTab(this,'Nước giải khát')">Nước giải khát</button>
                 <button class="tab-btn" onclick="setTab(this,'Phụ kiện')">Phụ kiện</button>
             </div>
-            <button class="btn-export" onclick="toast('Đã xuất file Excel!')"><i class="fa-solid fa-file-arrow-up"></i> Xuất Dữ liệu</button>
+            
+            <!-- THAY ĐỔI ONCLICK Ở ĐÂY V1.1 -->
+            <button class="btn-export" onclick="exportExcel()"><i class="fa-solid fa-file-arrow-up"></i> Xuất Dữ liệu</button>
+            
             <button class="btn-import" onclick="openImport()"><i class="fa-solid fa-boxes-stacked"></i> Nhập hàng</button>
             <button class="btn-sell-now" onclick="openSell(null)"><i class="fa-solid fa-cash-register"></i> Bán ngay</button>
             <button class="btn-primary" onclick="openProductModal()"><i class="fa-solid fa-plus"></i> Thêm sản phẩm</button>
@@ -537,6 +713,38 @@ function renderTable(){
 function goPage(p){ const max = Math.max(1,Math.ceil(filteredData().length/PER_PAGE)); if(p<1||p>max) return; currentPage=p; renderTable(); }
 function setTab(btn, tab){ document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); currentTab=tab; currentPage=1; renderTable(); }
 function doFilter(){ searchQ = document.getElementById('searchInp').value.toLowerCase(); currentPage=1; renderTable(); }
+
+// ================= XUẤT FILE EXCEL V1.1 (KIỂM KHO) =================
+function exportExcel() {
+    // 1. Phân tích ngữ cảnh: Lấy Mảng Dữ Liệu đang hiển thị (đã qua tìm kiếm/nhóm)
+    const dataToExport = filteredData();
+    
+    // EDGE CASE: Bảng trống không có gì để xuất
+    if (dataToExport.length === 0) {
+        return toast('Bảng trống, không có dữ liệu để xuất!', true);
+    }
+
+    // 2. Map (Gọt dũa) ra 1 mảng JSON thuần khiết, Tiếng Việt, loại bỏ Cột Ảnh / Thao tác
+    const excelData = dataToExport.map(item => ({
+        "Mã Hàng": item.code,
+        "Tên Sản Phẩm": item.name,
+        "Phân Loại": item.cat,
+        "Giá Bán (VNĐ)": item.price, // KHÔNG BỌC format Tiền VNĐ để User có thể dùng sum()
+        "Tồn Kho (Số lượng)": item.stock
+    }));
+
+    // 3. Tạo Sổ làm việc Excel (Workbook)
+    const worksheet = XLSX.utils.json_to_sheet(excelData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "DanhSach_KiemKho");
+
+    // 4. Tải trực tiếp xuống máy tính với tên file được gắn ngày tự động
+    const now = new Date();
+    const dateStr = `${now.getDate()}_${now.getMonth()+1}_${now.getFullYear()}`;
+    XLSX.writeFile(workbook, `Kiem_Kho_Gym_${dateStr}.xlsx`);
+    
+    toast("Đã tải tập tin Kiểm kho thành công!");
+}
 
 // ── SELL POPUP THỰC TẾ ──
 let sellPrice = 0;
