@@ -2,7 +2,7 @@
 if (session_status() === PHP_SESSION_NONE) session_start();
 ?>
 <!DOCTYPE html>
-<html lang="vi" data-theme="dark">
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -981,12 +981,42 @@ function toast(msg, isError=false){
 // ── UTILS ──
 function fmt(n){ return n.toLocaleString('vi-VN')+'đ'; }
 
+const ADMIN_THEME_KEY = 'gympro-admin-theme';
+
+function syncThemeToggleButton(theme) {
+    const themeBtn = document.getElementById('adminThemeToggle');
+    if (!themeBtn) {
+        return;
+    }
+
+    if (theme === 'light') {
+        themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i> Chế độ tối';
+        themeBtn.setAttribute('aria-label', 'Chuyển sang chế độ tối');
+    } else {
+        themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i> Chế độ sáng';
+        themeBtn.setAttribute('aria-label', 'Chuyển sang chế độ sáng');
+    }
+}
+
+function applyAdminTheme(theme) {
+    const nextTheme = theme === 'light' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', nextTheme);
+    localStorage.setItem(ADMIN_THEME_KEY, nextTheme);
+    syncThemeToggleButton(nextTheme);
+}
+
+function initAdminTheme() {
+    const savedTheme = localStorage.getItem(ADMIN_THEME_KEY) || 'dark';
+    applyAdminTheme(savedTheme);
+}
+
 // close overlays 
 ['sellOverlay','importOverlay'].forEach(id=>{
     document.getElementById(id).addEventListener('click',function(e){ if(e.target===this) this.classList.remove('show'); });
 });
 
 // ── INIT FETCH REAL DATA ──
+initAdminTheme();
 loadData();
 
 // ── LOAD HEADER & SIDEBAR ──
@@ -1026,18 +1056,22 @@ function initSidebarProfilePopup() {
     }
 }
 
+// THÊM CÁC HÀM JS NÀY VÀO TRONG THẺ <script>
 function bindAdminThemeToggle() {
-    const _thm = document.getElementById('adminThemeToggle');
-    if (_thm) {
-        _thm.addEventListener('click', () => {
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
-            _thm.innerHTML = isDark ? '<i class="fa-solid fa-moon"></i> Chế độ tối' : '<i class="fa-solid fa-sun"></i> Chế độ sáng';
-        });
+    const themeBtn = document.getElementById('adminThemeToggle');
+    if (!themeBtn || themeBtn.dataset.bound === '1') {
+        return;
     }
+
+    themeBtn.dataset.bound = '1';
+    themeBtn.addEventListener('click', function () {
+        const currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+        applyAdminTheme(currentTheme === 'light' ? 'dark' : 'light');
+    });
+
+    syncThemeToggleButton(document.documentElement.getAttribute('data-theme'));
 }
 
-// THÊM CÁC HÀM JS NÀY VÀO TRONG THẺ <script>
 function openProductModal(prod = null) {
     if(prod) {
         document.getElementById('pm_title').textContent = 'Sửa sản phẩm';

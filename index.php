@@ -263,7 +263,7 @@
                             <h4 class="fw-bold mb-3">Check-in Face ID</h4>
                             <p class="text-secondary mb-4">Nhận diện khuôn mặt siêu tốc độ chống gian lận thẻ tập, tích hợp tự động mở cửa/barrier.</p>
                             <div class="rounded-4 overflow-hidden mt-auto shadow-sm">
-                                <img src="https://play-lh.googleusercontent.com/sJUNXAopxk3RHmAi62IfCtBtdJwVWPoECsOGLleMSlBt6FF6zoTEM0v2Xa0SOd895w" alt="Face ID Check-in" class="img-fluid w-100 object-fit-cover" style="aspect-ratio: 16/9;">
+                                <img src="image/faceID.png" alt="Face ID Check-in" class="img-fluid w-100 object-fit-cover" style="aspect-ratio: 16/9;">
                             </div>
                         </div>
                     </div>
