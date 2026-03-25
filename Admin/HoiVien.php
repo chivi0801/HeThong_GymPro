@@ -7,7 +7,7 @@
     <title>GymPro - Quản lý hội viên</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         :root {
             --bg-dark: #121521;
@@ -102,7 +102,7 @@
             flex: 1; 
             display: flex; 
             flex-direction: column; 
-            overflow: hidden; /* KhÃ³a cuá»™n á»Ÿ Ä‘Ã¢y Ä‘á»ƒ Header Ä‘á»©ng im */
+            overflow: hidden; /* KhÃ³a cuá»™n á»Ť Ä‘Ã¢y Ä‘á»ƒ Header Ä‘á»©ng im */
         }
 
         .page-content {
@@ -399,12 +399,9 @@
                     <p>Quản lý thông tin chi tiết và trạng thái đăng ký của hội viên.</p>
                 </div>
                 <div class="page-actions">
-                    <button class="btn-date-filter">
-                        <i class="fa-regular fa-calendar"></i> Tháng này 
-                        <i class="fa-solid fa-chevron-down" style="font-size: 10px; margin-left: 4px;"></i>
-                    </button>
-                    <button class="btn-primary">
-                        <i class="fa-solid fa-download"></i> Tải Báo Cáo
+                    <!-- NÚT XUẤT EXCEL THAY CHO TẢI BÁO CÁO -->
+                    <button class="btn-primary" onclick="exportExcelHoiVien()" style="background: var(--success); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);">
+                        <i class="fa-solid fa-file-excel"></i> Xuất File Excel
                     </button>
                 </div>
             </div>
@@ -459,9 +456,13 @@
                         <div class="tab" data-status-filter="reserved">Bảo lưu</div>
                         <div class="tab" data-status-filter="paused">Tạm dừng</div>
                     </div>
-                    <div class="filters">
-                        <button class="btn-filter"><i class="fa-solid fa-filter"></i> Lọc</button>
-                        <button class="btn-filter"><i class="fa-solid fa-sort"></i> Sắp xếp</button>
+                    
+                    <!-- BỘ TÌM KIẾM MỚI v1.1 -->
+                    <div class="filters" style="display:flex; align-items:center;">
+                        <div style="display: flex; align-items: center; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 12px; width: 250px;">
+                            <i class="fa-solid fa-magnifying-glass" style="color: var(--text-muted); margin-right: 8px;"></i>
+                            <input type="text" id="searchHoiVien" placeholder="Tìm tên, SĐT..." style="background: transparent; border: none; outline: none; color: var(--text-main); font-size: 13px; width: 100%;">
+                        </div>
                     </div>
                 </div>
 
@@ -601,55 +602,105 @@
             syncThemeToggleButton(document.documentElement.getAttribute('data-theme'));
         }
 
+        // ==========================================
+        // V1.1: HỆ THỐNG LỌC & TÌM KIẾM KẾT HỢP (CROSS-FILTERING)
+        // ==========================================
+        let currentTabFilter = 'all';
+
+        function applyCombinedFilter() {
+            const searchQ = (document.getElementById('searchHoiVien')?.value || '').toLowerCase().trim();
+            const rows = document.querySelectorAll('tbody .member-row');
+            let visibleCount = 0;
+
+            rows.forEach((row) => {
+                const status = row.getAttribute('data-status');
+                const name = (row.getAttribute('data-ho-ten') || '').toLowerCase();
+                const phone = (row.getAttribute('data-sdt') || '').toLowerCase();
+
+                // Kiểm tra 2 điều kiện: Đúng Tab và Đúng Từ khóa
+                const matchTab = (currentTabFilter === 'all' || status === currentTabFilter);
+                const matchSearch = name.includes(searchQ) || phone.includes(searchQ);
+
+                if (matchTab && matchSearch) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            // Hiển thị dòng trống nếu không có kết quả
+            const emptyRow = document.getElementById('status-empty-row');
+            if (emptyRow) emptyRow.style.display = visibleCount === 0 ? '' : 'none';
+
+            // Cập nhật số đếm
+            const pageInfo = document.getElementById('member-page-info');
+            if (pageInfo) pageInfo.textContent = `Hệ thống tìm thấy ${visibleCount} hội viên phù hợp`;
+        }
+
         function initHoiVienStatusTabs() {
             const tabs = document.querySelectorAll('.tabs .tab');
-            const rows = document.querySelectorAll('tbody .member-row');
-            const emptyRow = document.getElementById('status-empty-row');
-            const pageInfo = document.getElementById('member-page-info');
+            const searchInput = document.getElementById('searchHoiVien');
 
-            if (!tabs.length || !pageInfo) {
-                return;
-            }
-
-            const totalRows = rows.length;
-
-            const updatePageInfo = (visibleCount, filterKey) => {
-                if (filterKey === 'all') {
-                    pageInfo.textContent = `Hien thi tat ca ${visibleCount} hoi vien`;
-                    return;
-                }
-                pageInfo.textContent = `Hien thi ${visibleCount}/${totalRows} hoi vien`;
-            };
-
-            const applyFilter = (filterKey) => {
-                let visibleCount = 0;
-
-                rows.forEach((row) => {
-                    const rowStatus = row.getAttribute('data-status');
-                    const isVisible = filterKey === 'all' || rowStatus === filterKey;
-                    row.style.display = isVisible ? '' : 'none';
-                    if (isVisible) {
-                        visibleCount++;
-                    }
-                });
-
-                if (emptyRow) {
-                    emptyRow.style.display = visibleCount === 0 ? '' : 'none';
-                }
-
-                updatePageInfo(visibleCount, filterKey);
-            };
-
+            // Gắn sự kiện chuyển Tab
             tabs.forEach((tab) => {
                 tab.addEventListener('click', function () {
                     tabs.forEach((item) => item.classList.remove('active'));
                     this.classList.add('active');
-                    applyFilter(this.getAttribute('data-status-filter') || 'all');
+                    currentTabFilter = this.getAttribute('data-status-filter') || 'all';
+                    applyCombinedFilter(); // Gọi filter chung
                 });
             });
 
-            applyFilter('all');
+            // Gắn sự kiện gõ phím tìm kiếm
+            if (searchInput) {
+                searchInput.addEventListener('input', applyCombinedFilter);
+            }
+
+            applyCombinedFilter(); // Chạy lần đầu
         }
+
+        // ==========================================
+        // V1.1: XUẤT EXCEL CHUẨN MARKETING (GIỮ NGUYÊN SĐT)
+        // ==========================================
+        function exportExcelHoiVien() {
+            const rows = document.querySelectorAll('tbody .member-row');
+            const dataToExport = [];
+
+            // Chạy qua từng dòng, CHỈ LẤY NHỮNG DÒNG ĐANG HIỂN THỊ (Sau khi Lọc)
+            rows.forEach(row => {
+                if (row.style.display !== 'none') {
+                    // Mẹo Hack Excel (\u200C: Zero-width char) giúp ép Excel hiểu đây là Chữ thay vì Số, không làm mất mốc 0 đầu sđt
+                    const phoneRaw = row.getAttribute('data-sdt') || '';
+                    const safePhone = phoneRaw !== '--' ? String(`${phoneRaw}\u200C`) : '--';
+
+                    dataToExport.push({
+                        "Họ Tên": row.getAttribute('data-ho-ten'),
+                        "Mã ID": row.getAttribute('data-ma-id'),
+                        "Số Điện Thoại": safePhone, 
+                        "Ngày Sinh": row.getAttribute('data-ngay-sinh'),
+                        "Giới Tính": row.getAttribute('data-gioi-tinh'),
+                        "Gói Đang Tập": row.getAttribute('data-goi-tap'),
+                        "Trạng Thái": row.getAttribute('data-trang-thai-label')
+                    });
+                }
+            });
+
+            if (dataToExport.length === 0) {
+                alert('Không có dữ liệu để xuất file!');
+                return;
+            }
+
+            // Gói dữ liệu và xuất
+            const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "DS_HoiVien");
+            
+            const now = new Date();
+            const dateStr = `${now.getDate()}_${now.getMonth()+1}_${now.getFullYear()}`;
+            XLSX.writeFile(workbook, `CRM_KhachHang_Gym_${dateStr}.xlsx`);
+        }
+
 
         function initRegisterSuccessToast() {
             const toast = document.getElementById('register-success-toast');
